@@ -11,5 +11,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - React bootstrap
 - Setup test component
-- Setup test data service
+- Setup test data provider
 - Setup test mockoon file

@@ -1,0 +1,207 @@
+{
+    "source": "mockoon:1.7.0",
+    "data": [
+        {
+            "type": "environment",
+            "item": {
+                "uuid": "",
+                "lastMigration": 9,
+                "name": "Demo users API",
+                "endpointPrefix": "",
+                "latency": 0,
+                "port": 3001,
+                "routes": [
+                    {
+                        "uuid": "",
+                        "documentation": "Get all users",
+                        "method": "get",
+                        "endpoint": "users",
+                        "responses": [
+                            {
+                                "uuid": "",
+                                "body": "[\n  {\n    \"id\": 1,\n    \"firstname\": \"John\",\n    \"Lastname\": \"Snow\",\n    \"status\": \"Learning things\"\n  },\n  {\n    \"id\": 2,\n    \"firstname\": \"Daenerys\",\n    \"Lastname\": \"Targaryen\",\n    \"status\": \"Riding a dragon\"\n  }\n]",
+                                "latency": 50,
+                                "statusCode": "200",
+                                "label": "Success",
+                                "headers": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "filePath": "",
+                                "sendFileAsBody": false,
+                                "rules": []
+                            }
+                        ],
+                        "enabled": true
+                    },
+                    {
+                        "uuid": "",
+                        "documentation": "Get a user",
+                        "method": "get",
+                        "endpoint": "users/:id",
+                        "responses": [
+                            {
+                                "uuid": "",
+                                "body": "{\n  \"id\": 1,\n  \"firstname\": \"John\",\n  \"Lastname\": \"Snow\",\n  \"status\": \"Learning things\"\n}",
+                                "latency": 0,
+                                "statusCode": "200",
+                                "label": "Get userId 1",
+                                "headers": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "filePath": "",
+                                "sendFileAsBody": false,
+                                "rules": [
+                                    {
+                                        "target": "params",
+                                        "modifier": "id",
+                                        "value": "1",
+                                        "isRegex": false
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "",
+                                "body": "{\n  \"id\": 2,\n  \"firstname\": \"Daenerys\",\n  \"Lastname\": \"Targaryen\",\n  \"status\": \"Riding a dragon\"\n}",
+                                "latency": 0,
+                                "statusCode": "200",
+                                "label": "Get userId 2",
+                                "headers": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "filePath": "",
+                                "sendFileAsBody": false,
+                                "rules": [
+                                    {
+                                        "target": "params",
+                                        "modifier": "id",
+                                        "value": "2",
+                                        "isRegex": false
+                                    }
+                                ]
+                            }
+                        ],
+                        "enabled": true
+                    },
+                    {
+                        "uuid": "",
+                        "documentation": "Create a user",
+                        "method": "post",
+                        "endpoint": "users",
+                        "responses": [
+                            {
+                                "uuid": "",
+                                "body": "{\n  \"firstname\": \"{{body 'firstname'}}\",\n  \"lastname\": \"{{body 'lastname'}}\",\n  \"status\": \"{{body 'status'}}\"\n}",
+                                "latency": 0,
+                                "statusCode": "201",
+                                "label": "Success",
+                                "headers": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "filePath": "",
+                                "sendFileAsBody": false,
+                                "rules": [
+                                    {
+                                        "target": "body",
+                                        "modifier": "firstname",
+                                        "value": ".+",
+                                        "isRegex": true
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "",
+                                "body": "{\n  \"Error\": \"firstname is required\"\n}",
+                                "latency": 0,
+                                "statusCode": "400",
+                                "label": "Missing data",
+                                "headers": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "filePath": "",
+                                "sendFileAsBody": false,
+                                "rules": [
+                                    {
+                                        "target": "body",
+                                        "modifier": "firstname",
+                                        "value": "^$",
+                                        "isRegex": true
+                                    }
+                                ]
+                            }
+                        ],
+                        "enabled": true
+                    },
+                    {
+                        "uuid": "",
+                        "documentation": "Delete a user",
+                        "method": "delete",
+                        "endpoint": "users/:id",
+                        "responses": [
+                            {
+                                "uuid": "",
+                                "body": "",
+                                "latency": 0,
+                                "statusCode": "204",
+                                "label": "User deleted",
+                                "headers": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "filePath": "",
+                                "sendFileAsBody": false,
+                                "rules": [
+                                    {
+                                        "target": "body",
+                                        "modifier": "firstname",
+                                        "value": ".*",
+                                        "isRegex": true
+                                    }
+                                ]
+                            }
+                        ],
+                        "enabled": true
+                    }
+                ],
+                "proxyMode": false,
+                "proxyHost": "",
+                "https": false,
+                "cors": true,
+                "headers": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Access-Control-Allow-Origin",
+                        "value": "*"
+                    },
+                    {
+                        "key": "Access-Control-Allow-Methods",
+                        "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+                    },
+                    {
+                        "key": "Access-Control-Allow-Headers",
+                        "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
+                    }
+                ]
+            }
+        }
+    ]
+}
