@@ -1,4 +1,5 @@
 import React from 'react';
+import Environment from '../environment';
 
 export const TestContext = React.createContext();
 
@@ -8,13 +9,13 @@ export class TestProvider extends React.Component {
   };
 
   componentDidMount() {
-    fetch('http://localhost:3001/users', { method: 'GET' })
+    fetch(Environment.testUrl, { method: 'GET' })
       .then(res => { return res.json() })
       .then(json => {
         this.setState({ name: json[0].firstname })
       })
       .catch(err => {
-        this.setState({ name: "failed to get data" })
+        this.setState({ name: `failed to get data from : ${Environment.testUrl}`  })
       });
   }
 
