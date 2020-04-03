@@ -12,5 +12,5 @@ const ProdEnvironment = {
     testUrl: 'TODO'
 };
 
-const Environment =  (process.env.NODE_ENV === 'production') ? ProdEnvironment : DevEnvironment
+const Environment = (process.env.NODE_ENV === 'production') ? ProdEnvironment : DevEnvironment;
 export default Environment;
