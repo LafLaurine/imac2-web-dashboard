@@ -6,6 +6,7 @@ import { TestProvider } from './providers/TestProvider';
 import TestBtn from './components/TestBtn/TestBtn';
 import TestConsumer from './components/TestConsumer/TestConsumer';
 import TestChildToParent from './components/TestChildToParent/TestChildToParent';
+import TestCond from './components/TestCond/TestCond';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -27,6 +28,8 @@ export default class App extends React.Component {
         </TestProvider>
         <p>------------------------</p>
         <TestChildToParent action={this.childHandler}></TestChildToParent>
+        <p>------------------------</p>
+        <TestCond></TestCond>
       </div>
     )
   }
