@@ -13,8 +13,15 @@ export default class Kidnappings extends React.Component {
       { method: 'GET' })
       .then(res => { return res.json() })
       .then(json => {
-        // TODO
-        console.log(json);
+        // console.log(json.dataset.dimensions_values_labels.FREQ.A); // Frequency
+        const data = json.series.docs
+          .filter(country => country.dimensions.unit !== 'P_HTHAB')
+          .map(country => ({
+            'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo],
+            'kidnappings': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] }))
+          }));
+  
+        console.log(data);
         // this.setState({ name: json[0].firstname })
       })
       .catch(err => {
