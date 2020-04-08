@@ -16,6 +16,7 @@ const step = {
 
 export default class Suicides extends React.Component {
   state = {
+    frequency: '',
     step: step.LOADING,
     data: []
   };
@@ -32,9 +33,11 @@ export default class Suicides extends React.Component {
       .then(json => {
         const data = json.series.docs
         .map(country => ({
-          'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo]
+          'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo],
+          'suicide': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] })),
+          'sex' : json.dataset.dimensions_values_labels.sex[country.dimensions.sex]
         }))
-        this.setState({ step: step.LOADED, data: data })
+        this.setState({ frequency: json.series.docs[0]['@frequency'], step: step.LOADED, data: data })
       })
       .catch(err => {
         this.setState({ hasError: true,  step: step.ERROR})
@@ -50,7 +53,9 @@ export default class Suicides extends React.Component {
           case step.LOADING: return <p>Loading</p>
           case step.LOADED: return (
             <div>
-              <p>How many suicides in { this.state.data[0].country } ? </p>
+              <p>How many suicides in { this.state.data[0].country } during { this.state.data[0].suicide[4].date } ?</p> 
+              <p> Sex : { this.state.data[0].sex[0] }</p>
+              <p>Value : { this.state.data[0].suicide[4].value } </p>
               <button>Man</button>
               <button>Woman</button>
             </div>
