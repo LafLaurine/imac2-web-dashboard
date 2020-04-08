@@ -4,12 +4,12 @@
 
 const DevEnvironment = {
     production: false,
-    testUrl: 'http://localhost:3001/users'
+    dbNomicsUrl: 'http://localhost:3001/'
 };
 
 const ProdEnvironment = {
     production: true,
-    testUrl: 'TODO'
+    dbNomicsUrl: 'https://db.nomics.world/'
 };
 
 const Environment = (process.env.NODE_ENV === 'production') ? ProdEnvironment : DevEnvironment;
