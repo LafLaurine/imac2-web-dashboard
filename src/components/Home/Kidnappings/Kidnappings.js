@@ -3,11 +3,17 @@ import './Kidnappings.css';
 
 import Environment from 'environment';
 
-const step = {
+const Step = {
   LOADING: 'loading',
   ERROR: 'error',
   LOADED: 'loaded'
-}
+};
+
+const GameStep = {
+  LOWER: 'lower',
+  GREATER: 'greater',
+  WIN: 'win'
+};
 
 /**
  * @brief Show kidnappings data (Eurostats source)
@@ -19,16 +25,17 @@ export default class Kidnappings extends React.Component {
 
     this.state = {
       frequency: '',
-      step: step.LOADING,
+      step: Step.LOADING,
       data: [],
       game: {
         userValue: 0,
-        displayCheck: false
+        displayCheck: false,
+        GameStep: GameStep.LOWER
       }
     };
 
     this.handleSliderChange = this.handleSliderChange.bind(this);
-    this.checkUserValueAgainstGood = this.checkUserValueAgainstGood.bind(this);
+    this.checkUserValueAgainstData = this.checkUserValueAgainstData.bind(this);
   }
 
   /**
@@ -45,10 +52,10 @@ export default class Kidnappings extends React.Component {
             'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo],
             'kidnappings': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] }))
           }));
-        this.setState({ frequency: json.series.docs[0]['@frequency'], step: step.LOADED, data: data });
+        this.setState({ frequency: json.series.docs[0]['@frequency'], step: Step.LOADED, data: data });
       })
       .catch(err => {
-        this.setState({ hasError: true, step: step.ERROR });
+        this.setState({ hasError: true, step: Step.ERROR });
         console.error(`[Kidnappings] Cannot get  ${Environment.dbNomicsUrl} : ${err}`);
       });
   }
@@ -57,13 +64,17 @@ export default class Kidnappings extends React.Component {
     this.setState({ game: { userValue: event.target.value }});
   }
 
-  checkUserValueAgainstGood() {
+  checkUserValueAgainstData() {
     if (this.state.game.userValue > this.state.data[0].kidnappings[0].value)
-      console.log("It's less");
-    else if (this.state.game.userValue == this.state.data[0].kidnappings[0].value)
-      console.log("Got it !");
+      this.setState({ game: { ...this.state.game, displayCheck: true, GameStep: GameStep.LOWER }});
+    else if (Number(this.state.game.userValue) === Number(this.state.data[0].kidnappings[0].value))
+      this.setState({ game: { ...this.state.game, displayCheck: true, GameStep: GameStep.WIN }});
     else 
-      console.log("It's more");
+      this.setState({ game: { ...this.state.game, displayCheck: true, GameStep: GameStep.GREATER }});
+
+    setTimeout(() => {
+      this.setState({ game: { ...this.state.game, displayCheck: false }});
+    }, 3000);
   }
 
   render() {
@@ -71,8 +82,8 @@ export default class Kidnappings extends React.Component {
       <div className="Kidnappings">
       {(() => {
         switch(this.state.step) {
-          case step.LOADING: return <p>Loading</p>
-          case step.LOADED: return (
+          case Step.LOADING: return <p>Loading</p>
+          case Step.LOADED: return (
             <div>
               <p>How many kidnappings in { this.state.data[0].country } during { this.state.data[0].kidnappings[0].date } ? </p>
               <input type="range" 
@@ -82,7 +93,15 @@ export default class Kidnappings extends React.Component {
                 onChange={this.handleSliderChange}>
               </input>
               <p>{ this.state.game.userValue }</p>
-              <button onClick={this.checkUserValueAgainstGood}>Check</button>
+              <button onClick={this.checkUserValueAgainstData}>Check</button>
+              { this.state.game.displayCheck &&
+              (() => {
+                switch(this.state.game.GameStep) {
+                  case GameStep.GREATER: return <p>Greater</p>
+                  case GameStep.WIN: return <p>You got it !</p>
+                  default: return <p>Lower</p>
+                }
+              })()}
             </div>
           )
           default: return <p>Error loading kidnappings</p>
