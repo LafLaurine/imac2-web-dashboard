@@ -10,8 +10,8 @@ const step = {
 }
 
 /**
- * @brief Show suicides data (World Bank source)
- * @url https://db.nomics.world/WB/WDI?q=suicide
+ * @brief Show suicides data (Eurostats source)
+ * @url https://db.nomics.world/Eurostat/yth_hlth_030?q=suicide
  */
 
 export default class Suicides extends React.Component {
@@ -26,16 +26,14 @@ export default class Suicides extends React.Component {
    */
   
   componentDidMount() {
-    fetch(Environment.dbNomicsUrl + 'v22/series/WB/WDI/',
+    fetch(Environment.dbNomicsUrl + 'v22/series/Eurostat/yth_hlth_030?limit=1000&offset=0&q=&observations=1&align_periods=1&dimensions={}',
       { method: 'GET' })
       .then(res => { return res.json() })
       .then(json => {
         const data = json.series.docs
-        .filter(country => country.dimensions.country === '1A')
         .map(country => ({
-          'country': json.dataset.dimensions_values_labels.country[country.dimensions.country]
+          'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo]
         }))
-        console.log(data)
         this.setState({ step: step.LOADED, data: data })
       })
       .catch(err => {
@@ -53,6 +51,8 @@ export default class Suicides extends React.Component {
           case step.LOADED: return (
             <div>
               <p>How many suicides in { this.state.data[0].country } ? </p>
+              <button>Man</button>
+              <button>Woman</button>
             </div>
           )
           default: return <p>Error loading kidnappings</p>
