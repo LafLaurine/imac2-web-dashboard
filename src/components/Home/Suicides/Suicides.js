@@ -32,11 +32,14 @@ export default class Suicides extends React.Component {
       .then(json => {
         const data = json.series.docs
         .filter(country => country.dimensions.country === '1A')
+        .map(country => ({
+          'country': json.dataset.dimensions_values_labels.country[country.dimensions.country]
+        }))
         console.log(data)
         this.setState({ step: step.LOADED, data: data })
       })
       .catch(err => {
-        this.setState({ hasError: true})
+        this.setState({ hasError: true,  step: step.ERROR})
         console.error(`[Suicides] Cannot get  ${Environment.dbNomicsUrl} : ${err}`)
       });
   }
@@ -49,7 +52,7 @@ export default class Suicides extends React.Component {
           case step.LOADING: return <p>Loading</p>
           case step.LOADED: return (
             <div>
-              <p>How many suicides in { this.state.data[0].dimensions.country } ? </p>
+              <p>How many suicides in { this.state.data[0].country } ? </p>
             </div>
           )
           default: return <p>Error loading kidnappings</p>
