@@ -5,7 +5,7 @@ export default class Kidnappings extends React.Component {
   render() {
     return (
       <div className="Kidnappings">
-        
+        <p>Kidnappings</p>
       </div>
     )
   }
