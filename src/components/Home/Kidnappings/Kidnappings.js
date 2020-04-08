@@ -3,6 +3,12 @@ import './Kidnappings.css';
 
 import Environment from 'environment';
 
+const step = {
+  LOADING: 'loading',
+  ERROR: 'error',
+  LOADED: 'loaded'
+}
+
 /**
  * @brief Show kidnappings data (Eurostats source)
  * @url https://db.nomics.world/Eurostat/crim_off_cat?q=kidnapping
@@ -10,8 +16,7 @@ import Environment from 'environment';
 export default class Kidnappings extends React.Component {
   state = {
     frequency: '',
-    hasError: false,
-    isLoading: true,
+    step: step.LOADING,
     data: []
   };
 
@@ -29,10 +34,10 @@ export default class Kidnappings extends React.Component {
             'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo],
             'kidnappings': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] }))
           }));
-        this.setState({ frequency: json.series.docs[0]['@frequency'], hasError: false, isLoading: false, data: data });
+        this.setState({ frequency: json.series.docs[0]['@frequency'], step: step.LOADED, data: data });
       })
       .catch(err => {
-        this.setState({ hasError: true, isLoading: false });
+        this.setState({ hasError: true, step: step.ERROR });
         console.error(`[Kidnappings] Cannot get  ${Environment.dbNomicsUrl} : ${err}`);
       });
   }
@@ -40,9 +45,18 @@ export default class Kidnappings extends React.Component {
   render() {
     return (
       <div className="Kidnappings">
-        <p>Kidnappings</p>
-        { this.state.isLoading && <p>Component is loading</p> }
-        <p>{ this.state.data.length }</p>
+      {(() => {
+        switch(this.state.step) {
+          case step.LOADING: return <p>Loading</p>
+          case step.LOADED: return (
+            <div>
+              <p>How many kidnappings in { this.state.data[0].country } during { this.state.data[0].kidnappings[0].date } ? </p>
+              <input type="range"></input>
+            </div>
+          )
+          default: return <p>Error loading kidnappings</p>
+        }
+      })()}
       </div>
     )
   }
