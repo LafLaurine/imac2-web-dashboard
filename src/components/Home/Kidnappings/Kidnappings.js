@@ -14,11 +14,22 @@ const step = {
  * @url https://db.nomics.world/Eurostat/crim_off_cat?q=kidnapping
  */
 export default class Kidnappings extends React.Component {
-  state = {
-    frequency: '',
-    step: step.LOADING,
-    data: []
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      frequency: '',
+      step: step.LOADING,
+      data: [],
+      game: {
+        userValue: 0,
+        displayCheck: false
+      }
+    };
+
+    this.handleSliderChange = this.handleSliderChange.bind(this);
+    this.checkUserValueAgainstGood = this.checkUserValueAgainstGood.bind(this);
+  }
 
   /**
    * @brief Get data for the component when created
@@ -42,6 +53,19 @@ export default class Kidnappings extends React.Component {
       });
   }
 
+  handleSliderChange(event) {
+    this.setState({ game: { userValue: event.target.value }});
+  }
+
+  checkUserValueAgainstGood() {
+    if (this.state.game.userValue > this.state.data[0].kidnappings[0].value)
+      console.log("It's less");
+    else if (this.state.game.userValue == this.state.data[0].kidnappings[0].value)
+      console.log("Got it !");
+    else 
+      console.log("It's more");
+  }
+
   render() {
     return (
       <div className="Kidnappings">
@@ -51,7 +75,14 @@ export default class Kidnappings extends React.Component {
           case step.LOADED: return (
             <div>
               <p>How many kidnappings in { this.state.data[0].country } during { this.state.data[0].kidnappings[0].date } ? </p>
-              <input type="range"></input>
+              <input type="range" 
+                value={this.state.game.userValue}
+                min={this.state.data[0].kidnappings[0].value - 10}
+                max={this.state.data[0].kidnappings[0].value + 10}
+                onChange={this.handleSliderChange}>
+              </input>
+              <p>{ this.state.game.userValue }</p>
+              <button onClick={this.checkUserValueAgainstGood}>Check</button>
             </div>
           )
           default: return <p>Error loading kidnappings</p>
