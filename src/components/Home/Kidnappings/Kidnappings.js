@@ -1,6 +1,7 @@
 import React from 'react';
 import './Kidnappings.css';
 
+import GameButton from './GameButton';
 import Environment from 'environment';
 
 const Step = {
@@ -27,15 +28,13 @@ export default class Kidnappings extends React.Component {
       frequency: '',
       step: Step.LOADING,
       data: [],
-      game: {
-        userValue: 0,
-        displayCheck: false,
-        GameStep: GameStep.LOWER
-      }
+      userValue: 0,
+      showFeedBack: false,
+      gameStep: GameStep.LOWER
     };
 
-    this.handleSliderChange = this.handleSliderChange.bind(this);
-    this.checkUserValueAgainstData = this.checkUserValueAgainstData.bind(this);
+    this.updateGameStateBy = this.updateGameStateBy.bind(this);
+    this.renderFeedBack = this.renderFeedBack.bind(this);
   }
 
   /**
@@ -60,54 +59,65 @@ export default class Kidnappings extends React.Component {
       });
   }
 
-  handleSliderChange(event) {
-    this.setState({ game: { userValue: event.target.value }});
-  }
+  /**
+   * @brief Change game state to match user input
+   * @param number
+   */
+  updateGameStateBy(number) {
+    const newUserValue = this.state.userValue + number;
+    if (newUserValue < 0)
+      return;
 
-  checkUserValueAgainstData() {
-    if (this.state.game.userValue > this.state.data[0].kidnappings[0].value)
-      this.setState({ game: { ...this.state.game, displayCheck: true, GameStep: GameStep.LOWER }});
-    else if (Number(this.state.game.userValue) === Number(this.state.data[0].kidnappings[0].value))
-      this.setState({ game: { ...this.state.game, displayCheck: true, GameStep: GameStep.WIN }});
+    if (newUserValue > this.state.data[0].kidnappings[0].value)
+      this.setState({ showFeedBack: true, userValue: newUserValue, gameStep: GameStep.LOWER });
+    else if (newUserValue === Number(this.state.data[0].kidnappings[0].value))
+      this.setState({ showFeedBack: true, userValue: newUserValue, gameStep: GameStep.WIN });
     else 
-      this.setState({ game: { ...this.state.game, displayCheck: true, GameStep: GameStep.GREATER }});
+      this.setState({ showFeedBack: true, userValue: newUserValue, gameStep: GameStep.GREATER });
 
+    // FIXME must be relaunched and not queueud
     setTimeout(() => {
-      this.setState({ game: { ...this.state.game, displayCheck: false }});
+      this.setState({ showFeedBack: false });
     }, 3000);
   }
 
+  /**
+   * @brief Show how the user is getting the game
+   */
+  renderFeedBack() {
+    switch(this.state.gameStep) {
+    case GameStep.GREATER: return <p>Greater</p>
+    case GameStep.WIN: return <p>You got it !</p>
+    default: return <p>Lower</p>
+    }
+  }
+
   render() {
-    return (
+    switch(this.state.step) {
+    case Step.LOADING: return (
       <div className="Kidnappings">
-      {(() => {
-        switch(this.state.step) {
-          case Step.LOADING: return <p>Loading</p>
-          case Step.LOADED: return (
-            <div>
-              <p>How many kidnappings in { this.state.data[0].country } during { this.state.data[0].kidnappings[0].date } ? </p>
-              <input type="range" 
-                value={this.state.game.userValue}
-                min={this.state.data[0].kidnappings[0].value - 10}
-                max={this.state.data[0].kidnappings[0].value + 10}
-                onChange={this.handleSliderChange}>
-              </input>
-              <p>{ this.state.game.userValue }</p>
-              <button onClick={this.checkUserValueAgainstData}>Check</button>
-              { this.state.game.displayCheck &&
-              (() => {
-                switch(this.state.game.GameStep) {
-                  case GameStep.GREATER: return <p>Greater</p>
-                  case GameStep.WIN: return <p>You got it !</p>
-                  default: return <p>Lower</p>
-                }
-              })()}
-            </div>
-          )
-          default: return <p>Error loading kidnappings</p>
-        }
-      })()}
+        <p>Loading</p>
       </div>
     )
+
+    case Step.LOADED: return (
+      <div className="Kidnappings">
+        <p>How many kidnappings in { this.state.data[0].country } during { this.state.data[0].kidnappings[0].date } ? </p>
+
+        <GameButton onClick={e => this.updateGameStateBy(+10)} name="+10"></GameButton>
+        <GameButton onClick={e => this.updateGameStateBy(+1)} name="+1"></GameButton>
+        <GameButton onClick={e => this.updateGameStateBy(-1)} name="-1"></GameButton>
+        <GameButton onClick={e => this.updateGameStateBy(-10)} name="-10"></GameButton>
+        <p>{ this.state.userValue }</p>
+
+        { this.state.showFeedBack && this.renderFeedBack() }
+      </div>
+    )
+
+    default: return (
+      <div className="Kidnappings">
+        <p>Error loading kidnappings</p>
+      </div>
+    )}
   }
 }
