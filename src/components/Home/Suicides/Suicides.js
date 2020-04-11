@@ -22,12 +22,18 @@ export default class Suicides extends React.Component {
       frequency: '',
       step: step.LOADING,
       sex: 'F',
+      age: 'Y15-19',
       data: []
     }
     this.changeSex = this.changeSex.bind(this)
+    this.changeAge = this.changeAge.bind(this)
     this.retrieveData = this.retrieveData.bind(this)
   }
 
+
+  /**
+   * @brief Change sex when user click on button and get the associated data
+   */
   changeSex() {
     if (this.state.sex === 'F') {
       this.setState({ sexo: { ...this.state.sex }, sex: 'M' })
@@ -39,9 +45,22 @@ export default class Suicides extends React.Component {
     }
   }
 
+  /**
+ * @brief Change age when user click on button and get the associated data
+ */
+  changeAge() {
+    if (this.state.age === 'Y15-19') {
+      this.setState({ sort: { ...this.state.age }, age: 'Y20-24' })
+      this.retrieveData()
+    }
+    else {
+      this.setState({ sort: { ...this.state.age }, age: 'Y15-19' })
+      this.retrieveData()
+    }
+  }
 
   /**
-   * @brief Get data for the component when created
+   * @brief Get data for the component
    */
 
   retrieveData() {
@@ -50,6 +69,7 @@ export default class Suicides extends React.Component {
       .then(res => { return res.json() })
       .then(json => {
         const data = json.series.docs
+          .filter(age => age.dimensions.age === this.state.age)
           .filter(sex => sex.dimensions.sex === this.state.sex)
           .map(country => ({
             'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo],
@@ -63,6 +83,9 @@ export default class Suicides extends React.Component {
       });
   }
 
+  /**
+ * @brief Get data for the component when created
+ */
   componentDidMount() {
     this.retrieveData()
   }
@@ -76,9 +99,11 @@ export default class Suicides extends React.Component {
             case step.LOADED: return (
               <div>
                 <p>How many suicides in {this.state.data[0].country} during {this.state.data[0].suicide[4].date} ?</p>
-                <p>Value : {this.state.data[0].suicide[4].value} </p>
+                <p>Value : {this.state.data[0].suicide[4].value} %</p>
                 <p>Sex : {this.state.sex} </p>
                 <p><button onClick={this.changeSex} id="chgSexButton">Change sex</button></p>
+                <p>Age : {this.state.age} </p>
+                <p><button onClick={this.changeAge} id="chgAgeButton">Change age</button></p>
                 <p>
                   <object id="hangingMan" aria-labelledby="hangingMan" data={hangingMan} type="image/svg+xml"></object>
                 </p>
