@@ -25,13 +25,26 @@ export default class Suicides extends React.Component {
       data: []
     }
     this.changeSex = this.changeSex.bind(this)
+    this.retrieveData = this.retrieveData.bind(this)
   }
+
+  changeSex() {
+    if (this.state.sex === 'F') {
+      this.setState({ sexo: { ...this.state.sex }, sex: 'M' })
+      this.retrieveData()
+    }
+    else {
+      this.setState({ sexo: { ...this.state.sex }, sex: 'F' })
+      this.retrieveData()
+    }
+  }
+
 
   /**
    * @brief Get data for the component when created
    */
 
-  componentDidMount() {
+  retrieveData() {
     fetch(Environment.dbNomicsUrl + 'v22/series/Eurostat/yth_hlth_030?limit=1000&offset=0&q=&observations=1&align_periods=1&dimensions={}',
       { method: 'GET' })
       .then(res => { return res.json() })
@@ -43,7 +56,6 @@ export default class Suicides extends React.Component {
             'suicide': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] })),
           }))
         this.setState({ frequency: json.series.docs[0]['@frequency'], step: step.LOADED, data: data })
-        console.log(this.state.sex)
       })
       .catch(err => {
         this.setState({ hasError: true, step: step.ERROR })
@@ -51,18 +63,8 @@ export default class Suicides extends React.Component {
       });
   }
 
-  componentDidUpdate(prevState) {
-    if (this.state.sex !== prevState.sex) {
-    }
-  }
-
-  changeSex() {
-    if (this.state.sex === 'F') {
-      this.setState({ sexo: { ...this.state.sex }, sex: 'M' })
-    }
-    else {
-      this.setState({ sexo: { ...this.state.sex }, sex: 'F' })
-    }
+  componentDidMount() {
+    this.retrieveData()
   }
 
   render() {
@@ -76,16 +78,16 @@ export default class Suicides extends React.Component {
                 <p>How many suicides in {this.state.data[0].country} during {this.state.data[0].suicide[4].date} ?</p>
                 <p>Value : {this.state.data[0].suicide[4].value} </p>
                 <p>Sex : {this.state.sex} </p>
-                <button onClick={this.changeSex}>Change sex</button>
+                <p><button onClick={this.changeSex} id="chgSexButton">Change sex</button></p>
                 <p>
-                  <object id="hangingMan" data={hangingMan} type="image/svg+xml"></object>
+                  <object id="hangingMan" aria-labelledby="hangingMan" data={hangingMan} type="image/svg+xml"></object>
                 </p>
               </div>
             )
             default: return <p>Error loading suicide</p>
           }
         })()}
-      </div>
+      </div >
     )
   }
 }
