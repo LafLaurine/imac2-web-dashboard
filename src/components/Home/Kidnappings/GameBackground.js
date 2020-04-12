@@ -8,6 +8,7 @@ export default class GameButton extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.myRef = React.createRef();
   }
 
   componentDidMount() {
@@ -20,7 +21,7 @@ export default class GameButton extends React.Component {
     });
 
     const render = Matter.Render.create({
-      element: this.refs.scene,
+      element: this.myRef.current,
       engine: engine,
       options: {
         width: 400,
@@ -65,6 +66,6 @@ export default class GameButton extends React.Component {
   }
 
   render() {
-    return <div ref="scene" />;
+    return <div ref={this.myRef} />;
   }
 }
