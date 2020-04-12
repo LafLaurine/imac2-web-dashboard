@@ -46,7 +46,7 @@ export default class Drugs extends React.Component {
   }
 
   render() {
-    console.log(this.state.data)
+    //console.log(this.state.data[0])
     return (
       <div className="Drugs">
         {(() => {
