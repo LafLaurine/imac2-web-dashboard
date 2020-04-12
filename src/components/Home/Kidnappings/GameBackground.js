@@ -1,6 +1,6 @@
 import React from 'react';
 import './GameBackground.css';
-import Head from './img/tony-kornheiser.png'
+import Head from './img/tony-kornheiser.png';
 
 export default class GameButton extends React.Component {
 
