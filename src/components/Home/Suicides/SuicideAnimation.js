@@ -7,15 +7,13 @@ export default class SuicideAnimation extends React.Component {
     constructor(props) {
         super(props);
         this.myRef = React.createRef()
-        this.matterLoad = this.matterLoad.bind(this)
-        this.animate = this.animate.bind(this)
     }
 
-    matterLoad() {
-        const canvas = this.myRef.current
-        this.myRef.current.width = 100;
-        this.myRef.current.height = 100;
+    componentDidMount() {
+        this.animate();
+    }
 
+    createMatterWorld() {
         var Engine = Matter.Engine,
             Render = Matter.Render,
             World = Matter.World,
@@ -31,13 +29,9 @@ export default class SuicideAnimation extends React.Component {
         engine.world.gravity.x = 0;
         engine.world.gravity.y = 6;
 
-        var mouseConstraint = MouseConstraint.create(engine, {
-            mouse: Mouse.create(canvas)
-        });
-
         var group = Body.nextGroup(true);
         var render = Render.create({
-            canvas: canvas,
+            canvas: this.myRef.current,
             engine: engine,
             options: {
                 width: window.innerWidth,
@@ -46,6 +40,13 @@ export default class SuicideAnimation extends React.Component {
                 wireframes: false
             }
         });
+
+        this.myRef.current.width = 500;
+        this.myRef.current.height = 500;
+        var mouseConstraint = MouseConstraint.create(engine, {
+            mouse: Mouse.create(this.myRef.current)
+        });
+
 
         // create person
         function createPinata(x, y) {
@@ -214,9 +215,6 @@ export default class SuicideAnimation extends React.Component {
         // 
         World.add(engine.world, [mouseConstraint, ground]);
         window.addEventListener("resize", function () {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-
             Body.setPosition(ground, { x: 500 / 2, y: 500 - 50 });
         });
         Engine.run(engine);
@@ -225,7 +223,7 @@ export default class SuicideAnimation extends React.Component {
 
     animate() {
         if (this.myRef.current) {
-            this.matterLoad()
+            this.createMatterWorld()
         }
     }
 
@@ -233,7 +231,6 @@ export default class SuicideAnimation extends React.Component {
         return (
             <div className="SuicideAnimation">
                 <canvas ref={this.myRef} id="animationCanva" width={200} height={200}></canvas>
-                <button onClick={this.animate} id="animate">Animate</button>
             </div>
         )
     }
