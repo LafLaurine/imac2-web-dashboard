@@ -2,6 +2,7 @@ import React from 'react';
 import './Kidnappings.css';
 
 import GameButton from './GameButton';
+import GameBackground from './GameBackground';
 import Environment from 'environment';
 
 const Step = {
@@ -111,6 +112,7 @@ export default class Kidnappings extends React.Component {
         <p>{ this.state.userValue }</p>
 
         { this.state.showFeedBack && this.renderFeedBack() }
+        <GameBackground value={ this.state.userValue }></GameBackground>
       </div>
     )
 
