@@ -14,7 +14,7 @@ export default class SuicideAnimation extends React.Component {
     }
 
     createMatterWorld() {
-        var Engine = Matter.Engine,
+        const Engine = Matter.Engine,
             Render = Matter.Render,
             World = Matter.World,
             Bodies = Matter.Bodies,
@@ -25,12 +25,12 @@ export default class SuicideAnimation extends React.Component {
             Composite = Matter.Composite,
             Composites = Matter.Composites;
 
-        var engine = Engine.create();
+        const engine = Engine.create();
         engine.world.gravity.x = 0;
         engine.world.gravity.y = 6;
 
-        var group = Body.nextGroup(true);
-        var render = Render.create({
+        const group = Body.nextGroup(true);
+        const render = Render.create({
             canvas: this.myRef.current,
             engine: engine,
             options: {
@@ -43,34 +43,34 @@ export default class SuicideAnimation extends React.Component {
 
         this.myRef.current.width = 500;
         this.myRef.current.height = 500;
-        var mouseConstraint = MouseConstraint.create(engine, {
+        const mouseConstraint = MouseConstraint.create(engine, {
             mouse: Mouse.create(this.myRef.current)
         });
 
 
         // create person
         function createPinata(x, y) {
-            var headOptions = { friction: 1, frictionAir: .09, collisionFilter: { group: group } };
-            var chestOptions = { friction: 1, frictionAir: .09, collisionFilter: { group: group } };
-            var armOptions = { friction: 1, frictionAir: .09, collisionFilter: { group: group } };
-            var legOptions = { friction: 1, frictionAir: .09, collisionFilter: { group: group } };
-            var head = Bodies.circle(x, y - 70, 30, headOptions);
-            var chest = Bodies.rectangle(x, y, 60, 80, chestOptions);//40,120
-            var rightUpperArm = Bodies.rectangle(x + 40, y - 20, 20, 40, armOptions);
-            var rightLowerArm = Bodies.rectangle(x + 40, y + 20, 20, 60, armOptions);
-            var leftUpperArm = Bodies.rectangle(x - 40, y - 20, 20, 40, armOptions);
-            var leftLowerArm = Bodies.rectangle(x - 40, y + 20, 20, 60, armOptions);
-            var leftUpperLeg = Bodies.rectangle(x - 20, y + 60, 20, 40, legOptions);
-            var rightUpperLeg = Bodies.rectangle(x + 20, y + 60, 20, 40, legOptions);
-            var leftLowerLeg = Bodies.rectangle(x - 20, y + 100, 20, 60, legOptions);
-            var rightLowerLeg = Bodies.rectangle(x + 20, y + 100, 20, 60, legOptions);
+            const headOptions = { friction: 1, frictionAir: .09, collisionFilter: { group: group } };
+            const chestOptions = { friction: 1, frictionAir: .09, collisionFilter: { group: group } };
+            const armOptions = { friction: 1, frictionAir: .09, collisionFilter: { group: group } };
+            const legOptions = { friction: 1, frictionAir: .09, collisionFilter: { group: group } };
+            const head = Bodies.circle(x, y - 70, 30, headOptions);
+            const chest = Bodies.rectangle(x, y, 60, 80, chestOptions);//40,120
+            const rightUpperArm = Bodies.rectangle(x + 40, y - 20, 20, 40, armOptions);
+            const rightLowerArm = Bodies.rectangle(x + 40, y + 20, 20, 60, armOptions);
+            const leftUpperArm = Bodies.rectangle(x - 40, y - 20, 20, 40, armOptions);
+            const leftLowerArm = Bodies.rectangle(x - 40, y + 20, 20, 60, armOptions);
+            const leftUpperLeg = Bodies.rectangle(x - 20, y + 60, 20, 40, legOptions);
+            const rightUpperLeg = Bodies.rectangle(x + 20, y + 60, 20, 40, legOptions);
+            const leftLowerLeg = Bodies.rectangle(x - 20, y + 100, 20, 60, legOptions);
+            const rightLowerLeg = Bodies.rectangle(x + 20, y + 100, 20, 60, legOptions);
 
-            var legTorso = Body.create({
+            const legTorso = Body.create({
                 parts: [chest, leftUpperLeg, rightUpperLeg],
                 collisionFilter: { group: group },
             });
 
-            var chestToRightUpperArm = Constraint.create({
+            const chestToRightUpperArm = Constraint.create({
                 bodyA: legTorso,
                 pointA: { x: 25, y: -40 },
                 pointB: { x: -5, y: -10 },
@@ -78,7 +78,7 @@ export default class SuicideAnimation extends React.Component {
                 stiffness: .4,
                 length: 2
             });
-            var chestToLeftUpperArm = Constraint.create({
+            const chestToLeftUpperArm = Constraint.create({
                 bodyA: legTorso,
                 pointA: { x: -25, y: -40 },
                 pointB: { x: 5, y: -10 },
@@ -87,7 +87,7 @@ export default class SuicideAnimation extends React.Component {
                 length: 2
             });
 
-            var upperToLowerRightArm = Constraint.create({
+            const upperToLowerRightArm = Constraint.create({
                 bodyA: rightUpperArm,
                 bodyB: rightLowerArm,
                 pointA: { x: 0, y: 15 },
@@ -95,7 +95,7 @@ export default class SuicideAnimation extends React.Component {
                 stiffness: .2
             });
 
-            var upperToLowerLeftArm = Constraint.create({
+            const upperToLowerLeftArm = Constraint.create({
                 bodyA: leftUpperArm,
                 bodyB: leftLowerArm,
                 pointA: { x: 0, y: 15 },
@@ -104,7 +104,7 @@ export default class SuicideAnimation extends React.Component {
                 length: 1
             });
 
-            var upperToLowerLeftLeg = Constraint.create({
+            const upperToLowerLeftLeg = Constraint.create({
                 bodyA: legTorso,
                 bodyB: leftLowerLeg,
                 pointA: { x: -20, y: 60 },
@@ -112,7 +112,7 @@ export default class SuicideAnimation extends React.Component {
                 stiffness: .4
             });
 
-            var upperToLowerRightLeg = Constraint.create({
+            const upperToLowerRightLeg = Constraint.create({
                 bodyA: legTorso,
                 bodyB: rightLowerLeg,
                 pointA: { x: 20, y: 60 },
@@ -120,7 +120,7 @@ export default class SuicideAnimation extends React.Component {
                 stiffness: .4
             });
 
-            var headContraint = Constraint.create({
+            const headContraint = Constraint.create({
                 bodyA: head,
                 pointA: { x: 0, y: 20 },
                 pointB: { x: 0, y: -50 },
@@ -151,7 +151,7 @@ export default class SuicideAnimation extends React.Component {
             });
         }
 
-        var ground = Bodies.rectangle(200 / 2, 200, 200, 100, {
+        const ground = Bodies.rectangle(200 / 2, 200, 200, 100, {
             render: {
                 fillStyle: 'purple',
                 strokeStyle: '#333',
@@ -162,7 +162,7 @@ export default class SuicideAnimation extends React.Component {
         });
 
         // create rope
-        var ropeA = Composites.stack(50, 10, 2, 1, 11, 11, function (x, y) {
+        const ropeA = Composites.stack(50, 10, 2, 1, 11, 11, function (x, y) {
             return Bodies.rectangle(x, y, 50, 2, { collisionFilter: { group: group } });
         });
 
@@ -177,8 +177,8 @@ export default class SuicideAnimation extends React.Component {
         World.add(engine.world, ropeA);
 
         // create pinata, connect to rope
-        var pinata = createPinata(200 / 2 - 50, 200 / 2);
-        var pinataConstraint = Constraint.create({
+        const pinata = createPinata(200 / 2 - 50, 200 / 2);
+        const pinataConstraint = Constraint.create({
             bodyA: ropeA.bodies[ropeA.bodies.length - 1],
             bodyB: pinata.bodies[1],
             pointA: { x: 25, y: 0 },
@@ -190,7 +190,7 @@ export default class SuicideAnimation extends React.Component {
 
         // bat 
         function dropBat() {
-            var bat = Bodies.rectangle(0, 0, 100, 10, {
+            const bat = Bodies.rectangle(0, 0, 100, 10, {
 
             });
             Body.setMass(bat, 2);
@@ -203,7 +203,7 @@ export default class SuicideAnimation extends React.Component {
 
         setTimeout(function () {
             setInterval(function () {
-                var c = pinata.constraints[pinata.constraints.length - 1];
+                const c = pinata.constraints[pinata.constraints.length - 1];
                 if (c.bodyB.angularSpeed < 0.1) {
                     return;
                 }
