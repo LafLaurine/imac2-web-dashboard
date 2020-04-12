@@ -1,5 +1,5 @@
 import React from 'react';
-import Matter from "matter-js";
+import Matter, { Engine, Render, Runner, Composites, Constraint, Body, Vector, Bodies, World, Mouse, MouseConstraint, Events, Bounds } from "matter-js";
 import './GameBackground.css';
 import Head from './img/tony-kornheiser.png';
 
@@ -16,53 +16,85 @@ export default class GameButton extends React.Component {
   }
 
   createMatterWorld() {
-    const engine = Matter.Engine.create({
-      // positionIterations: 20
-    });
+    // create engine
+    const engine = Engine.create(),
+        world = engine.world;
 
-    const render = Matter.Render.create({
-      element: this.myRef.current,
-      engine: engine,
-      options: {
-        width: 400,
-        height: 400,
-        wireframes: false
-      }
-    });
-
-    const ballA = Matter.Bodies.circle(210, 100, 30, { restitution: 0.5 });
-    const ballB = Matter.Bodies.circle(110, 50, 30, { restitution: 0.5 });
-    Matter.World.add(engine.world, [
-      // walls
-      Matter.Bodies.rectangle(100, 0, 300, 50, { isStatic: true }),
-      Matter.Bodies.rectangle(100, 300, 300, 50, { isStatic: true }),
-      Matter.Bodies.rectangle(160, 150, 50, 300, { isStatic: true }),
-      Matter.Bodies.rectangle(0, 300, 50, 300, { isStatic: true })
-    ]);
-
-    Matter.World.add(engine.world, [ballA, ballB]);
-
-    // add mouse control
-    const mouse = Matter.Mouse.create(render.canvas);
-    const mouseConstraint = Matter.MouseConstraint.create(engine, {
-        mouse: mouse,
-        constraint: {
-          stiffness: 0.2,
-          render: {
-            visible: false
-          }
+    // create renderer
+    const render = Render.create({
+        element: this.myRef.current,
+        engine: engine,
+        options: {
+            width: 800,
+            height: 600,
+            showDebug: true,
+            showAngleIndicator: true,
+            showCollisions: true,
+            showVelocity: true,
+            showBounds: true,
+            showIds: true,
+            showPositions: true
         }
     });
 
-    Matter.World.add(engine.world, mouseConstraint);
+    Render.run(render);
 
-    Matter.Events.on(mouseConstraint, "mousedown", event => {
-      Matter.World.add(engine.world, Matter.Bodies.circle(150, 50, 30, { restitution: 0.7 }));
+    // create runner
+    const runner = Runner.create();
+    Runner.run(runner, engine);
+
+    // add bodies
+    const group = Body.nextGroup(true);
+
+    const stack = Composites.stack(250, 255, 1, 6, 0, 0, function(x, y) {
+        return Bodies.rectangle(x, y, 30, 30);
     });
 
-    Matter.Engine.run(engine);
+    // TODO check for object if they ar inside the collider when a collision happens (using Events.on(engine, 'collisionStart', ...))
+    const catapult = Bodies.rectangle(400, 520, 320, 20, { collisionFilter: { group: group } });
+    const leftCollider = Bounds.create([{ x: 255, y: 255 }, { x: 300, y: 300 }]);
+    console.log(leftCollider);
+    console.log(Bounds.contains(leftCollider, catapult.position));
 
-    Matter.Render.run(render);
+    World.add(world, [
+        stack,
+        catapult,
+        Bodies.rectangle(400, 600, 800, 50.5, { isStatic: true }), // Ground
+        Bodies.rectangle(250, 555, 20, 50, { isStatic: true }), // Catapult bottom
+        Bodies.rectangle(400, 535, 20, 80, { isStatic: true, collisionFilter: { group: group } }),
+        Bodies.circle(560, 100, 50, { density: 0.005 }),
+        Constraint.create({ 
+            bodyA: catapult, 
+            pointB: Vector.clone(catapult.position),
+            stiffness: 1,
+            length: 0
+        })
+    ]);
+
+    // add mouse control
+    const mouse = Mouse.create(render.canvas),
+        mouseConstraint = MouseConstraint.create(engine, {
+            mouse: mouse,
+            constraint: {
+                stiffness: 0.2,
+                render: {
+                    visible: false
+                }
+            }
+        });
+
+    World.add(world, mouseConstraint);
+
+    // keep the mouse in sync with rendering
+    render.mouse = mouse;
+
+    // fit the render viewport to the scene
+    Render.lookAt(render, {
+        min: { x: 0, y: 0 },
+        max: { x: 800, y: 600 }
+    });
+
+    Engine.run(engine);
   }
 
   render() {
