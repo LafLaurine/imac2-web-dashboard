@@ -1,8 +1,7 @@
 import React from 'react';
 import './Suicides.css';
-import hangingMan from './img/hangingMan.svg';
-
 import Environment from 'environment';
+import SuicideAnimation from './SuicideAnimation'
 
 const step = {
   LOADING: 'loading',
@@ -104,9 +103,7 @@ export default class Suicides extends React.Component {
                 <p><button onClick={this.changeSex} id="chgSexButton">Change sex</button></p>
                 <p>Age : {this.state.age} </p>
                 <p><button onClick={this.changeAge} id="chgAgeButton">Change age</button></p>
-                <p>
-                  <object id="hangingMan" aria-labelledby="hangingMan" data={hangingMan} type="image/svg+xml"></object>
-                </p>
+                <SuicideAnimation></SuicideAnimation>
               </div>
             )
             default: return <p>Error loading suicide</p>
