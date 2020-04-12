@@ -1,7 +1,10 @@
 import React from 'react';
 import './Crimes.css';
 
+import NextButton from './NextButton';
 import Environment from 'environment';
+
+var indexCountry = 0 ;
 
 const step = {
   LOADING: 'loading',
@@ -9,15 +12,28 @@ const step = {
   LOADED: 'loaded'
 };
 
-export default class Crimes extends React.Component {
-  state = {
-    frequency: '',
-    step: step.LOADING,
-    data: []
-};
 
-componentDidMount() {
-									//v22/series/Eurostat/crim_off_cat?limit=1000&offset=0&q=kidnapping&observations=1&align_periods=1&dimensions=%7B%7D'
+export default class Crimes extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      frequency: '',
+      step: step.LOADING,
+      data: []
+    }
+    this.updateCountry = this.updateCountry.bind(this)
+  }
+
+updateCountry() {
+   if(indexCountry < this.state.data.length - 1 ){
+   		indexCountry++;
+   }else{
+   		indexCountry = 0;
+   }
+   this.retrieveData();
+}
+
+retrieveData() {
     fetch(Environment.dbNomicsUrl + 'v22/series/Eurostat/crim_gen?limit=1000&offset=0&q=homicide&observations=1&align_periods=1&dimensions={}',
       { method: 'GET' })
       .then(res => { return res.json() })
@@ -35,10 +51,12 @@ componentDidMount() {
       });
 }
 
- render() {
-    
-    console.log(this.state.data[5]);
-    
+componentDidMount() {
+	this.retrieveData();
+}
+
+render() {    
+	console.log(this.state.data);
     return (
       <div className="Crimes">
         {(() => {
@@ -46,10 +64,11 @@ componentDidMount() {
           case step.LOADING: return <p>Loading</p>
           case step.LOADED: return (
             <div>
-            <p>Amount of murders from 2000</p>
-            <p>{this.state.data[5].country}</p>
-            <p>{this.state.data[5].homicides[7].value} </p>
+            <p>BACK IN THE GOOD OLD 2000's</p>
+            <p>{this.state.data[indexCountry].country}</p>
+            <p>{this.state.data[indexCountry].homicides[7].value} homicides</p>
             <p></p>
+            <NextButton onClick={e => this.updateCountry()} name="Another country"></NextButton>
             </div>
           )
           default: return <p>Error loading crimes</p>
