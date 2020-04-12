@@ -1,5 +1,6 @@
 import React from 'react';
 import './Suicides.css';
+import hangingMan from './img/hangingMan.svg';
 
 import Environment from 'environment';
 
@@ -15,55 +16,103 @@ const step = {
  */
 
 export default class Suicides extends React.Component {
-  state = {
-    frequency: '',
-    step: step.LOADING,
-    data: []
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      frequency: '',
+      step: step.LOADING,
+      sex: 'F',
+      age: 'Y15-19',
+      data: []
+    }
+    this.changeSex = this.changeSex.bind(this)
+    this.changeAge = this.changeAge.bind(this)
+    this.retrieveData = this.retrieveData.bind(this)
+  }
 
 
   /**
-   * @brief Get data for the component when created
+   * @brief Change sex when user click on button and get the associated data
    */
-  
-  componentDidMount() {
+  changeSex() {
+    if (this.state.sex === 'F') {
+      this.setState({ sexo: { ...this.state.sex }, sex: 'M' })
+      this.retrieveData()
+    }
+    else {
+      this.setState({ sexo: { ...this.state.sex }, sex: 'F' })
+      this.retrieveData()
+    }
+  }
+
+  /**
+ * @brief Change age when user click on button and get the associated data
+ */
+  changeAge() {
+    if (this.state.age === 'Y15-19') {
+      this.setState({ sort: { ...this.state.age }, age: 'Y20-24' })
+      this.retrieveData()
+    }
+    else {
+      this.setState({ sort: { ...this.state.age }, age: 'Y15-19' })
+      this.retrieveData()
+    }
+  }
+
+  /**
+   * @brief Get data for the component
+   */
+
+  retrieveData() {
     fetch(Environment.dbNomicsUrl + 'v22/series/Eurostat/yth_hlth_030?limit=1000&offset=0&q=&observations=1&align_periods=1&dimensions={}',
       { method: 'GET' })
       .then(res => { return res.json() })
       .then(json => {
         const data = json.series.docs
-        .map(country => ({
-          'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo],
-          'suicide': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] })),
-          'sex' : json.dataset.dimensions_values_labels.sex[country.dimensions.sex]
-        }))
+          .filter(age => age.dimensions.age === this.state.age)
+          .filter(sex => sex.dimensions.sex === this.state.sex)
+          .map(country => ({
+            'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo],
+            'suicide': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] })),
+          }))
         this.setState({ frequency: json.series.docs[0]['@frequency'], step: step.LOADED, data: data })
       })
       .catch(err => {
-        this.setState({ hasError: true,  step: step.ERROR})
+        this.setState({ hasError: true, step: step.ERROR })
         console.error(`[Suicides] Cannot get  ${Environment.dbNomicsUrl} : ${err}`)
       });
+  }
+
+  /**
+ * @brief Get data for the component when created
+ */
+  componentDidMount() {
+    this.retrieveData()
   }
 
   render() {
     return (
       <div className="Suicides">
         {(() => {
-        switch(this.state.step) {
-          case step.LOADING: return <p>Loading</p>
-          case step.LOADED: return (
-            <div>
-              <p>How many suicides in { this.state.data[0].country } during { this.state.data[0].suicide[4].date } ?</p> 
-              <p> Sex : { this.state.data[0].sex[0] }</p>
-              <p>Value : { this.state.data[0].suicide[4].value } </p>
-              <button>Man</button>
-              <button>Woman</button>
-            </div>
-          )
-          default: return <p>Error loading kidnappings</p>
-        }
-      })()}
-      </div>
+          switch (this.state.step) {
+            case step.LOADING: return <p>Loading</p>
+            case step.LOADED: return (
+              <div>
+                <p>How many suicides in {this.state.data[0].country} during {this.state.data[0].suicide[4].date} ?</p>
+                <p>Value : {this.state.data[0].suicide[4].value} %</p>
+                <p>Sex : {this.state.sex} </p>
+                <p><button onClick={this.changeSex} id="chgSexButton">Change sex</button></p>
+                <p>Age : {this.state.age} </p>
+                <p><button onClick={this.changeAge} id="chgAgeButton">Change age</button></p>
+                <p>
+                  <object id="hangingMan" aria-labelledby="hangingMan" data={hangingMan} type="image/svg+xml"></object>
+                </p>
+              </div>
+            )
+            default: return <p>Error loading suicide</p>
+          }
+        })()}
+      </div >
     )
   }
 }
