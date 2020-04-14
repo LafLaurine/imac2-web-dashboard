@@ -7,7 +7,9 @@ export default class GameButton extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      nbInsideCollider: 0
+    };
     this.myRef = React.createRef();
   }
 
@@ -16,88 +18,66 @@ export default class GameButton extends React.Component {
   }
 
   createMatterWorld() {
-    // create engine
-    const engine = Engine.create(),
-        world = engine.world;
-
-    // create renderer
+    // Setup
+    const engine = Engine.create();
+    const world = engine.world;
     const render = Render.create({
-        element: this.myRef.current,
-        engine: engine,
-        options: {
-            width: 800,
-            height: 600,
-            showDebug: true,
-            showAngleIndicator: true,
-            showCollisions: true,
-            showVelocity: true,
-            showBounds: true,
-            showIds: true,
-            showPositions: true
-        }
+      element: this.myRef.current,
+      engine: engine,
+      options: {
+        width: 800,
+        height: 600,
+        showDebug: true,
+        showAngleIndicator: true,
+        showCollisions: true,
+        showVelocity: true,
+        showBounds: true,
+        showIds: true,
+        showPositions: true
+      }
     });
-
     Render.run(render);
-
-    // create runner
     const runner = Runner.create();
     Runner.run(runner, engine);
 
-
-    const squares = Composites.stack(250, 255, 1, 6, 0, 0, (x, y) => {
-        return Bodies.rectangle(x, y, 30, 30);
+    // World
+    const squares = Composites.stack(600, 255, 1, 6, 0, 0, (x, y) => {
+      return Bodies.rectangle(x, y, 40, 40);
     });
-    const catapult = Bodies.rectangle(400, 520, 320, 20);
-    const ground = Bodies.rectangle(400, 600, 800, 50.5, { isStatic: true });
-    
     World.add(world, [
-        ground,
-        squares,
-        catapult,
-        Constraint.create({ 
-            bodyA: catapult, 
-            pointB: Vector.clone(catapult.position),
-            stiffness: 1,
-            length: 0
-        })
+      squares,
+      Bodies.rectangle(400, 600, 800, 50.5, { isStatic: true }), // Ground
+      Bodies.rectangle(400, 420, 20, 300, { isStatic: true }),  // Wall center
+      Bodies.rectangle(10, 300, 20, 600, { isStatic: true }) // Wall left
     ]);
 
-    // 0,0 is top left
-    const leftCollider = Bounds.create([{ x: 0, y: 0 }, { x: 300, y: 300 }]);
-    setInterval(() => {
-        squares.bodies.forEach(body => {
-            if (Bounds.contains(leftCollider, body.position))
-                console.log("Inside the collider");
-        })
-    }, 500);
-
-    // add mouse control
-    const mouse = Mouse.create(render.canvas),
-        mouseConstraint = MouseConstraint.create(engine, {
-            mouse: mouse,
-            constraint: {
-                stiffness: 0.2,
-                render: {
-                    visible: false
-                }
-            }
-        });
-
+    // Mouse
+    const mouse = Mouse.create(render.canvas);
+    const mouseConstraint = MouseConstraint.create(engine, { mouse: mouse });
     World.add(world, mouseConstraint);
-
-    // keep the mouse in sync with rendering
     render.mouse = mouse;
 
-    // fit the render viewport to the scene
-    Render.lookAt(render, {
-        min: { x: 0, y: 0 },
-        max: { x: 800, y: 600 }
-    });
+    // Victory conditions
+    const leftCollider = Bounds.create([{ x: 0, y: 200 }, { x: 420, y: 600 }]);
+    setInterval(() => {
+      let count = 0
+      squares.bodies.forEach(body => {
+        if (Bounds.contains(leftCollider, body.position))
+          count++;
+      });
+      if (count != this.state.nbInsideCollider)
+        this.setState({ nbInsideCollider: count });
+    }, 500);
 
     Engine.run(engine);
   }
 
   render() {
-    return <div ref={this.myRef} />;
+    return (
+      <div>
+        <p>{this.state.nbInsideCollider}</p>
+        <div ref={this.myRef} />
+      </div>
+    )
   }
 }
