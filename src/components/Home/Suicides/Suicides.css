@@ -6,11 +6,6 @@
     z-index: 1000;
 }
 
-#hangingMan {
-    margin-top: -10em;
-    margin-left: 4em;
-}
-
 #animationCanva:active { 
     cursor: pointer;  
 }

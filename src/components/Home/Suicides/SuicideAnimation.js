@@ -5,7 +5,7 @@ import Matter from "matter-js";
 export default class SuicideAnimation extends React.Component {
 
     constructor(props) {
-        super(props);
+        super(props)
         this.myRef = React.createRef()
     }
 
@@ -152,7 +152,7 @@ export default class SuicideAnimation extends React.Component {
         }
 
         // create rope
-        const ropeA = Composites.stack(50, 10, 1, 1, 1, 1, function (x, y) {
+        const ropeA = Composites.stack(50, 10, this.props.length, 1, 1, 1, function (x, y) {
             return Bodies.rectangle(x, y, 80, 2, { collisionFilter: { group: group } });
         });
 
@@ -210,7 +210,8 @@ export default class SuicideAnimation extends React.Component {
     render() {
         return (
             <div className="SuicideAnimation">
-                <canvas ref={this.myRef} id="animationCanva" width={200} height={200}></canvas>
+                {this.animate()}
+                <canvas ref={this.myRef} id="animationCanva" ></canvas>
             </div>
         )
     }

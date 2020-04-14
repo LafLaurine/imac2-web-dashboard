@@ -24,7 +24,8 @@ export default class Suicides extends React.Component {
       step: step.LOADING,
       sex: 'F',
       age: 'Y15-19',
-      data: []
+      data: [],
+      value: 1
     }
     this.changeSex = this.changeSex.bind(this)
     this.changeAge = this.changeAge.bind(this)
@@ -64,14 +65,17 @@ export default class Suicides extends React.Component {
    */
   updateCountry() {
     if (indexCountry < this.state.data.length - 1) {
-      indexCountry += Math.floor(Math.random() * 2) + 1
+      indexCountry += Math.floor(Math.random() * 1) + 1
     } else {
       indexCountry = 0;
     }
     this.retrieveData();
   }
 
-
+  renderAnimation() {
+    console.log(this.state.value)
+    return <SuicideAnimation length={Math.ceil(this.state.value)}></SuicideAnimation>
+  }
   /**
    * @brief Get data for the component
    */
@@ -84,11 +88,13 @@ export default class Suicides extends React.Component {
         const data = json.series.docs
           .filter(age => age.dimensions.age === this.state.age)
           .filter(sex => sex.dimensions.sex === this.state.sex)
+          .filter(value => value.dimensions.value !== "NA")
           .map(country => ({
             'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo],
-            'suicide': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] })),
+            'suicide': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] }))
           }))
-        this.setState({ frequency: json.series.docs[0]['@frequency'], step: step.LOADED, data: data })
+        this.setState({ frequency: json.series.docs[0]['@frequency'], step: step.LOADED, data: data, value: data[indexCountry].suicide[4].value })
+
       })
       .catch(err => {
         this.setState({ hasError: true, step: step.ERROR })
@@ -97,8 +103,8 @@ export default class Suicides extends React.Component {
   }
 
   /**
- * @brief Get data for the component when created
- */
+  * @brief Get data for the component when created
+  */
   componentDidMount() {
     this.retrieveData()
   }
@@ -118,7 +124,7 @@ export default class Suicides extends React.Component {
                 <p>Age : {this.state.age} </p>
                 <p><button onClick={this.changeAge} id="chgAgeButton">Change age</button></p>
                 <SuicidesButton onClick={e => this.updateCountry()} name="Another country"></SuicidesButton>
-                <SuicideAnimation></SuicideAnimation>
+                {this.renderAnimation()}
               </div>
             )
             default: return <p>Error loading suicide</p>
