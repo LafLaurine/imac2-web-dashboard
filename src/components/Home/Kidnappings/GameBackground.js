@@ -1,7 +1,6 @@
 import React from 'react';
-import Matter, { Engine, Render, Runner, Composites, Constraint, Body, Vector, Bodies, World, Mouse, MouseConstraint, Events, Bounds } from "matter-js";
+import { Engine, Render, Runner, Composites, Bodies, World, Mouse, MouseConstraint, Bounds } from "matter-js";
 import './GameBackground.css';
-import Head from './img/tony-kornheiser.png';
 
 export default class GameButton extends React.Component {
 
