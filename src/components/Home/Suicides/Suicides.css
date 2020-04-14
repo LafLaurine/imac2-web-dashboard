@@ -1,14 +1,12 @@
 .Suicides {
     width: 250px;
     height: 250px;
-    background-color: black;
     color: white;
+    background-color: black;
+    z-index: 1000;
 }
 
 #hangingMan {
-    width: 400px;
-    height:400px;
-    z-index: -10;
     margin-top: -10em;
     margin-left: 4em;
 }

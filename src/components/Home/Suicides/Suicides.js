@@ -2,6 +2,7 @@ import React from 'react';
 import './Suicides.css';
 import Environment from 'environment';
 import SuicideAnimation from './SuicideAnimation'
+import SuicidesButton from './SuicidesButton';
 
 const step = {
   LOADING: 'loading',
@@ -9,6 +10,7 @@ const step = {
   LOADED: 'loaded'
 }
 
+let indexCountry = 0;
 /**
  * @brief Show suicides data (Eurostats source)
  * @url https://db.nomics.world/Eurostat/yth_hlth_030?q=suicide
@@ -26,9 +28,8 @@ export default class Suicides extends React.Component {
     }
     this.changeSex = this.changeSex.bind(this)
     this.changeAge = this.changeAge.bind(this)
-    this.retrieveData = this.retrieveData.bind(this)
+    this.updateCountry = this.updateCountry.bind(this)
   }
-
 
   /**
    * @brief Change sex when user click on button and get the associated data
@@ -57,6 +58,19 @@ export default class Suicides extends React.Component {
       this.retrieveData()
     }
   }
+
+  /**
+   * @brief Change country when user click on button and get the associated data
+   */
+  updateCountry() {
+    if (indexCountry < this.state.data.length - 1) {
+      indexCountry += Math.floor(Math.random() * 2) + 1
+    } else {
+      indexCountry = 0;
+    }
+    this.retrieveData();
+  }
+
 
   /**
    * @brief Get data for the component
@@ -97,12 +111,13 @@ export default class Suicides extends React.Component {
             case step.LOADING: return <p>Loading</p>
             case step.LOADED: return (
               <div>
-                <p>How many suicides in {this.state.data[0].country} during {this.state.data[0].suicide[4].date} ?</p>
-                <p>Value : {this.state.data[0].suicide[4].value} %</p>
+                <p>How many suicides in {this.state.data[indexCountry].country} during {this.state.data[indexCountry].suicide[4].date} ?</p>
+                <p>Value : {this.state.data[indexCountry].suicide[4].value} %</p>
                 <p>Sex : {this.state.sex} </p>
                 <p><button onClick={this.changeSex} id="chgSexButton">Change sex</button></p>
                 <p>Age : {this.state.age} </p>
                 <p><button onClick={this.changeAge} id="chgAgeButton">Change age</button></p>
+                <SuicidesButton onClick={e => this.updateCountry()} name="Another country"></SuicidesButton>
                 <SuicideAnimation></SuicideAnimation>
               </div>
             )

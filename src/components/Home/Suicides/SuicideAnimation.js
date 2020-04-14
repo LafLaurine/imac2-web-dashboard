@@ -36,7 +36,7 @@ export default class SuicideAnimation extends React.Component {
             options: {
                 width: window.innerWidth,
                 height: window.innerHeight,
-                wireframeBackground: 'white',
+                wireframeBackground: '#ffffff',
                 wireframes: false
             }
         });
@@ -122,8 +122,8 @@ export default class SuicideAnimation extends React.Component {
 
             const headContraint = Constraint.create({
                 bodyA: head,
-                pointA: { x: 0, y: 20 },
-                pointB: { x: 0, y: -50 },
+                pointA: { x: 0, y: 10 },
+                pointB: { x: 0, y: -20 },
                 bodyB: legTorso,
                 stiffness: .7
             });
@@ -151,28 +151,18 @@ export default class SuicideAnimation extends React.Component {
             });
         }
 
-        const ground = Bodies.rectangle(200 / 2, 200, 200, 100, {
-            render: {
-                fillStyle: 'purple',
-                strokeStyle: '#333',
-                lineWidth: 0
-            },
-            isStatic: true,
-            friction: 1
-        });
-
         // create rope
-        const ropeA = Composites.stack(50, 10, 2, 1, 11, 11, function (x, y) {
-            return Bodies.rectangle(x, y, 50, 2, { collisionFilter: { group: group } });
+        const ropeA = Composites.stack(50, 10, 1, 1, 1, 1, function (x, y) {
+            return Bodies.rectangle(x, y, 80, 2, { collisionFilter: { group: group } });
         });
 
-        Composites.chain(ropeA, 0.5, 0, -0.5, 0, { stiffness: 0.5, length: 20 });
+        Composites.chain(ropeA, 0.5, 0, -0.5, 0, { stiffness: 0.5, length: 5 });
         Composite.add(ropeA, Constraint.create({
             pointA: { x: 200 / 2, y: 10 },
             pointB: { x: -20, y: 0 },
             bodyB: ropeA.bodies[0],
             stiffness: 0.5,
-            length: 20
+            length: 5
         }));
         World.add(engine.world, ropeA);
 
@@ -184,39 +174,29 @@ export default class SuicideAnimation extends React.Component {
             pointA: { x: 25, y: 0 },
             pointB: { x: 0, y: -30 },
             stiffness: 0.5,
-            length: 20
+            length: 5
         });
         World.add(engine.world, [pinata, pinataConstraint]);
-
-        // bat 
-        function dropBat() {
-            const bat = Bodies.rectangle(0, 0, 100, 10, {
-
-            });
-            Body.setMass(bat, 2);
-            Body.setAngularVelocity(bat, -.1);
-            Body.applyForce(bat, { x: 0, y: 0 }, { x: 0.1, y: 0 });
-            World.add(engine.world, [bat]);
-        }
-        setTimeout(dropBat, 2000);
-
 
         setTimeout(function () {
             setInterval(function () {
                 const c = pinata.constraints[pinata.constraints.length - 1];
-                if (c.bodyB.angularSpeed < 0.1) {
+                if (c === undefined) {
+                    alert("YOU KILLED SOMEONE");
+                    alert("DO YOU THINK THAT THE WORLD DOESN'T HAVE ENOUGH DEATH ?");
+                    alert("DO YOU LIKE DEATH ?");
+                    alert("WOW AND NOW YOU WANT TO ESCAPE FROM THIS ?");
+                    alert("CONGRATS FOR BEING A MONSTER");
+                }
+                else if (c.bodyB.angularSpeed < 0.1) {
                     return;
                 }
-
                 Composite.remove(pinata, c);
             }, 1000);
         }, 2000);
 
         // 
-        World.add(engine.world, [mouseConstraint, ground]);
-        window.addEventListener("resize", function () {
-            Body.setPosition(ground, { x: 500 / 2, y: 500 - 50 });
-        });
+        World.add(engine.world, [mouseConstraint]);
         Engine.run(engine);
         Render.run(render);
     }
