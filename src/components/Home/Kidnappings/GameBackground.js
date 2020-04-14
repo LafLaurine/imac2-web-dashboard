@@ -43,26 +43,17 @@ export default class GameButton extends React.Component {
     const runner = Runner.create();
     Runner.run(runner, engine);
 
-    // add bodies
-    const group = Body.nextGroup(true);
 
-    const stack = Composites.stack(250, 255, 1, 6, 0, 0, function(x, y) {
+    const squares = Composites.stack(250, 255, 1, 6, 0, 0, (x, y) => {
         return Bodies.rectangle(x, y, 30, 30);
     });
-
-    // TODO check for object if they ar inside the collider when a collision happens (using Events.on(engine, 'collisionStart', ...))
-    const catapult = Bodies.rectangle(400, 520, 320, 20, { collisionFilter: { group: group } });
-    const leftCollider = Bounds.create([{ x: 255, y: 255 }, { x: 300, y: 300 }]);
-    console.log(leftCollider);
-    console.log(Bounds.contains(leftCollider, catapult.position));
-
+    const catapult = Bodies.rectangle(400, 520, 320, 20);
+    const ground = Bodies.rectangle(400, 600, 800, 50.5, { isStatic: true });
+    
     World.add(world, [
-        stack,
+        ground,
+        squares,
         catapult,
-        Bodies.rectangle(400, 600, 800, 50.5, { isStatic: true }), // Ground
-        Bodies.rectangle(250, 555, 20, 50, { isStatic: true }), // Catapult bottom
-        Bodies.rectangle(400, 535, 20, 80, { isStatic: true, collisionFilter: { group: group } }),
-        Bodies.circle(560, 100, 50, { density: 0.005 }),
         Constraint.create({ 
             bodyA: catapult, 
             pointB: Vector.clone(catapult.position),
@@ -70,6 +61,15 @@ export default class GameButton extends React.Component {
             length: 0
         })
     ]);
+
+    // 0,0 is top left
+    const leftCollider = Bounds.create([{ x: 0, y: 0 }, { x: 300, y: 300 }]);
+    setInterval(() => {
+        squares.bodies.forEach(body => {
+            if (Bounds.contains(leftCollider, body.position))
+                console.log("Inside the collider");
+        })
+    }, 500);
 
     // add mouse control
     const mouse = Mouse.create(render.canvas),
