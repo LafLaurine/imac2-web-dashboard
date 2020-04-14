@@ -10,7 +10,8 @@
     "matter-js": "^0.14.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "react-vis": "^1.11.7"
   },
   "scripts": {
     "start": "react-scripts start",

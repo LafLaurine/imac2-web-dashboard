@@ -1,5 +1,6 @@
 import React from 'react';
 import Environment from 'environment';
+import PovertyChart from './PovertyChart'
 import './Poverty.css';
 
 const step = {
@@ -57,7 +58,10 @@ export default class Poverty extends React.Component {
           switch (this.state.step) {
             case step.LOADING: return <p>Loading</p>
             case step.LOADED: return (
-              <p>Poverty in {this.state.data[0].country} ?</p>
+              <div>
+                <p>Poverty in {this.state.data[0].country} ?</p>
+                <PovertyChart></PovertyChart>
+              </div>
             )
             default: return <p>Error loading suicide</p>
           }
