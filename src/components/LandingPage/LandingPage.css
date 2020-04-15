@@ -1,0 +1,14 @@
+.landingPage {
+    display: flex;
+    flex-wrap: wrap;
+    overflow-y:hidden;
+}
+
+.container {
+    margin-left: 15em;
+    overflow-x: hidden;
+}
+
+.gif {
+    height:50%;
+}
