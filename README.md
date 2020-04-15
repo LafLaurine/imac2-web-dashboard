@@ -13,3 +13,4 @@ Run `npm run start` to start developpement.
 - [Trello](https://trello.com/b/kZ4TX6tk/chaosdashboard)
 - [Google Drive](https://drive.google.com/open?id=1sZvBv1TF5BfNv9McyECy_z_mBvca4K65)
 - [Pinterest](https://www.pinterest.fr/ghaerinck/chaosdashboard/)
+- [Figma](https://www.figma.com/file/PxAapdoC6stY4EIMnqruCl/ChaosDashboard?node-id=0%3A1)
