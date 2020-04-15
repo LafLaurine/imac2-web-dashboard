@@ -1,3 +1,22 @@
 .SideNav {
+    width: 300px;
+}
+
+.sidebar {
+    background: #dd1818;
+    background: linear-gradient(0deg,#333333,#dd1818);
+    height: 100%;
     width: 200px;
+    position: fixed;
+    z-index: 1;
+}
+
+.nav {
+    flex-wrap: wrap;
+    list-style: none;
+}
+
+.element {
+    color:white;
+    font-size: 1.5em;
 }
