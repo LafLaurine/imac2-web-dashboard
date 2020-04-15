@@ -2,12 +2,15 @@ import React from 'react';
 import Environment from 'environment';
 import PovertyChart from './PovertyChart'
 import './Poverty.css';
+import PovertyButton from './PovertyButton';
 
 const step = {
   LOADING: 'loading',
   ERROR: 'error',
   LOADED: 'loaded'
 }
+
+let indexCountry = 0;
 
 /**
  * @brief Show poverty data (Eurostats source)
@@ -23,6 +26,7 @@ export default class Poverty extends React.Component {
       step: step.LOADING,
       data: [],
     }
+    this.updateCountry = this.updateCountry.bind(this)
   }
 
   retrieveData() {
@@ -43,6 +47,20 @@ export default class Poverty extends React.Component {
       });
   }
 
+
+  /**
+   * @brief Change country when user click on button and get the associated data
+   */
+  updateCountry() {
+    if (indexCountry < this.state.data.length - 1) {
+      indexCountry += Math.floor(Math.random() * 1) + 1
+    } else {
+      indexCountry = 0;
+    }
+    this.retrieveData();
+  }
+
+
   /**
   * @brief Get data for the component when created
   */
@@ -51,7 +69,7 @@ export default class Poverty extends React.Component {
   }
 
   renderGraph() {
-    return <PovertyChart data={this.state.data[0]}></PovertyChart>
+    return <PovertyChart data={this.state.data[indexCountry]}></PovertyChart>
   }
 
 
@@ -63,7 +81,8 @@ export default class Poverty extends React.Component {
             case step.LOADING: return <p>Loading</p>
             case step.LOADED: return (
               <div>
-                <p>Poverty in {this.state.data[0].country} ?</p>
+                <p>Poverty in {this.state.data[indexCountry].country} ?</p>
+                <PovertyButton onClick={e => this.updateCountry()} name="Another country"></PovertyButton>
                 {this.renderGraph()}
               </div>
             )
