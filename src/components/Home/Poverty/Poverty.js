@@ -21,7 +21,7 @@ export default class Poverty extends React.Component {
     this.state = {
       frequency: '',
       step: step.LOADING,
-      data: []
+      data: [],
     }
   }
 
@@ -33,9 +33,9 @@ export default class Poverty extends React.Component {
         const data = json.series.docs
           .map(country => ({
             'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo],
+            'poverty': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] }))
           }))
         this.setState({ frequency: json.series.docs[0]['@frequency'], step: step.LOADED, data: data })
-
       })
       .catch(err => {
         this.setState({ hasError: true, step: step.ERROR })
@@ -50,6 +50,10 @@ export default class Poverty extends React.Component {
     this.retrieveData()
   }
 
+  renderGraph() {
+    return <PovertyChart data={this.state.data[0]}></PovertyChart>
+  }
+
 
   render() {
     return (
@@ -60,7 +64,7 @@ export default class Poverty extends React.Component {
             case step.LOADED: return (
               <div>
                 <p>Poverty in {this.state.data[0].country} ?</p>
-                <PovertyChart></PovertyChart>
+                {this.renderGraph()}
               </div>
             )
             default: return <p>Error loading suicide</p>

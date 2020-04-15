@@ -1,59 +1,67 @@
 import React from 'react'
-import PovertyButton from './PovertyButton';
 import './Poverty.css';
+import { Line } from 'react-chartjs-2';
 
-import {
-    XYPlot,
-    XAxis,
-    YAxis,
-    Hint,
-    VerticalGridLines,
-    HorizontalGridLines,
-    MarkSeries
-} from 'react-vis';
-
-function generateData() {
-    return new Array(100).fill(0).map(row => ({
-        x: Math.random() * 10,
-        y: Math.random() * 20,
-        size: Math.random() * 10
-    }));
-}
-
-const colorRanges = {
-    typeA: ['#59E4EC', '#0D676C'],
+const data = {
+    labels: [],
+    datasets: [
+        {
+            label: 'Percentage',
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: 'rgba(75,192,192,0.4)',
+            borderColor: 'rgba(75,192,192,1)',
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: 'rgba(75,192,192,1)',
+            pointBackgroundColor: '#fff',
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+            pointHoverBorderColor: 'rgba(220,220,220,1)',
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: []
+        }
+    ]
 };
 
-const MODE = ['noWobble', 'gentle', 'wobbly', 'stiff'];
 
-export default class Example extends React.Component {
-    state = {
-        data: generateData(),
-        modeIndex: 0,
-        value: false
-    };
+export default class PovertyChart extends React.Component {
+
+    generatePovertyValue() {
+        let arr = []
+        for (let i = 0; i < this.props.data.poverty.length; i++) {
+            if (this.props.data.poverty[i].value !== 'NA') {
+                this.povertyValue = this.props.data.poverty[i].value
+                arr.push(this.povertyValue)
+            }
+        }
+        data.datasets[0].data = arr
+    }
+
+    generateLabels() {
+        let arr = []
+        for (let i = 0; i < this.props.data.poverty.length; i++) {
+            if (this.props.data.poverty[i].date !== 'NA') {
+                this.date = this.props.data.poverty[i].date
+                arr.push(this.date)
+            }
+        }
+        data.labels = arr
+    }
 
     render() {
-        const { data } = this.state;
-        const markSeriesProps = {
-            animation: true,
-            sizeRange: [5, 15],
-            colorRange: colorRanges[0],
-            data,
-            onNearestXY: value => this.setState({ value })
-        };
-
         return (
-            <div className="centered-and-flexed">
-                <XYPlot width={300} height={300} onMouseLeave={() => this.setState({ value: false })}>
-                    <VerticalGridLines />
-                    <HorizontalGridLines />
-                    <XAxis />
-                    <YAxis />
-                    <MarkSeries animation={MODE[1]} {...markSeriesProps} />
-                    {this.state.value ? <Hint value={this.state.value} /> : null}
-                </XYPlot>
-                <PovertyButton onClick={() => this.setState({ data: generateData() })} buttonContent={'UPDATE DATA'} />
+            <div className="PovertyChart">
+                <div>
+                    {this.generatePovertyValue()}
+                    {this.generateLabels()}
+                    <Line data={data} />
+                </div>
             </div>
         );
     }
