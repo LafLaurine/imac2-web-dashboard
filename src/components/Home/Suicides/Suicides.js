@@ -73,7 +73,6 @@ export default class Suicides extends React.Component {
   }
 
   renderAnimation() {
-    console.log(this.state.value)
     return <SuicideAnimation length={Math.ceil(this.state.value)}></SuicideAnimation>
   }
   /**

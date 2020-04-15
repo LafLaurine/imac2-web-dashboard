@@ -4,7 +4,7 @@ import propTypes from 'prop-types';
 function PovertyButton(props) {
     const { buttonContent, onClick } = props;
     return (
-        <button className="showcase-button" onClick={onClick}>
+        <button className="povertyButton" onClick={onClick}>
             {buttonContent}
         </button>
     );

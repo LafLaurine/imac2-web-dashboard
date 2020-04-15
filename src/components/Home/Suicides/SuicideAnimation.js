@@ -152,8 +152,8 @@ export default class SuicideAnimation extends React.Component {
         }
 
         // create rope
-        const ropeA = Composites.stack(50, 10, this.props.length, 1, 1, 1, function (x, y) {
-            return Bodies.rectangle(x, y, 80, 2, { collisionFilter: { group: group } });
+        const ropeA = Composites.stack(50, 10, (this.props.length) / 2, 1, 1, 1, function (x, y) {
+            return Bodies.rectangle(x, y, 100, 2, { collisionFilter: { group: group } });
         });
 
         Composites.chain(ropeA, 0.5, 0, -0.5, 0, { stiffness: 0.5, length: 5 });
