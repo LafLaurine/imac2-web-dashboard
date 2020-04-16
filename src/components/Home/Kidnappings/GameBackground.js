@@ -64,7 +64,7 @@ export default class GameButton extends React.Component {
         if (Bounds.contains(leftCollider, body.position))
           count++;
       });
-      if (count != this.state.nbInsideCollider)
+      if (count !== this.state.nbInsideCollider)
         this.setState({ nbInsideCollider: count });
     }, 500);
 

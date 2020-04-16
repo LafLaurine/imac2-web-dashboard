@@ -5,13 +5,11 @@ import elmo from './img/elmo.gif'
 import hell from './img/hell.gif'
 import satan from './img/satan.gif'
 import gatesOfHell from './img/gatesOfHell.gif'
-import SideNav from 'components/SideNav/SideNav';
 
 export default class LandingPage extends React.Component {
     render() {
         return (
             <div className="landingPage">
-                <SideNav></SideNav>
                 <div className="container">
                     <img className="wordart" src={chaosDashboard} alt="chaosDashboard wordart"></img>
                     <img className="gif" src={elmo} alt="elmo gif" />
