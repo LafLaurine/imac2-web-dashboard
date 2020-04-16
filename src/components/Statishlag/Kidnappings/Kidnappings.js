@@ -3,6 +3,7 @@ import { Engine, Render, Runner, Composites, Bodies, World, Mouse, MouseConstrai
 import './Kidnappings.css';
 
 import Environment from 'environment';
+import Tony from './img/tony-kornheiser.png';
 
 const Step = {
   LOADING: 'loading',
@@ -70,13 +71,8 @@ export default class Kidnappings extends React.Component {
       options: {
         width: 800,
         height: 600,
-        showDebug: true,
-        showAngleIndicator: true,
-        showCollisions: true,
-        showVelocity: true,
-        showBounds: true,
-        showIds: true,
-        showPositions: true
+        wireframes: false,
+        background: `url(${Tony})`
       }
     });
     Render.run(render);
@@ -85,7 +81,14 @@ export default class Kidnappings extends React.Component {
 
     // World
     const squares = Composites.stack(600, 255, 1, 6, 0, 0, (x, y) => {
-      return Bodies.rectangle(x, y, 40, 40);
+      return Bodies.circle(x, y, 40, {
+          render: {
+            strokeStyle: '#ffffff',
+            sprite: {
+              texture: Tony
+            }
+        }
+      });
     });
     World.add(world, [
       squares,
@@ -96,7 +99,15 @@ export default class Kidnappings extends React.Component {
 
     // Mouse
     const mouse = Mouse.create(render.canvas);
-    const mouseConstraint = MouseConstraint.create(engine, { mouse: mouse });
+    const mouseConstraint = MouseConstraint.create(engine, {
+      mouse: mouse,
+      constraint: {
+        stiffness: 0.2,
+        render: {
+          visible: false
+        }
+      }
+    });
     World.add(world, mouseConstraint);
     render.mouse = mouse;
 
