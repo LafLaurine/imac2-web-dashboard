@@ -6,6 +6,7 @@ import elmo from './img/elmo.gif'
 import hell from './img/hell.gif'
 import satan from './img/satan.gif'
 import gatesOfHell from './img/gates-of-hell.gif'
+import bestTeam from './img/best-team.png'
 
 export default class HellsDoor extends React.Component {
   render() {
@@ -15,6 +16,7 @@ export default class HellsDoor extends React.Component {
           <img src={chaosDashboard} alt="chaosDashboard wordart"/>
         </div>
         <div className="gifs">
+          <img src={bestTeam}  className="best-team" alt="best team"/>
           <img src={elmo} alt="elmo gif" />
           <img src={hell} alt="hell gif" />
           <img src={gatesOfHell} alt="gatesOfHell gif" />
