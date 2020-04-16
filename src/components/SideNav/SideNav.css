@@ -5,17 +5,17 @@
     background-image: url('./img/bg.png');
 }
 
-.logo {
+.SideNav .logo {
     position: relative;
     margin-top: 50px;
 }
 
-.logo img {
+.SideNav .logo img {
     width: 100px;
     height: auto;
 }
 
-.logo h1 {
+.SideNav .logo h1 {
     margin: 0;
     position: absolute;
     left: 50%;
@@ -24,20 +24,20 @@
     color: blue;
 }
 
-.links {
+.SideNav .links {
     margin: 150px 10px;
 }
 
-.links h2 {
+.SideNav .links h2 {
     margin: 80px 0px;
 }
 
-.links a {
+.SideNav .links a {
     text-decoration: none;
     color: green;
 }
 
-.links .selected {
+.SideNav .links .selected {
     font-family: WhoAsksSatan;
     font-size: 2em;
     color: red;
