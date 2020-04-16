@@ -1,5 +1,5 @@
 import React from 'react';
-import './Home.css';
+import './Statishlag.css';
 
 import Bribes from './Bribes/Bribes';
 import Kidnappings from './Kidnappings/Kidnappings';
@@ -10,10 +10,10 @@ import Employments from './Employments/Employments';
 import Poverty from './Poverty/Poverty';
 import Suicides from './Suicides/Suicides';
 
-export default class Home extends React.Component {
+export default class Statishlag extends React.Component {
   render() {
     return (
-      <div className="Home">
+      <div className="Statishlag">
         <Bribes></Bribes>
         <CausesOfDeath></CausesOfDeath>
         <Crimes></Crimes>

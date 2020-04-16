@@ -1,14 +1,14 @@
 import React from 'react';
-import './SideNav.css';
 import { Link } from 'react-router-dom';
+import './SideNav.css';
 
 export default class SideNav extends React.Component {
   render() {
     return (
       <div className="SideNav">
-        <h2><Link to={"/"}>Dashboard</Link></h2>
-        <h2><Link to={"/Home"}>Death</Link></h2>
-        <h2><Link to={"/Home"}>Sadness</Link></h2>
+        <h2><Link to={"/"}>Hell's Door</Link></h2>
+        <h2><Link to={"/Statishlag"}>Statislhlag</Link></h2>
+        <h2><Link to={"/Contact"}>Contact</Link></h2>
       </div >
     )
   }

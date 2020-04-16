@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, BrowserRouter, Route } from 'react-router-dom';
 
 import HellsDoor from './HellsDoor/HellsDoor';
-import Home from './Home/Home';
+import Statishlag from './Statishlag/Statishlag';
 import SideNav from 'components/SideNav/SideNav';
 
 const NotFound = () => {
@@ -18,7 +18,7 @@ export default class App extends React.Component {
         <SideNav></SideNav>
         <Switch>
           <Route exact path={"/"} component={HellsDoor} />
-          <Route exact path={"/Home"} component={Home} />
+          <Route exact path={"/Statishlag"} component={Statishlag} />
           <Route component={NotFound} />
         </Switch>
       </BrowserRouter>
