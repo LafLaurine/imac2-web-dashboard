@@ -1,6 +1,46 @@
 .SideNav {
     height: 100%;
-    padding: 10px;
+    width: 200px;
     text-align: center;
     background-image: url('./img/bg.png');
+}
+
+.logo {
+    position: relative;
+    margin-top: 50px;
+}
+
+.logo img {
+    width: 100px;
+    height: auto;
+}
+
+.logo h1 {
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: blue;
+}
+
+.links {
+    margin: 150px 10px;
+}
+
+.links h2 {
+    margin: 80px 0px;
+}
+
+.links a {
+    text-decoration: none;
+    color: green;
+}
+
+.links .selected {
+    font-family: WhoAsksSatan;
+    font-size: 2em;
+    color: red;
+    letter-spacing: 0.3em;
+    overflow-wrap: break-word;
 }

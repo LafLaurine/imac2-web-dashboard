@@ -1,14 +1,22 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './SideNav.css';
+
+import Skull from './img/skull.png';
 
 export default class SideNav extends React.Component {
   render() {
     return (
       <div className="SideNav">
-        <h2><Link to={"/"}>Hell's Door</Link></h2>
-        <h2><Link to={"/Statishlag"}>Statislhlag</Link></h2>
-        <h2><Link to={"/Contact"}>Contact</Link></h2>
+        <div className="logo">
+          <h1>Chaos<br/>Dashboard</h1>
+          <img src={Skull} alt="chaosDashboard wordart"/>
+        </div>
+        <div className="links">
+          <h2><NavLink to={"/HellsDoor"} activeClassName="selected">Hell's Door</NavLink></h2>
+          <h2><NavLink to={"/Statishlag"} activeClassName="selected">Statislhlag</NavLink></h2>
+          <h2><NavLink to={"/Contact"} activeClassName="selected">Contact</NavLink></h2>
+        </div>
       </div >
     )
   }
