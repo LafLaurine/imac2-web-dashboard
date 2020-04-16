@@ -1,15 +1,28 @@
 import React from 'react';
 import './App.css';
-import SideNav from 'components/SideNav/SideNav'
-import Home from 'components/Home/Home';
+
+import { Switch, BrowserRouter, Route } from 'react-router-dom';
+import LandingPage from './LandingPage/LandingPage';
+import Home from './Home/Home';
+
+
+const NotFound = () => {
+  return (
+    <div>404 not found</div>
+  );
+};
+
 
 export default class App extends React.Component {
   render() {
     return (
-      <div className="App">
-        <SideNav></SideNav>
-        <Home></Home>
-      </div>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path={"/"} component={LandingPage} />
+          <Route exact path={"/Home"} component={Home} />
+          <Route component={NotFound} />
+        </Switch>
+      </BrowserRouter >
     )
   }
 }

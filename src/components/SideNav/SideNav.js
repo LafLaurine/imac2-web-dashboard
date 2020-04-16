@@ -1,19 +1,22 @@
 import React from 'react';
 import './SideNav.css';
+import { Link } from 'react-router-dom';
 
-export default class Home extends React.Component {
+
+export default class SideNav extends React.Component {
+
   render() {
     return (
       <div className="SideNav">
         <div className="sidebar">
           <div className="sidebar-wrapper">
             <ul className="nav">
-              <li className="element"><p>Dashboard</p></li>
-              <li className="element"><p>Death</p></li>
-              <li className="element"><p>Sadness</p></li>
+              <li className="element"> <Link to={"/"}>Dashboard</Link></li>
+              <li className="element"><Link to={"/Home"}>Death</Link></li>
+              <li className="element"> <Link to={"/Home"}>Sadness</Link></li>
             </ul>
           </div>
-        </div>
+        </div >
       </div >
     )
   }
