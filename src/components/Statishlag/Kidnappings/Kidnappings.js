@@ -1,8 +1,7 @@
 import React from 'react';
+import { Engine, Render, Runner, Composites, Bodies, World, Mouse, MouseConstraint, Bounds } from "matter-js";
 import './Kidnappings.css';
 
-import GameButton from './GameButton';
-import GameBackground from './GameBackground';
 import Environment from 'environment';
 
 const Step = {
@@ -31,11 +30,13 @@ export default class Kidnappings extends React.Component {
       data: [],
       userValue: 0,
       showFeedBack: false,
-      gameStep: GameStep.LOWER
+      gameStep: GameStep.LOWER,
+      nbInsideCollider: 0
     };
 
     this.updateGameStateBy = this.updateGameStateBy.bind(this);
     this.renderFeedBack = this.renderFeedBack.bind(this);
+    this.myRef = React.createRef();
   }
 
   /**
@@ -53,6 +54,7 @@ export default class Kidnappings extends React.Component {
             'kidnappings': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] }))
           }));
         this.setState({ frequency: json.series.docs[0]['@frequency'], step: Step.LOADED, data: data });
+        this.createMatterWorld();
       })
       .catch(err => {
         this.setState({ hasError: true, step: Step.ERROR });
@@ -82,6 +84,61 @@ export default class Kidnappings extends React.Component {
     }, 3000);
   }
 
+  createMatterWorld() {
+    // Setup
+    const engine = Engine.create();
+    const world = engine.world;
+    const render = Render.create({
+      element: this.myRef.current,
+      engine: engine,
+      options: {
+        width: 800,
+        height: 600,
+        showDebug: true,
+        showAngleIndicator: true,
+        showCollisions: true,
+        showVelocity: true,
+        showBounds: true,
+        showIds: true,
+        showPositions: true
+      }
+    });
+    Render.run(render);
+    const runner = Runner.create();
+    Runner.run(runner, engine);
+
+    // World
+    const squares = Composites.stack(600, 255, 1, 6, 0, 0, (x, y) => {
+      return Bodies.rectangle(x, y, 40, 40);
+    });
+    World.add(world, [
+      squares,
+      Bodies.rectangle(400, 600, 800, 50.5, { isStatic: true }), // Ground
+      Bodies.rectangle(400, 420, 20, 300, { isStatic: true }),  // Wall center
+      Bodies.rectangle(10, 300, 20, 600, { isStatic: true }) // Wall left
+    ]);
+
+    // Mouse
+    const mouse = Mouse.create(render.canvas);
+    const mouseConstraint = MouseConstraint.create(engine, { mouse: mouse });
+    World.add(world, mouseConstraint);
+    render.mouse = mouse;
+
+    // Victory conditions
+    const leftCollider = Bounds.create([{ x: 0, y: 200 }, { x: 420, y: 600 }]);
+    setInterval(() => {
+      let count = 0
+      squares.bodies.forEach(body => {
+        if (Bounds.contains(leftCollider, body.position))
+          count++;
+      });
+      if (count !== this.state.nbInsideCollider)
+        this.setState({ nbInsideCollider: count });
+    }, 500);
+
+    Engine.run(engine);
+  }
+
   /**
    * @brief Show how the user is getting the game
    */
@@ -104,15 +161,9 @@ export default class Kidnappings extends React.Component {
     case Step.LOADED: return (
       <div className="Kidnappings">
         <p>How many kidnappings in { this.state.data[0].country } during { this.state.data[0].kidnappings[0].date } ? </p>
-
-        <GameButton onClick={e => this.updateGameStateBy(+10)} name="+10"></GameButton>
-        <GameButton onClick={e => this.updateGameStateBy(+1)} name="+1"></GameButton>
-        <GameButton onClick={e => this.updateGameStateBy(-1)} name="-1"></GameButton>
-        <GameButton onClick={e => this.updateGameStateBy(-10)} name="-10"></GameButton>
         <p>{ this.state.userValue }</p>
-
         { this.state.showFeedBack && this.renderFeedBack() }
-        <GameBackground value={ this.state.userValue }></GameBackground>
+        <div ref={this.myRef} className="game"/>
       </div>
     )
 
