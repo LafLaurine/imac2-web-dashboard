@@ -1,9 +1,14 @@
 .Kidnappings {
-    width: 400px;
-    height: 400px;
-    background-color: yellow;
+    width: 500px;
+    background-image: url('./img/rainbow.jpg');
+    background-size: cover;
+    text-align: center;
 }
 
 .Kidnappings .game canvas {
     width: 100%;
+}
+
+.Kidnappings .ui {
+    min-height: 100px;
 }

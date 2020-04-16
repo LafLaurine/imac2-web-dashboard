@@ -25,18 +25,16 @@ export default class Kidnappings extends React.Component {
     super(props);
 
     this.state = {
-      frequency: '',
       step: Step.LOADING,
       data: [],
       userValue: 0,
       showFeedBack: false,
-      gameStep: GameStep.LOWER,
-      nbInsideCollider: 0
+      gameStep: GameStep.LOWER
     };
 
-    this.updateGameStateBy = this.updateGameStateBy.bind(this);
+    this.updateGameStateTo = this.updateGameStateTo.bind(this);
     this.renderFeedBack = this.renderFeedBack.bind(this);
-    this.myRef = React.createRef();
+    this.canvasRef = React.createRef();
   }
 
   /**
@@ -62,34 +60,12 @@ export default class Kidnappings extends React.Component {
       });
   }
 
-  /**
-   * @brief Change game state to match user input
-   * @param number
-   */
-  updateGameStateBy(number) {
-    const newUserValue = this.state.userValue + number;
-    if (newUserValue < 0)
-      return;
-
-    if (newUserValue > this.state.data[0].kidnappings[0].value)
-      this.setState({ showFeedBack: true, userValue: newUserValue, gameStep: GameStep.LOWER });
-    else if (newUserValue === Number(this.state.data[0].kidnappings[0].value))
-      this.setState({ showFeedBack: true, userValue: newUserValue, gameStep: GameStep.WIN });
-    else 
-      this.setState({ showFeedBack: true, userValue: newUserValue, gameStep: GameStep.GREATER });
-
-    // FIXME must be relaunched and not queueud
-    setTimeout(() => {
-      this.setState({ showFeedBack: false });
-    }, 3000);
-  }
-
   createMatterWorld() {
     // Setup
     const engine = Engine.create();
     const world = engine.world;
     const render = Render.create({
-      element: this.myRef.current,
+      element: this.canvasRef.current,
       engine: engine,
       options: {
         width: 800,
@@ -132,11 +108,29 @@ export default class Kidnappings extends React.Component {
         if (Bounds.contains(leftCollider, body.position))
           count++;
       });
-      if (count !== this.state.nbInsideCollider)
-        this.setState({ nbInsideCollider: count });
+      if (count !== this.state.userValue)
+        this.updateGameStateTo(count);
     }, 500);
 
     Engine.run(engine);
+  }
+
+  /**
+   * @brief Change game state to match user input
+   * @param number
+   */
+  updateGameStateTo(number) {
+    if (number > this.state.data[0].kidnappings[0].value)
+      this.setState({ showFeedBack: true, userValue: number, gameStep: GameStep.LOWER });
+    else if (number === Number(this.state.data[0].kidnappings[0].value))
+      this.setState({ showFeedBack: true, userValue: number, gameStep: GameStep.WIN });
+    else 
+      this.setState({ showFeedBack: true, userValue: number, gameStep: GameStep.GREATER });
+
+    // FIXME must be relaunched and not queueud
+    setTimeout(() => {
+      this.setState({ showFeedBack: false });
+    }, 3000);
   }
 
   /**
@@ -144,9 +138,9 @@ export default class Kidnappings extends React.Component {
    */
   renderFeedBack() {
     switch(this.state.gameStep) {
-    case GameStep.GREATER: return <p>Greater</p>
+    case GameStep.GREATER: return <p>It's More !</p>
     case GameStep.WIN: return <p>You got it !</p>
-    default: return <p>Lower</p>
+    default: return <p>It's less !</p>
     }
   }
 
@@ -160,10 +154,12 @@ export default class Kidnappings extends React.Component {
 
     case Step.LOADED: return (
       <div className="Kidnappings">
-        <p>How many kidnappings in { this.state.data[0].country } during { this.state.data[0].kidnappings[0].date } ? </p>
-        <p>{ this.state.userValue }</p>
-        { this.state.showFeedBack && this.renderFeedBack() }
-        <div ref={this.myRef} className="game"/>
+        <div className="ui">
+          <p>Number of Kidnappings in {this.state.data[0].country}</p>
+          <p>You set : { this.state.userValue }</p>
+          { this.state.showFeedBack && this.renderFeedBack() }
+        </div>
+        <div ref={this.canvasRef} className="game"/>
       </div>
     )
 
