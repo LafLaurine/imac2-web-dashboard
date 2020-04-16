@@ -3,7 +3,10 @@
     height: 250px;
     color: white;
     background-color: black;
-    z-index: 1000;
+}
+
+.Suicides  canvas {
+    width: 100%;
 }
 
 #animationCanva:active { 

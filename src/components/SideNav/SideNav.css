@@ -15,6 +15,11 @@
     height: auto;
 }
 
+.SideNav .skeleton img {
+    width: 200px;
+    height: auto;
+}
+
 .SideNav .logo h1 {
     margin: 0;
     position: absolute;
