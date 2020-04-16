@@ -1,17 +1,15 @@
 import React from 'react';
-import './App.css';
-
 import { Switch, BrowserRouter, Route } from 'react-router-dom';
-import LandingPage from './LandingPage/LandingPage';
+
+import HellsDoor from './HellsDoor/HellsDoor';
 import Home from './Home/Home';
 import SideNav from 'components/SideNav/SideNav';
 
 const NotFound = () => {
   return (
     <div>404 not found</div>
-  );
+  )
 };
-
 
 export default class App extends React.Component {
   render() {
@@ -19,7 +17,7 @@ export default class App extends React.Component {
       <BrowserRouter>
         <SideNav></SideNav>
         <Switch>
-          <Route exact path={"/"} component={LandingPage} />
+          <Route exact path={"/"} component={HellsDoor} />
           <Route exact path={"/Home"} component={Home} />
           <Route component={NotFound} />
         </Switch>
