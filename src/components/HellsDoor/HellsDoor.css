@@ -1,0 +1,28 @@
+.HellsDoor {
+    height: 100%;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    background-image: url('./img/gate.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.HellsDoor .wordart img {
+    width: 100%;
+    max-width: 800px;
+}
+
+.HellsDoor .gifs {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 840px;
+    justify-content: space-around;
+}
+
+.HellsDoor .gifs img {
+    width: 400px;
+    height: auto;
+    margin: 10px 0;
+}
+
