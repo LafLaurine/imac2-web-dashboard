@@ -23,14 +23,10 @@ export default class Crimes extends React.Component {
     }
     this.updateCountry = this.updateCountry.bind(this)
   }
-
+  
 updateCountry() {
-   if(indexCountry < this.state.data.length - 1 ){
-   		indexCountry++;
-   }else{
-   		indexCountry = 0;
-   }
-   this.retrieveData();
+	indexCountry = (Math.floor(Math.random()*this.state.data.length));
+  	this.retrieveData();
 }
 
 retrieveData() {
@@ -55,8 +51,7 @@ componentDidMount() {
 	this.retrieveData();
 }
 
-render() {    
-	console.log(this.state.data);
+render() {   
     return (
       <div className="Crimes">
         {(() => {
