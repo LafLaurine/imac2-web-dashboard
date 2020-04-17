@@ -23,7 +23,7 @@ export default class Crimes extends React.Component {
     }
     this.updateCountry = this.updateCountry.bind(this)
   }
-  
+
 updateCountry() {
 	indexCountry = (Math.floor(Math.random()*this.state.data.length));
   	this.retrieveData();
@@ -59,11 +59,12 @@ render() {
           case step.LOADING: return <p>Loading</p>
           case step.LOADED: return (
             <div>
-            <p>BACK IN THE GOOD OLD 2000's</p>
-            <p>{this.state.data[indexCountry].country}</p>
-            <p>{this.state.data[indexCountry].homicides[7].value} homicides</p>
-            <p></p>
-            <NextButton onClick={e => this.updateCountry()} name="Another country"></NextButton>
+	            <h2>2000's CRIMES</h2>
+	            <div id = "contentBlood">
+	            	<h3>{this.state.data[indexCountry].country}</h3>
+	            	<p>{this.state.data[indexCountry].homicides[7].value} homicides</p>
+	            </div>
+	            <NextButton onClick={e => this.updateCountry()} name="Another country"></NextButton>
             </div>
           )
           default: return <p>Error loading crimes</p>
