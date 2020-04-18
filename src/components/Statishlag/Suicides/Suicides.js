@@ -72,9 +72,6 @@ export default class Suicides extends React.Component {
     this.retrieveData();
   }
 
-  renderAnimation() {
-    return <SuicideAnimation length={Math.ceil(this.state.value)}></SuicideAnimation>
-  }
   /**
    * @brief Get data for the component
    */
@@ -109,27 +106,34 @@ export default class Suicides extends React.Component {
   }
 
   render() {
-    return (
-      <div className="Suicides">
-        {(() => {
-          switch (this.state.step) {
-            case step.LOADING: return <p>Loading</p>
-            case step.LOADED: return (
-              <div>
-                <p>How many suicides in {this.state.data[indexCountry].country} during {this.state.data[indexCountry].suicide[4].date} ?</p>
-                <p>Value : {this.state.data[indexCountry].suicide[4].value} %</p>
-                <p>Sex : {this.state.sex} </p>
-                <p><button onClick={this.changeSex} id="chgSexButton">Change sex</button></p>
-                <p>Age : {this.state.age} </p>
-                <p><button onClick={this.changeAge} id="chgAgeButton">Change age</button></p>
-                <SuicidesButton onClick={e => this.updateCountry()} name="Another country"></SuicidesButton>
-                {this.renderAnimation()}
-              </div>
-            )
-            default: return <p>Error loading suicide</p>
-          }
-        })()}
-      </div >
-    )
+    switch (this.state.step) {
+      case step.LOADING: return (
+        <div className="Suicides">
+          <p>Loading</p>
+        </div>
+      )
+  
+      case step.LOADED: return (
+        <div className="Suicides">
+          <div className="display">
+            <p className="title">How many suicides in {this.state.data[indexCountry].country} during {this.state.data[indexCountry].suicide[4].date} ?</p>
+            <p>Value : {this.state.data[indexCountry].suicide[4].value} %</p>
+            <p>Sex : {this.state.sex}</p>
+            <button onClick={this.changeSex} id="chgSexButton">Change sex</button>
+            <p>Age : {this.state.age}</p>
+            <button onClick={this.changeAge} id="chgAgeButton">Change age</button>
+            <SuicidesButton onClick={e => this.updateCountry()} name="Another country"></SuicidesButton>
+          </div>
+          
+          <SuicideAnimation length={Math.ceil(this.state.value)}></SuicideAnimation>
+        </div>
+      )
+
+      default: return (
+        <div className="Suicides">
+          <p>Error loading suicide</p>
+        </div>
+      )
+    }
   }
 }

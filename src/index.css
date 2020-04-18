@@ -30,3 +30,7 @@ html, body {
 }
 
 
+@font-face {
+  font-family: VampiroOne;
+  src: url('/fonts/vampiro-one.ttf') format('truetype');
+}

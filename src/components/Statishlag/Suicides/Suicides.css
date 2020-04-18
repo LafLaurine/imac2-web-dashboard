@@ -1,12 +1,36 @@
 .Suicides {
-    width: 250px;
-    height: 250px;
+    width: 550px;
     color: white;
     background-color: black;
+    display: grid;
+    grid-auto-flow: column;
+    text-align: center;
 }
 
-.Suicides  canvas {
+.Suicides canvas {
     width: 100%;
+}
+
+.Suicides .display {
+    background: linear-gradient(180deg, #BF5252 0%, #2104CF 100%);
+    padding: 10px;
+    font-family: HiMelody;
+    font-size: 2em;
+}
+
+.Suicides .title {
+    font-family: VampiroOne;
+}
+
+.Suicides button {
+    background-color: #00A3FF;
+    color: white;
+    width: 250px;
+    height: 50px;
+    font-family: Chango;
+    font-size: 0.6em;
+    margin: 5px 0;
+    border: none;
 }
 
 #animationCanva:active { 
