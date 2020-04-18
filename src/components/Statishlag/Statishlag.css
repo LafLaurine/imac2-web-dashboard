@@ -9,4 +9,13 @@
 
 .Statishlag > div {
     margin: 25px;
+    width: 45%;
+    max-width: 800px;
+}
+
+@media screen and (max-width: 1250px) {
+    .Statishlag > div {
+        margin: 10px;
+        width: 90%;
+    }
 }
