@@ -6,14 +6,13 @@ const data = {
     labels: [],
     datasets: [
         {
-            label: 'Percentage',
+            label: 'Percentage of poverty',
             fill: false,
             lineTension: 0.1,
-            backgroundColor: 'rgba(75,192,192,0.4)',
-            borderColor: 'rgba(75,192,192,1)',
+            borderColor: 'white',
             borderCapStyle: 'butt',
             borderDash: [],
-            borderDashOffset: 0.0,
+            borderDashOffset: 0.5,
             borderJoinStyle: 'miter',
             pointBorderColor: 'rgba(75,192,192,1)',
             pointBackgroundColor: '#fff',
@@ -24,9 +23,18 @@ const data = {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: []
+            data: [],
         }
-    ]
+    ],
+    options: {
+        responsive: true,
+        scales: {
+            gridLines: {
+                color: 'rgba(1, 0, 0, 0.1)'
+            }
+        }
+    }
+
 };
 
 
@@ -56,7 +64,7 @@ export default class PovertyChart extends React.Component {
 
     render() {
         return (
-            <div className="PovertyChart">
+            <div className="PovertyChart" >
                 <div>
                     {this.generatePovertyValue()}
                     {this.generateLabels()}

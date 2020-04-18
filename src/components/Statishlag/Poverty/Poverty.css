@@ -1,4 +1,21 @@
 .Poverty {
-    background-color: cadetblue;
+    font-family: VampiroOne;
+    background-image: url('./img/bgPoverty.jpg');
     color: white;
+    height: 100%;
+}
+
+.Poverty .element {
+    text-align: center;
+}
+
+.Poverty button {
+    background-color: #00A3FF;
+    color: white;
+    width: 250px;
+    height: 50px;
+    font-family: Chango;
+    font-size: 0.6em;
+    margin: 5px 0;
+    border: none;
 }

@@ -76,9 +76,11 @@ export default class Poverty extends React.Component {
           switch (this.state.step) {
             case step.LOADING: return <p>Loading</p>
             case step.LOADED: return (
-              <div>
-                <p>Poverty in {this.state.data[indexCountry].country} ?</p>
-                <PovertyButton onClick={e => this.updateCountry()} name="Another country"></PovertyButton>
+              <div className="container">
+                <div className="element">
+                  <p>Poverty in {this.state.data[indexCountry].country} ?</p>
+                  <PovertyButton onClick={e => this.updateCountry()} name="Another country"></PovertyButton>
+                </div>
                 {this.renderGraph()}
               </div>
             )
