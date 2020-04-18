@@ -52,11 +52,7 @@ export default class Poverty extends React.Component {
    * @brief Change country when user click on button and get the associated data
    */
   updateCountry() {
-    if (indexCountry < this.state.data.length - 1) {
-      indexCountry += Math.floor(Math.random() * 1) + 1
-    } else {
-      indexCountry = 0;
-    }
+    indexCountry = (Math.floor(Math.random() * this.state.data.length))
     this.retrieveData();
   }
 
