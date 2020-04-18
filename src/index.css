@@ -13,3 +13,20 @@ html, body {
   font-family: WhoAsksSatan;
   src: url('/fonts/who-asks-satan.ttf') format('truetype');
 }
+
+@font-face {
+  font-family: Chango;
+  src: url('/fonts/chango.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: HiMelody;
+  src: url('/fonts/hi-melody.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: Neucha;
+  src: url('/fonts/neucha.ttf') format('truetype');
+}
+
+

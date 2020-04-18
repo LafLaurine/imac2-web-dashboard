@@ -152,9 +152,9 @@ export default class Kidnappings extends React.Component {
    */
   renderFeedBack() {
     switch(this.state.gameStep) {
-    case GameStep.GREATER: return <p>It's More !</p>
-    case GameStep.WIN: return <p>You got it !</p>
-    default: return <p>It's less !</p>
+    case GameStep.GREATER: return <p className="feedback">It's More !</p>
+    case GameStep.WIN: return <p className="feedback">You got it !</p>
+    default: return <p className="feedback">It's less !</p>
     }
   }
 
@@ -169,8 +169,8 @@ export default class Kidnappings extends React.Component {
     case Step.LOADED: return (
       <div className="Kidnappings">
         <div className="ui">
-          <p>Number of Kidnappings in {this.state.data[0].country}</p>
-          <p>You set : { this.state.userValue }</p>
+          <p className="country">Number of Kidnappings in {this.state.data[0].country}</p>
+          <p className="user-number">You set : <span className="value">{ this.state.userValue }</span></p>
           { this.state.showFeedBack && this.renderFeedBack() }
         </div>
         <div ref={this.canvasRef} className="game"/>
