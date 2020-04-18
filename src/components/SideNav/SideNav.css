@@ -3,6 +3,9 @@
     width: 200px;
     text-align: center;
     background-image: url('./img/bg.png');
+    display: grid;
+    align-content: space-between;
+    justify-items: center;
 }
 
 .SideNav .logo {
@@ -30,7 +33,7 @@
 }
 
 .SideNav .links {
-    margin: 150px 10px;
+    width: 150px;
 }
 
 .SideNav .links h2 {
