@@ -1,4 +1,7 @@
 .Statishlag {
     display: flex;
     flex-wrap: wrap;
+    padding: 50px;
+    background-image: url('./img/flames.jpg');
+    background-size: cover;
 }

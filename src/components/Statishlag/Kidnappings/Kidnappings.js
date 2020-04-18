@@ -3,6 +3,7 @@ import { Engine, Render, Runner, Composites, Bodies, World, Mouse, MouseConstrai
 import './Kidnappings.css';
 
 import Environment from 'environment';
+import Background from './img/bg.jpg';
 import Tony from './img/tony-kornheiser.png';
 
 const Step = {
@@ -72,7 +73,7 @@ export default class Kidnappings extends React.Component {
         width: 800,
         height: 600,
         wireframes: false,
-        background: `url(${Tony})`
+        background: `no-repeat bottom url(${Background})`
       }
     });
     Render.run(render);
@@ -92,9 +93,11 @@ export default class Kidnappings extends React.Component {
     });
     World.add(world, [
       squares,
-      Bodies.rectangle(400, 600, 800, 50.5, { isStatic: true }), // Ground
-      Bodies.rectangle(400, 420, 20, 300, { isStatic: true }),  // Wall center
-      Bodies.rectangle(10, 300, 20, 600, { isStatic: true }) // Wall left
+      // walls
+      Bodies.rectangle(400, 600, 800, 50, { isStatic: true }),
+      Bodies.rectangle(800, 300, 50, 600, { isStatic: true }),
+      Bodies.rectangle(0, 300, 50, 600, { isStatic: true }),
+      Bodies.rectangle(400, 450, 50, 300, { isStatic: true })
     ]);
 
     // Mouse
