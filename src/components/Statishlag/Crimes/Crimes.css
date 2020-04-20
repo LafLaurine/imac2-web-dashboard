@@ -1,5 +1,4 @@
 .Crimes {
-	position : relative;
     width: 250px;
     height: 250px;
     background-color: purple;
@@ -17,7 +16,22 @@
 	font-size : 2.5em;
 }
 
+
+.Crimes #container{
+	display : flex;
+	justify-content: space-between;
+}
+
 .Crimes #contentBlood{
+	width : 45%;
 	text-align : center;
+}
+
+.Crimes #selectCountry{
+	width : 45%;
+}
+
+.Crimes #selectCountry:nth-child(n+2){
+	color : red;
 }
 
