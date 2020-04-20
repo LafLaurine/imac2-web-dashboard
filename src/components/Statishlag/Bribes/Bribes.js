@@ -23,15 +23,13 @@ export default class Bribes extends React.Component {
       { method: 'GET' })
       .then(res => { return res.json() })
       .then(json => {
-        /*
         const data = json.series.docs
           .map(country => ({
-            'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo],
+            'country': json.dataset.dimensions_values_labels.country[country.dimensions.country],
             'bribes': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] }))
           }));
 
         this.setState({ frequency: json.series.docs[0]['@frequency'], step: Step.LOADED, data: data });
-        */
       })
       .catch(err => {
         this.setState({ step: Step.ERROR })
