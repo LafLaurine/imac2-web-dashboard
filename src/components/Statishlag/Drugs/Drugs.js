@@ -2,6 +2,7 @@ import React from 'react';
 import './Drugs.css';
 
 import Environment from 'environment';
+import Syringue from './img/seringue3.png';
 
 const step = {
   LOADING: 'loading',
@@ -55,10 +56,15 @@ export default class Drugs extends React.Component {
           case step.LOADED: return (
             <div>
               <p>How many death because of drugs in { this.state.data[0].drugs[0].date } ?</p> 
-              <p>{ this.state.data[0].country } : { this.state.data[0].drugs[0].value } </p>
-              <p>{ this.state.data[12].country } : { this.state.data[12].drugs[0].value } </p>
-              <p>{ this.state.data[23].country } : { this.state.data[23].drugs[0].value } </p>
-              <p>{ this.state.data[20].country } : { this.state.data[20].drugs[0].value } </p>
+              <div>
+                <p className="Pays">{ this.state.data[0].country } : { this.state.data[0].drugs[0].value } </p>
+                <p className="Pays">{ this.state.data[12].country } : { this.state.data[12].drugs[0].value } </p>
+                <p className="Pays">{ this.state.data[23].country } : { this.state.data[23].drugs[0].value } </p>
+                <p className="Pays">{ this.state.data[20].country } : { this.state.data[20].drugs[0].value } </p>
+              </div>
+              <div>
+                <img src={Syringue} alt="Seringue" />
+              </div>
             </div>
           )
           default: return <p>Error loading drugs</p>
