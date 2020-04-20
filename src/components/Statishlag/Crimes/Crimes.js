@@ -47,7 +47,6 @@ updateCountry() {
 
 updateCrimesSection(myIndex){
 	selectedIndex = myIndex;
-	console.log(myIndex);
 	this.retrieveData();
 }
 
