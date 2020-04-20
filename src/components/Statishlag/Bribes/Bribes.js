@@ -25,9 +25,12 @@ export default class Bribes extends React.Component {
       .then(json => {
         const data = json.series.docs
           .map(country => ({
-            'country': json.dataset.dimensions_values_labels.country[country.dimensions.country],
-            'bribes': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] }))
-          }));
+              'country': json.dataset.dimensions_values_labels.country[country.dimensions.country],
+              'bribes': country.period
+                .map((date, index) => ({ 'date': date, 'value': country.value[index] }))
+                .filter(bribe => bribe.value !== 'NA')
+            })
+          );
 
         this.setState({ frequency: json.series.docs[0]['@frequency'], step: Step.LOADED, data: data });
       })
