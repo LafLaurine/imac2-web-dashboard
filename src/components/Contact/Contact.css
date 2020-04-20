@@ -4,38 +4,46 @@
     background-image: url('./img/postman.jpg');
     background-size: cover;
     background-position: center;
-    overflow-y: hidden;
+    justify-items: center;
+    align-items: center;
 }
 
+.Contact .gifs {
+    display: flex;
+    flex-wrap: wrap;
+}
 .Contact .gifs img {
     width: 400px;
     height: auto;
+    margin: -30px 0;
 }
 
 .Contact #skeletonOnFire {
-    transform: translate(0%, 150%);
+    transform: translate(0%, 110%);
 }
 
 .Contact #skeletonClean {
-    transform : rotate(-180deg) translate(80%, 0%);
+    transform : rotate(-180deg) translate(80%, 30%);
 }
 
 .Contact #skeletonSax {
-    transform: translate(80%, 150%);
+    transform: translate(80%, 110%);
 }
 
 .Contact #skeletonSpoon {
-    transform : rotate(-180deg) translate(80%, 0%);
+    transform : rotate(-180deg) translate(80%, 40%);
 }
 
 .Contact #skeletonCoffee {
-    transform : translate(150%, 50%);
+    transform : translate(150%, 25%);
 }
 
 .Contact .contactInfo {
     height:auto;
     width: 50%;
-    transform : translate(50%,-120%);
+    position: absolute;
+    top: 50%;
+    transform: translate(0%, -60%);
     background-color: rgba(252, 50, 27, 0.562);
 }
 
