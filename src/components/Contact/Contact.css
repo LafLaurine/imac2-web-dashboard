@@ -1,53 +1,33 @@
 .Contact {
-    height: 100%;
     display: grid;
+    grid-template-columns: repeat(3, 1fr);
     background-image: url('./img/postman.jpg');
     background-size: cover;
     background-position: center;
-    justify-items: center;
-    align-items: center;
+    position: relative;
 }
 
-.Contact .gifs {
-    display: flex;
-    flex-wrap: wrap;
-}
-.Contact .gifs img {
-    width: 400px;
-    height: auto;
-    margin: -30px 0;
+.Contact > img {
+    width: 100%;
+    max-width: 400px;
 }
 
-.Contact #skeletonOnFire {
-    transform: translate(0%, 110%);
+.Contact > img:nth-child(-n+3) {
+    justify-self: center;
+    transform : rotate(-180deg);
 }
 
-.Contact #skeletonClean {
-    transform : rotate(-180deg) translate(80%, 30%);
+.Contact > img:nth-child(n+4) {
+    justify-self: end;
+    align-self: end;
 }
 
-.Contact #skeletonSax {
-    transform: translate(80%, 110%);
-}
-
-.Contact #skeletonSpoon {
-    transform : rotate(-180deg) translate(80%, 40%);
-}
-
-.Contact #skeletonCoffee {
-    transform : translate(150%, 25%);
-}
-
-.Contact .contactInfo {
-    height:auto;
-    width: 50%;
+.Contact #call-hell {
     position: absolute;
     top: 50%;
-    transform: translate(0%, -60%);
+    left: 50%;
+    padding: 15px;
     background-color: rgba(252, 50, 27, 0.562);
-}
-
-#callHell {
     text-align: center;
-    font-size: 150px;
+    transform: translate(-50%, 0%);
 }
