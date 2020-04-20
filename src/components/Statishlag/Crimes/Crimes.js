@@ -3,6 +3,7 @@ import './Crimes.css';
 
 import NextButton from './NextButton';
 import Environment from 'environment';
+import Step from 'shared/Step';
 
 let indexCountry = 0 ;
 let indexCountry2 = 1 ;
@@ -10,18 +11,12 @@ let indexCountry3 = 2 ;
 let indexCountry4 = 3 ;
 let selectedIndex = indexCountry;
 
-const step = {
-  LOADING: 'loading',
-  ERROR: 'error',
-  LOADED: 'loaded'
-};
-
 export default class Crimes extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       frequency: '',
-      step: step.LOADING,
+      step: Step.LOADING,
       data: []
     }
     this.updateCountry = this.updateCountry.bind(this);
@@ -61,10 +56,10 @@ retrieveData() {
           'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo],
           'homicides': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] }))
         }))
-        this.setState({ frequency: json.series.docs[0]['@frequency'], step: step.LOADED, data: data })
+        this.setState({ frequency: json.series.docs[0]['@frequency'], step: Step.LOADED, data: data })
       })
       .catch(err => {
-        this.setState({ hasError: true, step: step.ERROR })
+        this.setState({ hasError: true, step: Step.ERROR })
         console.error(`[Crimes] Cannot get  ${Environment.dbNomicsUrl} : ${err}`)
       });
 }
@@ -80,8 +75,8 @@ render() {
       <div className="Crimes">
         {(() => {
         switch(this.state.step) {
-          case step.LOADING: return <p>Loading</p>
-          case step.LOADED: return (
+          case Step.LOADING: return <p>Loading</p>
+          case Step.LOADED: return (
           	<div>
 	          	<h2>2000's CRIMES</h2>
 	            <div id = "container">

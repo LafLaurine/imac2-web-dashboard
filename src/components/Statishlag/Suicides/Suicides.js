@@ -1,14 +1,10 @@
 import React from 'react';
 import './Suicides.css';
 import Environment from 'environment';
+import Step from 'shared/Step';
+
 import SuicideAnimation from './SuicideAnimation'
 import SuicidesButton from './SuicidesButton';
-
-const step = {
-  LOADING: 'loading',
-  ERROR: 'error',
-  LOADED: 'loaded'
-}
 
 let indexCountry = 0;
 /**
@@ -21,7 +17,7 @@ export default class Suicides extends React.Component {
     super(props);
     this.state = {
       frequency: '',
-      step: step.LOADING,
+      step: Step.LOADING,
       sex: 'F',
       age: 'Y15-19',
       data: [],
@@ -85,11 +81,11 @@ export default class Suicides extends React.Component {
             'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo],
             'suicide': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] }))
           }))
-        this.setState({ frequency: json.series.docs[0]['@frequency'], step: step.LOADED, data: data, value: data[indexCountry].suicide[4].value })
+        this.setState({ frequency: json.series.docs[0]['@frequency'], step: Step.LOADED, data: data, value: data[indexCountry].suicide[4].value })
 
       })
       .catch(err => {
-        this.setState({ hasError: true, step: step.ERROR })
+        this.setState({ hasError: true, step: Step.ERROR })
         console.error(`[Suicides] Cannot get  ${Environment.dbNomicsUrl} : ${err}`)
       });
   }
@@ -103,13 +99,13 @@ export default class Suicides extends React.Component {
 
   render() {
     switch (this.state.step) {
-      case step.LOADING: return (
+      case Step.LOADING: return (
         <div className="Suicides">
           <p>Loading</p>
         </div>
       )
-  
-      case step.LOADED: return (
+
+      case Step.LOADED: return (
         <div className="Suicides">
           <div className="display">
             <p className="title">How many suicides in {this.state.data[indexCountry].country} during {this.state.data[indexCountry].suicide[4].date} ?</p>
@@ -120,7 +116,7 @@ export default class Suicides extends React.Component {
             <button onClick={this.changeAge} id="chgAgeButton">Change age</button>
             <SuicidesButton onClick={e => this.updateCountry()} name="Another country"></SuicidesButton>
           </div>
-          
+
           <SuicideAnimation length={Math.ceil(this.state.value)}></SuicideAnimation>
         </div>
       )

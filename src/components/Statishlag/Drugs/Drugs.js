@@ -2,13 +2,8 @@ import React from 'react';
 import './Drugs.css';
 
 import Environment from 'environment';
+import Step from 'shared/Step';
 import Syringue from './img/seringue3.png';
-
-const step = {
-  LOADING: 'loading',
-  ERROR: 'error',
-  LOADED: 'loaded'
-};
 
 /**
  * @brief Show number of death because of drug data (Eurostats source)
@@ -19,7 +14,7 @@ const step = {
 export default class Drugs extends React.Component {
   state = {
     frequency: '',
-    step: step.LOADING,
+    step: Step.LOADING,
     data: []
   };
 
@@ -38,10 +33,10 @@ export default class Drugs extends React.Component {
           'drugs': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] })),
           //'sex' : json.dataset.dimensions_values_labels.sex[country.dimensions.sex]
         }))
-        this.setState({ frequency: json.series.docs[0]['@frequency'], step: step.LOADED, data: data })
+        this.setState({ frequency: json.series.docs[0]['@frequency'], step: Step.LOADED, data: data })
       })
       .catch(err => {
-        this.setState({ hasError: true,  step: step.ERROR})
+        this.setState({ hasError: true,  step: Step.ERROR})
         console.error(`[Drugs] Cannot get  ${Environment.dbNomicsUrl} : ${err}`)
       });
   }
@@ -52,8 +47,8 @@ export default class Drugs extends React.Component {
       <div className="Drugs">
         {(() => {
         switch(this.state.step) {
-          case step.LOADING: return <p>Loading</p>
-          case step.LOADED: return (
+          case Step.LOADING: return <p>Loading</p>
+          case Step.LOADED: return (
             <div>
               <p>How many death because of drugs in { this.state.data[0].drugs[0].date } ?</p> 
               <div>

@@ -1,14 +1,10 @@
 import React from 'react';
 import Environment from 'environment';
-import PovertyChart from './PovertyChart'
-import './Poverty.css';
-import PovertyButton from './PovertyButton';
+import Step from 'shared/Step';
 
-const step = {
-  LOADING: 'loading',
-  ERROR: 'error',
-  LOADED: 'loaded'
-}
+import './Poverty.css';
+import PovertyChart from './PovertyChart'
+import PovertyButton from './PovertyButton';
 
 let indexCountry = 0;
 
@@ -23,7 +19,7 @@ export default class Poverty extends React.Component {
     super(props);
     this.state = {
       frequency: '',
-      step: step.LOADING,
+      step: Step.LOADING,
       data: [],
     }
     this.updateCountry = this.updateCountry.bind(this)
@@ -39,10 +35,10 @@ export default class Poverty extends React.Component {
             'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo],
             'poverty': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] }))
           }))
-        this.setState({ frequency: json.series.docs[0]['@frequency'], step: step.LOADED, data: data })
+        this.setState({ frequency: json.series.docs[0]['@frequency'], step: Step.LOADED, data: data })
       })
       .catch(err => {
-        this.setState({ hasError: true, step: step.ERROR })
+        this.setState({ hasError: true, step: Step.ERROR })
         console.error(`[Poverty] Cannot get  ${Environment.dbNomicsUrl} : ${err}`)
       });
   }
@@ -74,8 +70,8 @@ export default class Poverty extends React.Component {
       <div className="Poverty">
         {(() => {
           switch (this.state.step) {
-            case step.LOADING: return <p>Loading</p>
-            case step.LOADED: return (
+            case Step.LOADING: return <p>Loading</p>
+            case Step.LOADED: return (
               <div className="container">
                 <div className="element">
                   <p>Poverty in {this.state.data[indexCountry].country} ?</p>

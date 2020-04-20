@@ -2,17 +2,12 @@ import React from 'react';
 import './CausesOfDeath.css';
 
 import Environment from 'environment';
-
-const step = {
-  LOADING: 'loading',
-  ERROR: 'error',
-  LOADED: 'loaded'
-};
+import Step from 'shared/Step';
 
 export default class CausesOfDeath extends React.Component {
   state = {
     frequency: '',
-    step: step.LOADING,
+    step: Step.LOADING,
     data: []
   };
 componentDidMount() {
@@ -25,10 +20,10 @@ componentDidMount() {
           .map(cause => ({
             'cause': json.dataset.dimensions_values_labels.icd10[cause.dimensions.icd10],
           }))
-        this.setState({ frequency: json.series.docs[0]['@frequency'], step: step.LOADED, data: data })
+        this.setState({ frequency: json.series.docs[0]['@frequency'], step: Step.LOADED, data: data })
       })
       .catch(err => {
-        this.setState({ hasError: true, step: step.ERROR })
+        this.setState({ hasError: true, step: Step.ERROR })
         console.error(`[CausesOfDeath] Cannot get  ${Environment.dbNomicsUrl} : ${err}`)
       });
  }
@@ -40,8 +35,8 @@ componentDidMount() {
       <div className="CausesOfDeath">
         {(() => {
         switch(this.state.step) {
-          case step.LOADING: return <p>Loading</p>
-          case step.LOADED: return (
+          case Step.LOADING: return <p>Loading</p>
+          case Step.LOADED: return (
             <div>
             <p>TOP CAUSES OF DEATH</p>
              

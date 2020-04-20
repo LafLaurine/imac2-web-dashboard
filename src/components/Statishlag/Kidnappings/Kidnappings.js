@@ -1,16 +1,11 @@
 import React from 'react';
 import { Engine, Render, Runner, Composites, Bodies, World, Mouse, MouseConstraint, Bounds } from "matter-js";
+import Step from 'shared/Step';
 import './Kidnappings.css';
 
 import Environment from 'environment';
 import Background from './img/bg.jpg';
 import Tony from './img/tony-kornheiser.png';
-
-const Step = {
-  LOADING: 'loading',
-  ERROR: 'error',
-  LOADED: 'loaded'
-};
 
 const GameStep = {
   LOWER: 'lower',
