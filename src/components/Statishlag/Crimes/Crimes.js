@@ -48,6 +48,7 @@ updateCountry() {
 updateCrimesSection(myIndex){
 	selectedIndex = myIndex;
 	console.log(myIndex);
+	this.retrieveData();
 }
 
 
@@ -85,12 +86,11 @@ render() {
           	<div>
 	          	<h2>2000's CRIMES</h2>
 	            <div id = "container">
-		            
 		            <div id = "selectCountry">
-		            	<NextButton name = {this.state.data[indexCountry].country}></NextButton>
-		            	<NextButton name = {this.state.data[indexCountry2].country}></NextButton>
-		            	<NextButton name = {this.state.data[indexCountry3].country}></NextButton>
-		            	<NextButton name = {this.state.data[indexCountry4].country}></NextButton>
+		            	<NextButton onClick = {e => this.updateCrimesSection(indexCountry)} name = {this.state.data[indexCountry].country}></NextButton>
+		            	<NextButton onClick = {e => this.updateCrimesSection(indexCountry2)} name = {this.state.data[indexCountry2].country}></NextButton>
+		            	<NextButton onClick = {e => this.updateCrimesSection(indexCountry3)} name = {this.state.data[indexCountry3].country}></NextButton>
+		            	<NextButton onClick = {e => this.updateCrimesSection(indexCountry4)} name = {this.state.data[indexCountry4].country}></NextButton>
 		            	<NextButton onClick={e => this.updateCountry()} name="Change countries"></NextButton>
 		            </div>
 		            <div id = "contentBlood">
