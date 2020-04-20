@@ -86,6 +86,7 @@ render() {
 	          	<h2>2000's CRIMES</h2>
 	            <div id = "container">
 		            <div id = "selectCountry">
+		            	<h3> Select a country !</h3>
 		            	<NextButton onClick = {e => this.updateCrimesSection(indexCountry)} name = {this.state.data[indexCountry].country}></NextButton>
 		            	<NextButton onClick = {e => this.updateCrimesSection(indexCountry2)} name = {this.state.data[indexCountry2].country}></NextButton>
 		            	<NextButton onClick = {e => this.updateCrimesSection(indexCountry3)} name = {this.state.data[indexCountry3].country}></NextButton>
@@ -93,9 +94,10 @@ render() {
 		            	<NextButton onClick={e => this.updateCountry()} name="Change countries"></NextButton>
 		            </div>
 		            <div id = "contentBlood">
-		            	<h3>{this.state.data[selectedIndex].country}</h3>
-		            	<p>{this.state.data[selectedIndex].homicides[7].value} homicides</p>
-		            	
+		            	<div id = "bloody">
+		            		<h3>{this.state.data[selectedIndex].country}</h3>
+		            		<p>{this.state.data[selectedIndex].homicides[7].value} homicides</p>
+		            	</div>
 		            </div>
 		            
 	            </div>
