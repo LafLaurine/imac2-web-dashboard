@@ -1,6 +1,4 @@
 .Bribes {
-    width: 250px;
-    height: 250px;
-    background-color: blue;
-    color: white;
+    background-image: url('./img/bg.jpg');
+    background-size: cover;
 }
