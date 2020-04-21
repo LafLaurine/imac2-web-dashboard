@@ -18,3 +18,7 @@
     margin: 5px 0;
     border: none;
 }
+
+.Poverty .PovertyChart {
+    cursor: default;
+}

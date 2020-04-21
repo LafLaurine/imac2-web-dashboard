@@ -8,6 +8,7 @@
 .SuicideAnimation {
     background: 0% 0% / contain rgb(24, 24, 29);
     width: 300px;
+    cursor: default;
 }
 
 .Suicides canvas {
