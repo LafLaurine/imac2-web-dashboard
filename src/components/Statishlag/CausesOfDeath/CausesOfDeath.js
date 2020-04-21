@@ -10,17 +10,18 @@ export default class CausesOfDeath extends React.Component {
     this.state = {
       frequency: '',
       step: Step.LOADING,
+      geo: 'AT',
       data: []
     };
   }
 
   componentDidMount() {
-    fetch(Environment.dbNomicsUrl + '/v22/series/Eurostat/hlth_cd_yro?limit=1000&offset=0&q=&observations=1&align_periods=1&dimensions={}',
+    fetch(Environment.dbNomicsUrl + '/v22/series/Eurostat/hlth_cd_acdr2?limit=1000&offset=0&q=&observations=1&align_periods=1&dimensions={"icd10"%3A["ACC"]%2C"age"%3A["TOTAL"]%2C"sex"%3A["T"]}',
       { method: 'GET', signal: this.requestController.signal })
       .then(res => { return res.json() })
       .then(json => {
         const data = json.series.docs
-          
+          .filter(geo => geo.dimensions.geo === this.state.geo)
           .map(country => ({
             'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo],
             'deaths': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] })),
@@ -35,7 +36,7 @@ export default class CausesOfDeath extends React.Component {
 
 
   render() {
-    console.log(this.state.data);
+    //console.log(this.state.data);
   switch (this.state.step) {
     case Step.LOADING: return (
       <div className="CausesOfDeath">
