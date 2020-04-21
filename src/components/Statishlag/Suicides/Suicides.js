@@ -4,10 +4,7 @@ import Environment from 'environment';
 import Step from 'shared/Step';
 
 import SuicideAnimation from './SuicideAnimation'
-import SuicidesButton from './SuicidesButton';
-
-// TODO move inside class
-let indexCountry = 0;
+import CountryButton from '../CountryButton/CountryButton';
 
 /**
  * @brief Show suicides data (Eurostats source)
@@ -22,11 +19,14 @@ export default class Suicides extends React.Component {
       sex: 'F',
       age: 'Y15-19',
       data: [],
+      indexCountry: 0,
       value: 1
     }
     this.changeSex = this.changeSex.bind(this)
     this.changeAge = this.changeAge.bind(this)
+    this.retrieveData = this.retrieveData.bind(this)
     this.updateCountry = this.updateCountry.bind(this)
+
   }
 
   ////////////////////// React Hooks /////////////////////////
@@ -61,7 +61,7 @@ export default class Suicides extends React.Component {
             'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo],
             'suicide': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] }))
           }))
-        this.setState({ frequency: json.series.docs[0]['@frequency'], step: Step.LOADED, data: data, value: data[indexCountry].suicide[4].value })
+        this.setState({ frequency: json.series.docs[0]['@frequency'], step: Step.LOADED, data: data, value: data[this.state.indexCountry].suicide[4].value })
 
       })
       .catch(err => {
@@ -73,14 +73,22 @@ export default class Suicides extends React.Component {
   ////////////////////// Render ////////////////////
 
   /**
+  * @brief Change country when user click on button and get the associated data
+  */
+  updateCountry() {
+    this.setState({ indexCountry: (Math.floor(Math.random() * this.state.data.length)) });
+    this.retrieveData();
+  }
+
+  /**
    * @brief Change sex when user click on button and get the associated data
    */
   changeSex() {
     if (this.state.sex === 'F') {
-      this.setState({ sexo: { ...this.state.sex }, sex: 'M' });
+      this.setState({ sort: { ...this.state.sex }, sex: 'M' });
       this.retrieveData();
     } else {
-      this.setState({ sexo: { ...this.state.sex }, sex: 'F' });
+      this.setState({ sort: { ...this.state.sex }, sex: 'F' });
       this.retrieveData();
     }
   }
@@ -99,14 +107,6 @@ export default class Suicides extends React.Component {
     }
   }
 
-  /**
-   * @brief Change country when user click on button and get the associated data
-   */
-  updateCountry() {
-    indexCountry = (Math.floor(Math.random() * this.state.data.length));
-    this.retrieveData();
-  }
-
   render() {
     switch (this.state.step) {
       case Step.LOADING: return (
@@ -118,15 +118,14 @@ export default class Suicides extends React.Component {
       case Step.LOADED: return (
         <div className="Suicides">
           <div className="display">
-            <p className="title">How many suicides in {this.state.data[indexCountry].country} during {this.state.data[indexCountry].suicide[4].date} ?</p>
-            <p>Value : {this.state.data[indexCountry].suicide[4].value} %</p>
+            <p className="title">How many suicides in {this.state.data[this.state.indexCountry].country} during {this.state.data[this.state.indexCountry].suicide[4].date} ?</p>
+            <p>Value : {this.state.data[this.state.indexCountry].suicide[4].value} %</p>
             <p>Sex : {this.state.sex}</p>
             <button onClick={this.changeSex} id="chgSexButton">Change sex</button>
             <p>Age : {this.state.age}</p>
             <button onClick={this.changeAge} id="chgAgeButton">Change age</button>
-            <SuicidesButton onClick={e => this.updateCountry()} name="Another country"></SuicidesButton>
+            <CountryButton onClick={e => this.updateCountry()} name="Another country"></CountryButton>
           </div>
-
           <SuicideAnimation length={Math.ceil(this.state.value)}></SuicideAnimation>
         </div>
       )

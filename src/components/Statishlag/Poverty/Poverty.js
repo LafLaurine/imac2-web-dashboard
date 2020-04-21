@@ -4,10 +4,7 @@ import Step from 'shared/Step';
 
 import './Poverty.css';
 import PovertyChart from './PovertyChart'
-import PovertyButton from './PovertyButton';
-
-// TODO move inside the class
-let indexCountry = 0;
+import CountryButton from '../CountryButton/CountryButton';
 
 /**
  * @brief Show poverty data (Eurostats source)
@@ -20,8 +17,10 @@ export default class Poverty extends React.Component {
       frequency: '',
       step: Step.LOADING,
       data: [],
+      indexCountry: 0
     }
-    this.updateCountry = this.updateCountry.bind(this)
+    this.updateCountry = this.updateCountry.bind(this);
+    this.updateCountry = this.updateCountry.bind(this);
   }
 
   ////////////////////// React Hooks ////////////////////
@@ -59,41 +58,42 @@ export default class Poverty extends React.Component {
    * @brief Change country when user click on button and get the associated data
    */
   updateCountry() {
-    indexCountry = (Math.floor(Math.random() * this.state.data.length))
+    this.setState({ indexCountry: (Math.floor(Math.random() * this.state.data.length)) });
     this.retrieveData();
   }
 
   ////////////////////// Render ////////////////////
 
   renderGraph() {
-    return <PovertyChart data={this.state.data[indexCountry]}></PovertyChart>
+    return <PovertyChart data={this.state.data[this.state.indexCountry]}></PovertyChart>
   }
 
   render() {
     switch (this.state.step) {
-    case Step.LOADING: return (
-      <div className="Poverty">
-        <p>Loading</p>
-      </div>
-    )
-
-    case Step.LOADED: return (
-      <div className="Poverty">
-        <div className="container">
-          <div className="element">
-            <p>Poverty in {this.state.data[indexCountry].country} ?</p>
-            <PovertyButton onClick={e => this.updateCountry()} name="Another country"></PovertyButton>
-          </div>
-          {this.renderGraph()}
+      case Step.LOADING: return (
+        <div className="Poverty">
+          <p>Loading</p>
         </div>
-      </div>
-    )
+      )
 
-    default: return (
-      <div className="Poverty">
-        <p>Error loading suicide</p>
-      </div>
-    )}
+      case Step.LOADED: return (
+        <div className="Poverty">
+          <div className="container">
+            <div className="element">
+              <p>Poverty in {this.state.data[this.state.indexCountry].country} ?</p>
+              <CountryButton onClick={e => this.updateCountry()} name="Another country"></CountryButton>
+            </div>
+            {this.renderGraph()}
+          </div>
+        </div>
+      )
+
+      default: return (
+        <div className="Poverty">
+          <p>Error loading suicide</p>
+        </div>
+      )
+    }
   }
 
   ////////////////////// Member variables ////////////////////
