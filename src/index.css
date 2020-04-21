@@ -1,7 +1,11 @@
 html, body {
   margin: 0;
   height: 100%;
-  cursor: url('/img/cursor.png'), default;
+  cursor: url('/img/cursor.png'), auto;
+}
+
+button, a {
+  cursor: url('/img/cursorPointer.png'), auto;
 }
 
 #root {
