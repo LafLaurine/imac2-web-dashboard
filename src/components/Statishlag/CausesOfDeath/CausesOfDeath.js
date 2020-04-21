@@ -14,22 +14,16 @@ export default class CausesOfDeath extends React.Component {
     };
   }
 
-  ////////////////////// React Hooks /////////////////////////
-
-  componentWillUnmount() {
-    if (this.state.step === Step.LOADING)
-      this.requestController.abort();
-  }
-
   componentDidMount() {
     fetch(Environment.dbNomicsUrl + '/v22/series/Eurostat/hlth_cd_yro?limit=1000&offset=0&q=&observations=1&align_periods=1&dimensions={}',
       { method: 'GET', signal: this.requestController.signal })
       .then(res => { return res.json() })
       .then(json => {
         const data = json.series.docs
-          //.filter(age => age.dimensions.age === this.state.age)
-          .map(cause => ({
-            'cause': json.dataset.dimensions_values_labels.icd10[cause.dimensions.icd10],
+          
+          .map(country => ({
+            'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo],
+            'deaths': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] })),
           }))
         this.setState({ frequency: json.series.docs[0]['@frequency'], step: Step.LOADED, data: data })
       })
@@ -39,9 +33,9 @@ export default class CausesOfDeath extends React.Component {
       });
   }
 
-  ////////////////////////// Render /////////////////////////
 
   render() {
+    console.log(this.state.data);
   switch (this.state.step) {
     case Step.LOADING: return (
       <div className="CausesOfDeath">
@@ -57,12 +51,11 @@ export default class CausesOfDeath extends React.Component {
 
     default: return (
       <div className="CausesOfDeath">
-        <p>Error loading drugs</p>
+        <p>Error loading Causes of Death</p>
       </div>
     )}
   }
 
-  ////////////////////// Member variables ////////////////
 
   requestController = new AbortController();
 }
