@@ -14,18 +14,22 @@ export default class Bribes extends React.Component {
     }
   }
 
+  ////////////////////// React Hooks /////////////////////////
+
   componentDidMount() {
     this.retrieveData();
   }
 
   componentWillUnmount() {
     if (this.state.step === Step.LOADING) 
-      this.controller.abort();
+      this.requestController.abort();
   }
+
+  //////////////////////// Logic ////////////////////////////
 
   retrieveData() {
     fetch(Environment.dbNomicsUrl + 'v22/series/WB/WDI?limit=1000&offset=0&q=bribe&observations=1&align_periods=1&dimensions=%7B%7D',
-      { method: 'GET', signal: this.controller.signal })
+      { method: 'GET', signal: this.requestController.signal })
       .then(res => { return res.json() })
       .then(json => {
         const data = json.series.docs.map(country => ({
@@ -42,6 +46,8 @@ export default class Bribes extends React.Component {
           console.error(`[Bribes] Cannot get  ${Environment.dbNomicsUrl} : ${err}`)
       });
   }
+
+  ///////////////////////// Render /////////////////////////
 
   render() {
     switch(this.state.step) {
@@ -68,5 +74,7 @@ export default class Bribes extends React.Component {
     )}
   }
 
-  controller = new AbortController();
+  ////////////////////// Member variables /////////////////////
+
+  requestController = new AbortController();
 }

@@ -6,15 +6,14 @@ import './Poverty.css';
 import PovertyChart from './PovertyChart'
 import PovertyButton from './PovertyButton';
 
+// TODO move inside the class
 let indexCountry = 0;
 
 /**
  * @brief Show poverty data (Eurostats source)
  * @url https://db.nomics.world/Eurostat/ilc_peps02
  */
-
 export default class Poverty extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -25,9 +24,22 @@ export default class Poverty extends React.Component {
     this.updateCountry = this.updateCountry.bind(this)
   }
 
+  ////////////////////// React Hooks ////////////////////
+
+  componentDidMount() {
+    this.retrieveData()
+  }
+
+  componentWillUnmount() {
+    if (this.state.step === Step.LOADING)
+      this.requestController.abort();
+  }
+
+  ////////////////////// Logic  ////////////////////
+
   retrieveData() {
     fetch(Environment.dbNomicsUrl + 'v22/series/Eurostat/ilc_peps02?limit=1000&offset=0&q=poverty&observations=1&align_periods=1&dimensions=%7B%7D',
-      { method: 'GET' })
+      { method: 'GET', signal: this.requestController.signal })
       .then(res => { return res.json() })
       .then(json => {
         const data = json.series.docs
@@ -38,11 +50,10 @@ export default class Poverty extends React.Component {
         this.setState({ frequency: json.series.docs[0]['@frequency'], step: Step.LOADED, data: data })
       })
       .catch(err => {
-        this.setState({ hasError: true, step: Step.ERROR })
-        console.error(`[Poverty] Cannot get  ${Environment.dbNomicsUrl} : ${err}`)
+        if (err.name !== 'AbortError')
+          console.error(`[Poverty] Cannot get  ${Environment.dbNomicsUrl} : ${err}`)
       });
   }
-
 
   /**
    * @brief Change country when user click on button and get the associated data
@@ -52,39 +63,40 @@ export default class Poverty extends React.Component {
     this.retrieveData();
   }
 
-
-  /**
-  * @brief Get data for the component when created
-  */
-  componentDidMount() {
-    this.retrieveData()
-  }
+  ////////////////////// Render ////////////////////
 
   renderGraph() {
     return <PovertyChart data={this.state.data[indexCountry]}></PovertyChart>
   }
 
-
   render() {
-    return (
+    switch (this.state.step) {
+    case Step.LOADING: return (
       <div className="Poverty">
-        {(() => {
-          switch (this.state.step) {
-            case Step.LOADING: return <p>Loading</p>
-            case Step.LOADED: return (
-              <div className="container">
-                <div className="element">
-                  <p>Poverty in {this.state.data[indexCountry].country} ?</p>
-                  <PovertyButton onClick={e => this.updateCountry()} name="Another country"></PovertyButton>
-                </div>
-                {this.renderGraph()}
-              </div>
-            )
-            default: return <p>Error loading suicide</p>
-          }
-        })()}
+        <p>Loading</p>
       </div>
     )
 
+    case Step.LOADED: return (
+      <div className="Poverty">
+        <div className="container">
+          <div className="element">
+            <p>Poverty in {this.state.data[indexCountry].country} ?</p>
+            <PovertyButton onClick={e => this.updateCountry()} name="Another country"></PovertyButton>
+          </div>
+          {this.renderGraph()}
+        </div>
+      </div>
+    )
+
+    default: return (
+      <div className="Poverty">
+        <p>Error loading suicide</p>
+      </div>
+    )}
   }
+
+  ////////////////////// Member variables ////////////////////
+
+  requestController = new AbortController();
 }

@@ -34,12 +34,14 @@ export default class Kidnappings extends React.Component {
     this.canvasRef = React.createRef();
   }
 
+  ///////////////////// React Hooks /////////////////////////
+
   /**
    * @brief Get data for the component when created
    */
   componentDidMount() {
     fetch(Environment.dbNomicsUrl + 'v22/series/Eurostat/crim_off_cat?limit=1000&offset=0&q=kidnapping&observations=1&align_periods=1&dimensions=%7B%7D',
-      { method: 'GET' })
+      { method: 'GET', signal: this.requestController.signal })
       .then(res => { return res.json() })
       .then(json => {
         const data = json.series.docs
@@ -52,11 +54,38 @@ export default class Kidnappings extends React.Component {
         this.createMatterWorld();
       })
       .catch(err => {
-        this.setState({ hasError: true, step: Step.ERROR });
-        console.error(`[Kidnappings] Cannot get  ${Environment.dbNomicsUrl} : ${err}`);
+        if (err.name !== 'AbortError')
+          console.error(`[Kidnappings] Cannot get  ${Environment.dbNomicsUrl} : ${err}`);
       });
   }
 
+  componentWillUnmount() {
+    if (this.state.step === Step.LOADING)
+      this.requestController.abort();
+  }
+
+  ///////////////////// Logic /////////////////////////
+
+  /**
+   * @brief Change game state to match user input
+   * @param number
+   */
+  updateGameStateTo(number) {
+    if (number > this.state.data[0].kidnappings[0].value)
+      this.setState({ showFeedBack: true, userValue: number, gameStep: GameStep.LOWER });
+    else if (number === Number(this.state.data[0].kidnappings[0].value))
+      this.setState({ showFeedBack: true, userValue: number, gameStep: GameStep.WIN });
+    else 
+      this.setState({ showFeedBack: true, userValue: number, gameStep: GameStep.GREATER });
+
+    // FIXME must be relaunched and not queueud
+    setTimeout(() => {
+      this.setState({ showFeedBack: false });
+    }, 3000);
+  }
+
+  ///////////////////////// Render /////////////////////////
+  
   createMatterWorld() {
     // Setup
     const engine = Engine.create();
@@ -125,24 +154,6 @@ export default class Kidnappings extends React.Component {
   }
 
   /**
-   * @brief Change game state to match user input
-   * @param number
-   */
-  updateGameStateTo(number) {
-    if (number > this.state.data[0].kidnappings[0].value)
-      this.setState({ showFeedBack: true, userValue: number, gameStep: GameStep.LOWER });
-    else if (number === Number(this.state.data[0].kidnappings[0].value))
-      this.setState({ showFeedBack: true, userValue: number, gameStep: GameStep.WIN });
-    else 
-      this.setState({ showFeedBack: true, userValue: number, gameStep: GameStep.GREATER });
-
-    // FIXME must be relaunched and not queueud
-    setTimeout(() => {
-      this.setState({ showFeedBack: false });
-    }, 3000);
-  }
-
-  /**
    * @brief Show how the user is getting the game
    */
   renderFeedBack() {
@@ -178,4 +189,8 @@ export default class Kidnappings extends React.Component {
       </div>
     )}
   }
+
+  ////////////////////// Member variables //////////////////
+
+  requestController = new AbortController();
 }

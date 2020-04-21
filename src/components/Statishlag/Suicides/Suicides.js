@@ -6,12 +6,13 @@ import Step from 'shared/Step';
 import SuicideAnimation from './SuicideAnimation'
 import SuicidesButton from './SuicidesButton';
 
+// TODO move inside class
 let indexCountry = 0;
+
 /**
  * @brief Show suicides data (Eurostats source)
  * @url https://db.nomics.world/Eurostat/yth_hlth_030?q=suicide
  */
-
 export default class Suicides extends React.Component {
   constructor(props) {
     super(props);
@@ -28,46 +29,25 @@ export default class Suicides extends React.Component {
     this.updateCountry = this.updateCountry.bind(this)
   }
 
-  /**
-   * @brief Change sex when user click on button and get the associated data
-   */
-  changeSex() {
-    if (this.state.sex === 'F') {
-      this.setState({ sexo: { ...this.state.sex }, sex: 'M' })
-      this.retrieveData()
-    }
-    else {
-      this.setState({ sexo: { ...this.state.sex }, sex: 'F' })
-      this.retrieveData()
-    }
-  }
+  ////////////////////// React Hooks /////////////////////////
 
   /**
- * @brief Change age when user click on button and get the associated data
- */
-  changeAge() {
-    if (this.state.age === 'Y15-19') {
-      this.setState({ sort: { ...this.state.age }, age: 'Y20-24' })
-      this.retrieveData()
-    }
-    else {
-      this.setState({ sort: { ...this.state.age }, age: 'Y15-19' })
-      this.retrieveData()
-    }
-  }
-
-  /**
-   * @brief Change country when user click on button and get the associated data
-   */
-  updateCountry() {
-    indexCountry = (Math.floor(Math.random() * this.state.data.length))
+  * @brief Get data for the component when created
+  */
+  componentDidMount() {
     this.retrieveData()
   }
+
+  componentWillUnmount() {
+    if (this.state.step === Step.LOADING)
+      this.requestController.abort();
+  }
+
+  ////////////////////// Logic ////////////////////
 
   /**
    * @brief Get data for the component
    */
-
   retrieveData() {
     fetch(Environment.dbNomicsUrl + 'v22/series/Eurostat/yth_hlth_030?limit=1000&offset=0&q=&observations=1&align_periods=1&dimensions={}',
       { method: 'GET' })
@@ -85,16 +65,46 @@ export default class Suicides extends React.Component {
 
       })
       .catch(err => {
-        this.setState({ hasError: true, step: Step.ERROR })
-        console.error(`[Suicides] Cannot get  ${Environment.dbNomicsUrl} : ${err}`)
+        if (err.name !== 'AbortError')
+          console.error(`[Suicides] Cannot get  ${Environment.dbNomicsUrl} : ${err}`);
       });
   }
 
+  ////////////////////// Render ////////////////////
+
   /**
-  * @brief Get data for the component when created
-  */
-  componentDidMount() {
-    this.retrieveData()
+   * @brief Change sex when user click on button and get the associated data
+   */
+  changeSex() {
+    if (this.state.sex === 'F') {
+      this.setState({ sexo: { ...this.state.sex }, sex: 'M' });
+      this.retrieveData();
+    } else {
+      this.setState({ sexo: { ...this.state.sex }, sex: 'F' });
+      this.retrieveData();
+    }
+  }
+
+  /**
+   * @brief Change age when user click on button and get the associated data
+   */
+  changeAge() {
+    if (this.state.age === 'Y15-19') {
+      this.setState({ sort: { ...this.state.age }, age: 'Y20-24' });
+      this.retrieveData();
+    }
+    else {
+      this.setState({ sort: { ...this.state.age }, age: 'Y15-19' });
+      this.retrieveData();
+    }
+  }
+
+  /**
+   * @brief Change country when user click on button and get the associated data
+   */
+  updateCountry() {
+    indexCountry = (Math.floor(Math.random() * this.state.data.length));
+    this.retrieveData();
   }
 
   render() {
@@ -128,4 +138,8 @@ export default class Suicides extends React.Component {
       )
     }
   }
+
+  ////////////////////// Member variables //////////////////////
+
+  requestController = new AbortController();
 }
