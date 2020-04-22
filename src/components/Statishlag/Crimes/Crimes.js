@@ -87,8 +87,11 @@ export default class Crimes extends React.Component {
 
       case Step.LOADED: return (
         <div className="Crimes">
+         
           <h2>2000's CRIMES</h2>
+
           <div id="container">
+             
             <div id="selectCountry">
               <h3> Select a country !</h3>
               <Button onClick={e => this.updateCrimesSection(this.state.indexCountry)} name={this.state.data[this.state.indexCountry].country}></Button>
@@ -98,12 +101,16 @@ export default class Crimes extends React.Component {
               <Button onClick={e => this.updateCountry()} name="Change countries"></Button>
             </div>
             <div id="contentBlood">
+
               <div id="bloody">
+
                 <h3>{this.state.data[this.selectedIndex].country}</h3>
                 <p>{this.state.data[this.selectedIndex].homicides[7].value} homicides</p>
+                <div id = "bloodybackground"></div>
               </div>
             </div>
           </div>
+
         </div>
       )
 

@@ -5,7 +5,7 @@ import Button from '../Button/Button';
 import Environment from 'environment';
 import Step from 'shared/Step';
 
-let arrayTierList = {
+ let arrayTierList = {
   0: { country : "Lithuania"},
   1: { country : "Romania"},
   2: { country : "Latvia"},
@@ -18,9 +18,9 @@ let arrayTierList = {
   9: { country : "Poland"}
 };
 
-let countryTierList;
-
 export default class CausesOfDeath extends React.Component {
+
+
   constructor(props) {
     super(props);
     this.state = {
@@ -30,6 +30,7 @@ export default class CausesOfDeath extends React.Component {
       countries : ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'EL', 'FR', 'DE', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'ES', 'SE'],
       frequency: '',
     }
+    this.retrieveData = this.retrieveData.bind(this)
     this.setYear = this.setYear.bind(this)
     this.organizeTierList = this.organizeTierList.bind(this)
   }
@@ -40,6 +41,10 @@ export default class CausesOfDeath extends React.Component {
   }
 
   componentDidMount() {
+    this.retrieveData();
+  }
+
+  retrieveData(){
     fetch(Environment.dbNomicsUrl + '/v22/series/Eurostat/hlth_cd_acdr2?limit=1000&offset=0&q=&observations=1&align_periods=1&dimensions={"icd10"%3A["ACC"]%2C"age"%3A["TOTAL"]%2C"sex"%3A["T"]}',
       { method: 'GET', signal: this.requestController.signal })
       .then(res => { return res.json() })
@@ -71,17 +76,13 @@ export default class CausesOfDeath extends React.Component {
     arrayTierList = [];
     for(let i = 0; i < this.state.data.length; i++){
       if(this.state.data[i].deaths[chosenDate-2011].value !== "NA"){
-        countryTierList = this.state.data[i].country;
-        arrayTierList[i] = {'country' : countryTierList, 'value' :(this.state.data[i].deaths[chosenDate-2011].value)};
+        arrayTierList[i] = {'country' : this.state.data[i].country, 'value' :(this.state.data[i].deaths[chosenDate-2011].value)};
       }
     }
     arrayTierList = arrayTierList.sort(function(a, b) {
       return parseFloat(b.value) - parseFloat(a.value);  
     });
-
     arrayTierList.splice(10);
-    //console.log(arrayTierList);
-    //console.log(remains);
   }
 
   render() {
@@ -96,12 +97,14 @@ export default class CausesOfDeath extends React.Component {
       <div className="CausesOfDeath">
         <h3>TOP EU COUNTRIES : crude deaths</h3>
         <p>{this.state.year}</p>
-        <Button onClick={e => this.setYear(-1)} name="<"></Button>
-        <Button onClick={e => this.setYear(1)} name=">"></Button>
+        <Button onClick={e => this.setYear(-1)} name="<" ></Button>
+        <Button onClick={e => this.setYear(1)} name=">" ></Button>
         
         {Object.keys(arrayTierList).map((item, index) => {
             return <p className = "arrayTierList-input" key={index}> {index+1}. {arrayTierList[index].country}</p>
         })}
+
+
       </div>
     )
 
