@@ -3,7 +3,9 @@ import './Drugs.css';
 
 import Environment from 'environment';
 import Step from 'shared/Step';
-import Syringue from './img/seringue3.png';
+import Syringue from './img/syringue.png';
+import Blood from './img/blood.svg';
+
 
 /**
  * @brief Show number of death because of drug data (Eurostats source)
@@ -30,7 +32,6 @@ export default class Drugs extends React.Component {
           .map(country => ({
             'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo],
             'drugs': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] })),
-            //'sex' : json.dataset.dimensions_values_labels.sex[country.dimensions.sex]
           }))
         this.setState({ frequency: json.series.docs[0]['@frequency'], step: Step.LOADED, data: data })
       })
@@ -49,30 +50,34 @@ export default class Drugs extends React.Component {
 
   render() {
     switch (this.state.step) {
-    case Step.LOADING: return (
-      <div className="Drugs">
-        <p>Loading</p>
-      </div>
-    )
-
-    case Step.LOADED: return (
-      <div className="Drugs">
-        <p>How many death because of drugs in {this.state.data[0].drugs[0].date} ?</p>
-        <div>
-          <p className="Pays">{this.state.data[0].country} : {this.state.data[0].drugs[0].value} </p>
-          <p className="Pays">{this.state.data[12].country} : {this.state.data[12].drugs[0].value} </p>
-          <p className="Pays">{this.state.data[23].country} : {this.state.data[23].drugs[0].value} </p>
-          <p className="Pays">{this.state.data[20].country} : {this.state.data[20].drugs[0].value} </p>
+      case Step.LOADING: return (
+        <div className="Drugs">
+          <p>Loading</p>
         </div>
-        <div>
-          <img src={Syringue} alt="Seringue" />
-        </div>
-      </div>
-    )
+      )
 
-    default: return (
-      <p>Error loading drugs</p>
-    )}
+      case Step.LOADED: return (
+        <div className="Drugs">
+          <p>How many death because of drugs in {this.state.data[0].drugs[0].date} ?</p>
+          <div>
+            <p className="Country">{this.state.data[0].country} : {this.state.data[0].drugs[0].value} </p>
+            <p className="Country">{this.state.data[12].country} : {this.state.data[12].drugs[0].value} </p>
+            <p className="Country">{this.state.data[23].country} : {this.state.data[23].drugs[0].value} </p>
+            <p className="Country">{this.state.data[20].country} : {this.state.data[20].drugs[0].value} </p>
+          </div>
+          <div className="Blood">
+            <img src={Blood} alt="Blood" />
+          </div>
+          <div className="Syringue">
+            <img src={Syringue} alt="Syringue" />
+          </div>
+        </div>
+      )
+
+      default: return (
+        <p>Error loading drugs</p>
+      )
+    }
   }
 
   ////////////////////// Member variables /////////////////
