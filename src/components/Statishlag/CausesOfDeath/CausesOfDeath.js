@@ -5,22 +5,9 @@ import Button from '../Button/Button';
 import Environment from 'environment';
 import Step from 'shared/Step';
 
- let arrayTierList = {
-  0: { country : "Lithuania"},
-  1: { country : "Romania"},
-  2: { country : "Latvia"},
-  3: { country : "Portugal"},
-  4: { country : "Croatia"},
-  5: { country : "Bulgaria"},
-  6: { country : "Estonia"},
-  7: { country : "France"},
-  8: { country : "Finland"},
-  9: { country : "Poland"}
-};
-
 export default class CausesOfDeath extends React.Component {
 
-
+//NEED TO FIX LE DECALAGE DES ANNEES
   constructor(props) {
     super(props);
     this.state = {
@@ -29,6 +16,7 @@ export default class CausesOfDeath extends React.Component {
       year : 2014,
       countries : ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'EL', 'FR', 'DE', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'ES', 'SE'],
       frequency: '',
+      tierList : {}
     }
     this.retrieveData = this.retrieveData.bind(this)
     this.setYear = this.setYear.bind(this)
@@ -56,7 +44,10 @@ export default class CausesOfDeath extends React.Component {
             'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo],
             'deaths': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] })),
           }))
-          this.setState({ frequency: json.series.docs[0]['@frequency'], step: Step.LOADED, data: data })  
+
+          this.setState({ frequency: json.series.docs[0]['@frequency'], step: Step.LOADED, data: data })
+          //console.log(this.state.data)
+          this.setYear(0)
       })
       .catch(err => {
         if (err.name !== 'AbortError')
@@ -65,7 +56,7 @@ export default class CausesOfDeath extends React.Component {
   }
 
   setYear(addValue){
-    if((this.state.year > 2011 && addValue === -1 ) || (addValue === 1 && this.state.year < 2016)){
+    if((this.state.year > 2011 && this.state.year && this.state.year <= 2016 && addValue === -1 ) || (addValue === 1 && this.state.year < 2016 && this.state.year >= 2011) || addValue === 0){
       let newYear = this.state.year + addValue;
       this.setState({ year : newYear});
       this.organizeTierList(this.state.year);
@@ -73,7 +64,7 @@ export default class CausesOfDeath extends React.Component {
   }
 
   organizeTierList(chosenDate){
-    arrayTierList = [];
+    let arrayTierList = [];
     for(let i = 0; i < this.state.data.length; i++){
       if(this.state.data[i].deaths[chosenDate-2011].value !== "NA"){
         arrayTierList[i] = {'country' : this.state.data[i].country, 'value' :(this.state.data[i].deaths[chosenDate-2011].value)};
@@ -83,9 +74,15 @@ export default class CausesOfDeath extends React.Component {
       return parseFloat(b.value) - parseFloat(a.value);  
     });
     arrayTierList.splice(10);
+    this.setState({tierList : arrayTierList});
+    //console.log(chosenDate);
+    //console.log(this.state.year);
+    //console.log(arrayTierList);
   }
 
   render() {
+  //console.log("state year : " + this.state.year);
+  //console.log(this.state.tierList);
   switch (this.state.step) {
     case Step.LOADING: return (
       <div className="CausesOfDeath">
@@ -99,12 +96,9 @@ export default class CausesOfDeath extends React.Component {
         <p>{this.state.year}</p>
         <Button onClick={e => this.setYear(-1)} name="<" ></Button>
         <Button onClick={e => this.setYear(1)} name=">" ></Button>
-        
-        {Object.keys(arrayTierList).map((item, index) => {
-            return <p className = "arrayTierList-input" key={index}> {index+1}. {arrayTierList[index].country}</p>
+        {Object.keys(this.state.tierList).map((item, index) => {
+            return <p className = "TierList-input" key={index}> {index+1}. {this.state.tierList[index].country}</p>
         })}
-
-
       </div>
     )
 
