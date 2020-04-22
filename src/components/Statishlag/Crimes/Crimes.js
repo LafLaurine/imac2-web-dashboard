@@ -1,7 +1,7 @@
 import React from 'react';
 import './Crimes.css';
 
-import CountryButton from '../CountryButton/CountryButton';
+import Button from '../Button/Button';
 import Environment from 'environment';
 import Step from 'shared/Step';
 
@@ -91,11 +91,11 @@ export default class Crimes extends React.Component {
           <div id="container">
             <div id="selectCountry">
               <h3> Select a country !</h3>
-              <CountryButton onClick={e => this.updateCrimesSection(this.state.indexCountry)} name={this.state.data[this.state.indexCountry].country}></CountryButton>
-              <CountryButton onClick={e => this.updateCrimesSection(this.state.indexCountry2)} name={this.state.data[this.state.indexCountry2].country}></CountryButton>
-              <CountryButton onClick={e => this.updateCrimesSection(this.state.indexCountry3)} name={this.state.data[this.state.indexCountry3].country}></CountryButton>
-              <CountryButton onClick={e => this.updateCrimesSection(this.state.indexCountry4)} name={this.state.data[this.state.indexCountry4].country}></CountryButton>
-              <CountryButton onClick={e => this.updateCountry()} name="Change countries"></CountryButton>
+              <Button onClick={e => this.updateCrimesSection(this.state.indexCountry)} name={this.state.data[this.state.indexCountry].country}></Button>
+              <Button onClick={e => this.updateCrimesSection(this.state.indexCountry2)} name={this.state.data[this.state.indexCountry2].country}></Button>
+              <Button onClick={e => this.updateCrimesSection(this.state.indexCountry3)} name={this.state.data[this.state.indexCountry3].country}></Button>
+              <Button onClick={e => this.updateCrimesSection(this.state.indexCountry4)} name={this.state.data[this.state.indexCountry4].country}></Button>
+              <Button onClick={e => this.updateCountry()} name="Change countries"></Button>
             </div>
             <div id="contentBlood">
               <div id="bloody">

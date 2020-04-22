@@ -4,7 +4,7 @@ import Environment from 'environment';
 import Step from 'shared/Step';
 
 import SuicideAnimation from './SuicideAnimation'
-import CountryButton from '../CountryButton/CountryButton';
+import Button from '../Button/Button';
 
 /**
  * @brief Show suicides data (Eurostats source)
@@ -124,7 +124,7 @@ export default class Suicides extends React.Component {
             <button onClick={this.changeSex} id="chgSexButton">Change sex</button>
             <p>Age : {this.state.age}</p>
             <button onClick={this.changeAge} id="chgAgeButton">Change age</button>
-            <CountryButton onClick={e => this.updateCountry()} name="Another country"></CountryButton>
+            <Button onClick={e => this.updateCountry()} name="Another country"></Button>
           </div>
           <SuicideAnimation length={Math.ceil(this.state.value)}></SuicideAnimation>
         </div>

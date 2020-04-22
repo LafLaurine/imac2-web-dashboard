@@ -4,7 +4,7 @@ import Step from 'shared/Step';
 
 import './Poverty.css';
 import PovertyChart from './PovertyChart'
-import CountryButton from '../CountryButton/CountryButton';
+import Button from '../Button/Button';
 
 /**
  * @brief Show poverty data (Eurostats source)
@@ -81,7 +81,7 @@ export default class Poverty extends React.Component {
           <div className="container">
             <div className="element">
               <p>Poverty in {this.state.data[this.state.indexCountry].country} ?</p>
-              <CountryButton onClick={e => this.updateCountry()} name="Another country"></CountryButton>
+              <Button onClick={e => this.updateCountry()} name="Another country"></Button>
             </div>
             {this.renderGraph()}
           </div>
