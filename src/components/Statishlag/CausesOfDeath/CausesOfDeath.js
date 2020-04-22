@@ -6,11 +6,16 @@ import Environment from 'environment';
 import Step from 'shared/Step';
 
 let arrayTierList = {
-  0: { country: "Lithuania" },
-  1: { country: "Romania" },
-  2: { country: "Estonia" },
-  3: { country: "Portugal" },
-  4: { country: "Latvia" }
+  0: { country : "Lithuania"},
+  1: { country : "Romania"},
+  2: { country : "Latvia"},
+  3: { country : "Portugal"},
+  4: { country : "Croatia"},
+  5: { country : "Bulgaria"},
+  6: { country : "Estonia"},
+  7: { country : "France"},
+  8: { country : "Finland"},
+  9: { country : "Poland"}
 };
 
 let countryTierList;
@@ -21,10 +26,9 @@ export default class CausesOfDeath extends React.Component {
     this.state = {
       step: Step.LOADING,
       data: [],
-      year: 2014,
-      countries: ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'EL', 'FR', 'DE', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'ES', 'SE'],
+      year : 2014,
+      countries : ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'EL', 'FR', 'DE', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'ES', 'SE'],
       frequency: '',
-      example: "Lithuania"
     }
     this.setYear = this.setYear.bind(this)
     this.organizeTierList = this.organizeTierList.bind(this)
@@ -47,7 +51,7 @@ export default class CausesOfDeath extends React.Component {
             'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo],
             'deaths': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] })),
           }))
-        this.setState({ frequency: json.series.docs[0]['@frequency'], step: Step.LOADED, data: data })
+          this.setState({ frequency: json.series.docs[0]['@frequency'], step: Step.LOADED, data: data })  
       })
       .catch(err => {
         if (err.name !== 'AbortError')
@@ -55,57 +59,57 @@ export default class CausesOfDeath extends React.Component {
       });
   }
 
-  setYear(addValue) {
-    if ((this.state.year > 2011 && addValue === -1) || (addValue === 1 && this.state.year < 2016)) {
+  setYear(addValue){
+    if((this.state.year > 2011 && addValue === -1 ) || (addValue === 1 && this.state.year < 2016)){
       let newYear = this.state.year + addValue;
-      this.setState({ year: newYear });
+      this.setState({ year : newYear});
       this.organizeTierList(this.state.year);
     }
   }
 
-  organizeTierList(chosenDate) {
+  organizeTierList(chosenDate){
     arrayTierList = [];
-    for (let i = 0; i < this.state.data.length; i++) {
-      if (this.state.data[i].deaths[chosenDate - 2011].value !== "NA") {
+    for(let i = 0; i < this.state.data.length; i++){
+      if(this.state.data[i].deaths[chosenDate-2011].value !== "NA"){
         countryTierList = this.state.data[i].country;
-        arrayTierList[i] = { 'country': countryTierList, 'value': (this.state.data[i].deaths[chosenDate - 2011].value) };
+        arrayTierList[i] = {'country' : countryTierList, 'value' :(this.state.data[i].deaths[chosenDate-2011].value)};
       }
     }
-    arrayTierList = arrayTierList.sort(function (a, b) {
-      return parseFloat(b.value) - parseFloat(a.value);
+    arrayTierList = arrayTierList.sort(function(a, b) {
+      return parseFloat(b.value) - parseFloat(a.value);  
     });
+
+    arrayTierList.splice(10);
+    //console.log(arrayTierList);
+    //console.log(remains);
   }
 
   render() {
-    switch (this.state.step) {
-      case Step.LOADING: return (
-        <div className="CausesOfDeath">
-          <p>Loading</p>
-        </div>
-      )
+  switch (this.state.step) {
+    case Step.LOADING: return (
+      <div className="CausesOfDeath">
+        <p>Loading</p>
+      </div>
+    )
 
-      case Step.LOADED: return (
-        <div className="CausesOfDeath">
-          <h3>TOP EU COUNTRIES : crude deaths</h3>
-          <p>{this.state.year}</p>
-          <Button onClick={e => this.setYear(-1)} name="<"></Button>
-          <Button onClick={e => this.setYear(1)} name=">"></Button>
+    case Step.LOADED: return (
+      <div className="CausesOfDeath">
+        <h3>TOP EU COUNTRIES : crude deaths</h3>
+        <p>{this.state.year}</p>
+        <Button onClick={e => this.setYear(-1)} name="<"></Button>
+        <Button onClick={e => this.setYear(1)} name=">"></Button>
+        
+        {Object.keys(arrayTierList).map((item, index) => {
+            return <p className = "arrayTierList-input" key={index}> {index+1}. {arrayTierList[index].country}</p>
+        })}
+      </div>
+    )
 
-          <p>1. {arrayTierList[0].country}</p>
-          <p>2. {arrayTierList[1].country}</p>
-          <p>3. {arrayTierList[2].country}</p>
-          <p>4. {arrayTierList[3].country}</p>
-          <p>5. {arrayTierList[4].country}</p>
-
-        </div>
-      )
-
-      default: return (
-        <div className="CausesOfDeath">
-          <p>Error loading Causes of Death</p>
-        </div>
-      )
-    }
+    default: return (
+      <div className="CausesOfDeath">
+        <p>Error loading Causes of Death</p>
+      </div>
+    )}
   }
   requestController = new AbortController();
 }
