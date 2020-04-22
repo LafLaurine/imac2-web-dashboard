@@ -5,6 +5,8 @@ import Step from 'shared/Step';
 
 import SuicideAnimation from './SuicideAnimation'
 import Button from '../Button/Button';
+import Loading from '../../Loading/Loading'
+
 
 /**
  * @brief Show suicides data (Eurostats source)
@@ -111,7 +113,7 @@ export default class Suicides extends React.Component {
     switch (this.state.step) {
       case Step.LOADING: return (
         <div className="Suicides">
-          <p>Loading</p>
+          <Loading></Loading>
         </div>
       )
 
