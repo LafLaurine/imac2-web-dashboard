@@ -36,6 +36,7 @@ export default class Kidnappings extends React.Component {
     this.renderFeedBack = this.renderFeedBack.bind(this);
     this.changeCountry = this.changeCountry.bind(this);
     this.changeDate = this.changeDate.bind(this);
+    this.updateBaseCount = this.updateBaseCount.bind(this);
     this.canvasRef = React.createRef();
   }
 
@@ -57,6 +58,7 @@ export default class Kidnappings extends React.Component {
           }));
         this.setState({ step: Step.LOADED, data: data });
         this.createMatterWorld();
+        this.updateBaseCount();
       })
       .catch(err => {
         if (err.name !== 'AbortError')
@@ -89,14 +91,30 @@ export default class Kidnappings extends React.Component {
     }, 3000);
   }
 
+  updateBaseCount() {
+    // TODO use a constant to know the number of heads, here 4
+    // TODO spawn more or less heads randomly
+    this.setState({ baseCount: this.state.data[this.state.countryIndex].kidnappings[this.state.dateIndex].value / 4 });
+  }
+
   changeCountry() {
-    // TODO improve to prevent invalid index and handle looping + head value
-    this.setState({ countryIndex: this.state.countryIndex + 1 });
+    const maxIndex = this.state.data.length - 1;
+    if (this.state.countryIndex >= maxIndex)
+      this.setState({ countryIndex: 0 });
+    else
+      this.setState({ countryIndex: this.state.countryIndex + 1 });
+
+    this.updateBaseCount();
   }
 
   changeDate() {
-    // TODO improve to prevent invalid index and handle looping + head value
-    this.setState({ dateIndex: this.state.dateIndex + 1 });
+    const maxIndex = this.state.data[this.state.countryIndex].kidnappings.length - 1;
+    if (this.state.dateIndex >= maxIndex)
+      this.setState({ dateIndex: 0 });
+    else
+      this.setState({ dateIndex: this.state.dateIndex + 1 });
+
+    this.updateBaseCount();
   }
 
   ///////////////////////// Render /////////////////////////
@@ -161,6 +179,7 @@ export default class Kidnappings extends React.Component {
         if (Bounds.contains(leftCollider, body.position))
           count++;
       });
+      count *= this.state.baseCount;
       if (count !== this.state.userValue)
         this.updateGameStateTo(count);
     }, 500);
