@@ -27,7 +27,7 @@ export default class SuicideAnimation extends React.Component {
 
         const engine = Engine.create();
         engine.world.gravity.x = 0;
-        engine.world.gravity.y = 6;
+        engine.world.gravity.y = 8;
 
         const group = Body.nextGroup(true);
         const render = Render.create({
@@ -157,13 +157,16 @@ export default class SuicideAnimation extends React.Component {
         });
 
         Composites.chain(ropeA, 0.5, 0, -0.5, 0, { stiffness: 0.5, length: 5 });
-        Composite.add(ropeA, Constraint.create({
-            pointA: { x: 200 / 2, y: 10 },
-            pointB: { x: -20, y: 0 },
-            bodyB: ropeA.bodies[0],
-            stiffness: 0.5,
-            length: 5
-        }));
+        if (this.props.length > 0) {
+
+            Composite.add(ropeA, Constraint.create({
+                pointA: { x: 200 / 2, y: 10 },
+                pointB: { x: -20, y: 0 },
+                bodyB: ropeA.bodies[0],
+                stiffness: 0.5,
+                length: 5
+            }));
+        }
         World.add(engine.world, ropeA);
 
         // create pinata, connect to rope
@@ -187,6 +190,7 @@ export default class SuicideAnimation extends React.Component {
                     alert("DO YOU LIKE DEATH ?");
                     alert("WOW AND NOW YOU WANT TO ESCAPE FROM THIS ?");
                     alert("CONGRATS FOR BEING A MONSTER");
+                    return;
                 }
                 else if (c.bodyB.angularSpeed < 0.1) {
                     return;
@@ -211,6 +215,7 @@ export default class SuicideAnimation extends React.Component {
         return (
             <div className="SuicideAnimation">
                 {this.animate()}
+                <p>Value : {this.props.length} %</p>
                 <canvas ref={this.myRef} id="animationCanva" ></canvas>
             </div>
         )

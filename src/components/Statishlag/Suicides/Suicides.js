@@ -58,11 +58,11 @@ export default class Suicides extends React.Component {
         const data = json.series.docs
           .filter(age => age.dimensions.age === this.state.age)
           .filter(sex => sex.dimensions.sex === this.state.sex)
-          .filter(value => value.dimensions.value !== "NA")
           .map(country => ({
             'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo],
             'suicide': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] }))
           }))
+          .filter(suicide => suicide.value !== "NaN")
         this.setState({ frequency: json.series.docs[0]['@frequency'], step: Step.LOADED, data: data, value: data[this.state.indexCountry].suicide[4].value })
 
       })
@@ -121,7 +121,6 @@ export default class Suicides extends React.Component {
         <div className="Suicides">
           <div className="display">
             <p className="title">How many suicides in {this.state.data[this.state.indexCountry].country} during {this.state.data[this.state.indexCountry].suicide[4].date} ?</p>
-            <p>Value : {this.state.data[this.state.indexCountry].suicide[4].value} %</p>
             <p>Sex : {this.state.sex}</p>
             <button onClick={this.changeSex} id="chgSexButton">Change sex</button>
             <p>Age : {this.state.age}</p>
