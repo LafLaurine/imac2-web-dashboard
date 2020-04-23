@@ -16,7 +16,6 @@ function SmallBlood() {
   return <img id="bloodSmall" src={BloodSmall} alt="Blood small" />
 }
 
-
 /**
  * @brief Show number of death because of drug data (Eurostats source)
  * @url https://db.nomics.world/Eurostat/hlth_cd_yro?q=drug
@@ -60,7 +59,7 @@ export default class Drugs extends React.Component {
             'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo],
             'drugs': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] })),
           }))
-          .filter(drugs => drugs.value !== 'NA')
+          .filter(drugs => drugs.value !== "NA")
         this.setState({ frequency: json.series.docs[0]['@frequency'], step: Step.LOADED, data: data })
       })
       .catch(err => {
@@ -81,10 +80,10 @@ export default class Drugs extends React.Component {
   }
 
   orderDrug() {
-    if (this.state.data[this.state.indexCountry].drugs[1].value > 20) {
+    if (this.state.data[this.state.indexCountry].drugs[1].value > 5) {
       return <LargeBlood></LargeBlood>
     }
-    else {
+    else if (this.state.data[this.state.indexCountry].drugs[1].value < 5 && this.state.data[this.state.indexCountry].drugs[1].value !== 0) {
       return <SmallBlood></SmallBlood>
     }
   }
@@ -102,7 +101,6 @@ export default class Drugs extends React.Component {
           <p>How many death because of drugs in {this.state.data[this.state.indexCountry].drugs[1].date} ?</p>
           <div>
             <p className="Country">{this.state.data[this.state.indexCountry].country} : {this.state.data[this.state.indexCountry].drugs[1].value} </p>
-            {console.log(this.state.data[this.state.indexCountry])}
           </div>
           <Button onClick={e => this.updateCountry()} name="Another country"></Button>
 
