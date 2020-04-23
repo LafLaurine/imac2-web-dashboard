@@ -25,6 +25,16 @@
     font-size: 2em;
 }
 
+.Kidnappings .settings {
+    cursor: pointer;
+    color: wheat;
+    font-weight: bolder;
+}
+
+.Kidnappings .settings:hover {
+    color: red;
+}
+
 .Kidnappings .feedback {
     font-family: Chango;
     color: blue;

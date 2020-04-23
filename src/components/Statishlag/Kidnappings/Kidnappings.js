@@ -25,12 +25,17 @@ export default class Kidnappings extends React.Component {
       step: Step.LOADING,
       data: [],
       userValue: 0,
+      baseCount: 1,
+      countryIndex: 0,
+      dateIndex: 0,
       showFeedBack: false,
       gameStep: GameStep.LOWER
     };
 
     this.updateGameStateTo = this.updateGameStateTo.bind(this);
     this.renderFeedBack = this.renderFeedBack.bind(this);
+    this.changeCountry = this.changeCountry.bind(this);
+    this.changeDate = this.changeDate.bind(this);
     this.canvasRef = React.createRef();
   }
 
@@ -50,7 +55,7 @@ export default class Kidnappings extends React.Component {
             'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo],
             'kidnappings': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] }))
           }));
-        this.setState({ frequency: json.series.docs[0]['@frequency'], step: Step.LOADED, data: data });
+        this.setState({ step: Step.LOADED, data: data });
         this.createMatterWorld();
       })
       .catch(err => {
@@ -71,11 +76,11 @@ export default class Kidnappings extends React.Component {
    * @param number
    */
   updateGameStateTo(number) {
-    if (number > this.state.data[0].kidnappings[0].value)
+    if (number > this.state.data[this.state.countryIndex].kidnappings[this.state.dateIndex].value)
       this.setState({ showFeedBack: true, userValue: number, gameStep: GameStep.LOWER });
-    else if (number === Number(this.state.data[0].kidnappings[0].value))
+    else if (number === Number(this.state.data[this.state.countryIndex].kidnappings[this.state.dateIndex].value))
       this.setState({ showFeedBack: true, userValue: number, gameStep: GameStep.WIN });
-    else 
+    else
       this.setState({ showFeedBack: true, userValue: number, gameStep: GameStep.GREATER });
 
     // FIXME must be relaunched and not queueud
@@ -84,8 +89,18 @@ export default class Kidnappings extends React.Component {
     }, 3000);
   }
 
+  changeCountry() {
+    // TODO improve to prevent invalid index and handle looping + head value
+    this.setState({ countryIndex: this.state.countryIndex + 1 });
+  }
+
+  changeDate() {
+    // TODO improve to prevent invalid index and handle looping + head value
+    this.setState({ dateIndex: this.state.dateIndex + 1 });
+  }
+
   ///////////////////////// Render /////////////////////////
-  
+
   createMatterWorld() {
     // Setup
     const engine = Engine.create();
@@ -107,11 +122,11 @@ export default class Kidnappings extends React.Component {
     // World
     const squares = Composites.stack(600, 255, 1, 6, 0, 0, (x, y) => {
       return Bodies.circle(x, y, 40, {
-          render: {
-            strokeStyle: '#ffffff',
-            sprite: {
-              texture: Tony
-            }
+        render: {
+          strokeStyle: '#ffffff',
+          sprite: {
+            texture: Tony
+          }
         }
       });
     });
@@ -157,37 +172,41 @@ export default class Kidnappings extends React.Component {
    * @brief Show how the user is getting the game
    */
   renderFeedBack() {
-    switch(this.state.gameStep) {
-    case GameStep.GREATER: return <p className="feedback">It's More !</p>
-    case GameStep.WIN: return <p className="feedback">You got it !</p>
-    default: return <p className="feedback">It's less !</p>
+    switch (this.state.gameStep) {
+      case GameStep.GREATER: return <p className="feedback">It's More !</p>
+      case GameStep.WIN: return <p className="feedback">You got it !</p>
+      default: return <p className="feedback">It's less !</p>
     }
   }
 
   render() {
-    switch(this.state.step) {
-    case Step.LOADING: return (
-      <div className="Kidnappings">
-        <p>Loading</p>
-      </div>
-    )
-
-    case Step.LOADED: return (
-      <div className="Kidnappings">
-        <div className="ui">
-          <p className="country">Number of Kidnappings in {this.state.data[0].country}</p>
-          <p className="user-number">You set : <span className="value">{ this.state.userValue }</span></p>
-          { this.state.showFeedBack && this.renderFeedBack() }
+    switch (this.state.step) {
+      case Step.LOADING: return (
+        <div className="Kidnappings">
+          <p>Loading</p>
         </div>
-        <div ref={this.canvasRef} className="game"/>
-      </div>
-    )
+      )
 
-    default: return (
-      <div className="Kidnappings">
-        <p>Error loading kidnappings</p>
-      </div>
-    )}
+      case Step.LOADED: return (
+        <div className="Kidnappings">
+          <div className="ui">
+            <p className="country">Number of Kidnappings in
+              <span className="settings" onClick={this.changeCountry}> {this.state.data[this.state.countryIndex].country}</span> during
+              <span className="settings" onClick={this.changeDate}> {this.state.data[this.state.countryIndex].kidnappings[this.state.dateIndex].date}</span>
+            </p>
+            <p className="user-number">You set : <span className="value">{this.state.userValue}</span></p>
+            {this.state.showFeedBack && this.renderFeedBack()}
+          </div>
+          <div ref={this.canvasRef} className="game" />
+        </div>
+      )
+
+      default: return (
+        <div className="Kidnappings">
+          <p>Error loading kidnappings</p>
+        </div>
+      )
+    }
   }
 
   ////////////////////// Member variables //////////////////
