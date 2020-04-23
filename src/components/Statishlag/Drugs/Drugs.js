@@ -5,7 +5,17 @@ import Environment from 'environment';
 import Step from 'shared/Step';
 import Syringue from './img/syringue.png';
 import Blood from './img/blood.svg';
+import BloodSmall from './img/bloodSmall.svg';
 import Button from '../Button/Button';
+
+function LargeBlood() {
+  return <img id="blood" src={Blood} alt="Blood" />
+}
+
+function SmallBlood() {
+  return <img id="bloodSmall" src={BloodSmall} alt="Blood small" />
+}
+
 
 /**
  * @brief Show number of death because of drug data (Eurostats source)
@@ -50,6 +60,7 @@ export default class Drugs extends React.Component {
             'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo],
             'drugs': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] })),
           }))
+          .filter(drugs => drugs.value !== 'NA')
         this.setState({ frequency: json.series.docs[0]['@frequency'], step: Step.LOADED, data: data })
       })
       .catch(err => {
@@ -69,6 +80,15 @@ export default class Drugs extends React.Component {
     this.retrieveData();
   }
 
+  orderDrug() {
+    if (this.state.data[this.state.indexCountry].drugs[1].value > 20) {
+      return <LargeBlood></LargeBlood>
+    }
+    else {
+      return <SmallBlood></SmallBlood>
+    }
+  }
+
   render() {
     switch (this.state.step) {
       case Step.LOADING: return (
@@ -79,14 +99,15 @@ export default class Drugs extends React.Component {
 
       case Step.LOADED: return (
         <div className="Drugs">
-          <p>How many death because of drugs in {this.state.data[0].drugs[1].date} ?</p>
+          <p>How many death because of drugs in {this.state.data[this.state.indexCountry].drugs[1].date} ?</p>
           <div>
-            <p className="Country">{this.state.data[this.state.indexCountry].country} : {this.state.data[0].drugs[0].value} </p>
+            <p className="Country">{this.state.data[this.state.indexCountry].country} : {this.state.data[this.state.indexCountry].drugs[1].value} </p>
+            {console.log(this.state.data[this.state.indexCountry])}
           </div>
           <Button onClick={e => this.updateCountry()} name="Another country"></Button>
 
           <div className="Blood">
-            <img id="blood" src={Blood} alt="Blood" />
+            {this.orderDrug()}
           </div>
           <div className="Syringue">
             <img src={Syringue} alt="Syringue" />

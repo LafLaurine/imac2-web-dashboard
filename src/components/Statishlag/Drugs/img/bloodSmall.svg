@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="75px" height="220px" viewBox="0 0 75 220" enable-background="new 0 0 75 220" xml:space="preserve">
+<path id="p2" fill="#931F21" d="M66.794,163.757c0,0.258-0.896,0.466-2,0.466H14.7c-1.104,0-2-0.208-2-0.466v-21.541
+	c0-0.257,0.896-0.466,2-0.466h50.094c1.104,0,2,0.209,2,0.466V163.757z"/>
+		<animate fill="freeze" xlink:href="#p2" id="bloddy" attributeName="d" attributeType="XML" from="M66.794,163.757c0,0.258-0.896,0.466-2,0.466H14.7c-1.104,0-2-0.208-2-0.466v-21.541
+	c0-0.257,0.896-0.466,2-0.466h50.094c1.104,0,2,0.209,2,0.466V163.757z" 
+	to="M66.794,163.249c0,0.541-0.896,0.974-2,0.974H14.7c-1.104,0-2-0.433-2-0.974v-45.025
+	c0-0.537,0.896-0.974,2-0.974h50.094c1.104,0,2,0.437,2,0.974V163.249z" dur="5s" repeatCount="indefinite" 
+	accumulate="none" additive="replace" calcMode="linear" restart="always">	</animate>
+</svg>
