@@ -1,5 +1,4 @@
 .Drugs {
-    width: 600px;
     height: 350px;
     color: white;
     background-image: url('./img/Fond.png');
@@ -7,11 +6,27 @@
     text-align: center;
 }
 
+.Drugs .title {
+    font-family: HiMelody;
+    font-size: 1.5em;
+}
+
+.Drugs .element {
+    margin-left: 45%;
+}
+
 .Drugs .Blood, .Syringue {
     position: absolute;
 }
 
-.Country {
-    display: inline-flex;
+.Drugs .settings {
+    cursor: pointer;
+    color: wheat;
+    font-weight: bolder;
 }
+
+.Drugs .settings:hover {
+    color: red;
+}
+
 

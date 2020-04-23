@@ -55,7 +55,7 @@ export default class Blood extends React.Component {
                 return <Blood50></Blood50>
             }
             else if (this.props.blood > 50) {
-                return <BloodFull></BloodFull>
+                return <BloodOver></BloodOver>
             }
         }
     }

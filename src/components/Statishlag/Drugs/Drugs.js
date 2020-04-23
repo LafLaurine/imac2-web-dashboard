@@ -4,7 +4,6 @@ import './Drugs.css';
 import Environment from 'environment';
 import Step from 'shared/Step';
 import Syringue from './img/syringue.png';
-import Button from '../Button/Button';
 import Blood from './Blood';
 
 /**
@@ -82,14 +81,15 @@ export default class Drugs extends React.Component {
 
       case Step.LOADED: return (
         <div className="Drugs">
-          <p>How many death because of drugs in {this.state.data[this.state.indexCountry].drugs[1].date} ?</p>
-          <div>
-            <p className="Country">{this.state.data[this.state.indexCountry].country} : {this.state.data[this.state.indexCountry].drugs[1].value} </p>
-          </div>
-          <Button onClick={e => this.updateCountry()} name="Another country"></Button>
-          <Blood blood={this.state.data[this.state.indexCountry].drugs[1].value}></Blood>
-          <div className="Syringue">
-            <img src={Syringue} alt="Syringue" />
+          <p className="title">Death because of drugs in
+          <span className="settings" onClick={this.updateCountry}> {this.state.data[this.state.indexCountry].country} </span> during
+          <span>{this.state.data[this.state.indexCountry].drugs[1].date}</span> ?</p>
+
+          <div className="element">
+            <Blood blood={this.state.data[this.state.indexCountry].drugs[1].value}></Blood>
+            <div className="Syringue">
+              <img src={Syringue} alt="Syringue" />
+            </div>
           </div>
         </div>
       )
