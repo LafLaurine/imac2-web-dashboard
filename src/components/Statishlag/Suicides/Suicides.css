@@ -37,6 +37,18 @@
     border: none;
 }
 
+
+.Suicides .settings {
+    cursor: pointer;
+    color:#2104CF;
+    font-weight: bolder;
+}
+
+.Suicides .settings:hover {
+    color: white;
+}
+
+
 #animationCanva:active { 
     cursor: pointer;  
 }

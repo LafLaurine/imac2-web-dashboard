@@ -4,17 +4,8 @@ import './Drugs.css';
 import Environment from 'environment';
 import Step from 'shared/Step';
 import Syringue from './img/syringue.png';
-import Blood from './img/blood.svg';
-import BloodSmall from './img/bloodSmall.svg';
 import Button from '../Button/Button';
-
-function LargeBlood() {
-  return <img id="blood" src={Blood} alt="Blood" />
-}
-
-function SmallBlood() {
-  return <img id="bloodSmall" src={BloodSmall} alt="Blood small" />
-}
+import Blood from './Blood';
 
 /**
  * @brief Show number of death because of drug data (Eurostats source)
@@ -80,14 +71,6 @@ export default class Drugs extends React.Component {
     this.retrieveData();
   }
 
-  orderDrug() {
-    if (this.state.data[this.state.indexCountry].drugs[1].value > 5) {
-      return <LargeBlood></LargeBlood>
-    }
-    else if (this.state.data[this.state.indexCountry].drugs[1].value < 5 && this.state.data[this.state.indexCountry].drugs[1].value !== 0) {
-      return <SmallBlood></SmallBlood>
-    }
-  }
 
   render() {
     switch (this.state.step) {
@@ -104,10 +87,7 @@ export default class Drugs extends React.Component {
             <p className="Country">{this.state.data[this.state.indexCountry].country} : {this.state.data[this.state.indexCountry].drugs[1].value} </p>
           </div>
           <Button onClick={e => this.updateCountry()} name="Another country"></Button>
-
-          <div className="Blood">
-            {this.orderDrug()}
-          </div>
+          <Blood blood={this.state.data[this.state.indexCountry].drugs[1].value}></Blood>
           <div className="Syringue">
             <img src={Syringue} alt="Syringue" />
           </div>

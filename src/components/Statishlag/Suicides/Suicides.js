@@ -4,7 +4,6 @@ import Environment from 'environment';
 import Step from 'shared/Step';
 
 import SuicideAnimation from './SuicideAnimation'
-import Button from '../Button/Button';
 import Loading from '../../Loading/Loading'
 
 
@@ -120,12 +119,11 @@ export default class Suicides extends React.Component {
       case Step.LOADED: return (
         <div className="Suicides">
           <div className="display">
-            <p className="title">How many suicides in {this.state.data[this.state.indexCountry].country} during {this.state.data[this.state.indexCountry].suicide[4].date} ?</p>
+            <p className="title">How many suicides in <span className="settings" onClick={this.updateCountry}>{this.state.data[this.state.indexCountry].country}</span> during {this.state.data[this.state.indexCountry].suicide[4].date} ?</p>
             <p>Sex : {this.state.sex}</p>
             <button onClick={this.changeSex} id="chgSexButton">Change sex</button>
             <p>Age : {this.state.age}</p>
             <button onClick={this.changeAge} id="chgAgeButton">Change age</button>
-            <Button onClick={e => this.updateCountry()} name="Another country"></Button>
           </div>
           <SuicideAnimation length={Math.ceil(this.state.value)}></SuicideAnimation>
         </div>

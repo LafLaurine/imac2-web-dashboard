@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Calque_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="75px" height="220px" viewBox="0 0 75 220" style="enable-background:new 0 0 75 220;" xml:space="preserve">
+<path id="p1" style="fill:#931F21;" d="M59.625,190.811c0,0.312-0.751,0.564-1.677,0.564H15.177c-0.926,0-1.677-0.253-1.677-0.564v-1.621
+	c0-0.312,0.751-0.564,1.677-0.564h42.771c0.926,0,1.677,0.253,1.677,0.564V190.811z"/>
+	<animate fill="freeze" restart="always" calcMode="linear" accumulate="none" dur="5s" 
+	to="M64.5,184.875c0,2.432-4.691,6.466-5.813,6.466H14.25c-1.122,0-3.667-3.452-5.625-5.778V174.28
+	c0-2.432,0.91-4.405,2.032-4.405H62.47c1.121,0,2.03,1.974,2.03,4.405V184.875z"
+	attributeType="XML" attributeName="d" id="bloodAnim" xlink:href="#p1">
+	</animate>
+</svg>
