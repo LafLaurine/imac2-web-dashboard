@@ -42,7 +42,7 @@ export default class Drugs extends React.Component {
    * @brief Get data for the component
    */
   retrieveData() {
-    fetch(Environment.dbNomicsUrl + '/v22/series/Eurostat/hlth_cd_yro?limit=1000&offset=0&q=drug&observations=1&align_periods=1&dimensions=%7B%22age%22%3A%5B%22TOTAL%22%5D%2C%22sex%22%3A%5B%22T%22%5D%7D}',
+    fetch(Environment.dbNomicsUrl + 'v22/series/Eurostat/hlth_cd_yro?limit=1000&offset=0&q=drug&observations=1&align_periods=1&dimensions=%7B%22age%22%3A%5B%22TOTAL%22%5D%2C%22sex%22%3A%5B%22T%22%5D%7D}',
       { method: 'GET', signal: this.requestController.signal })
       .then(res => { return res.json() })
       .then(json => {
