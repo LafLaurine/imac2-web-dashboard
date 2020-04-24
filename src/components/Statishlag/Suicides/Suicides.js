@@ -3,8 +3,8 @@ import './Suicides.css';
 import Environment from 'environment';
 import Step from 'shared/Step';
 
-import SuicideAnimation from './SuicideAnimation'
-import Loading from '../../Loading/Loading'
+import SuicideAnimation from './SuicideAnimation';
+import Loading from 'shared/Loading/Loading';
 
 
 /**
