@@ -10,11 +10,12 @@ import BottomNav from './BottomNav/BottomNav';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { screenWidth: null };
+    this.state = { screenWidth: 1001 };
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
   
   componentDidMount() {
+    this.updateWindowDimensions();
     window.addEventListener("resize", this.updateWindowDimensions);
   }
 
