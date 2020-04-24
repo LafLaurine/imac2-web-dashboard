@@ -22,8 +22,9 @@ export default class Crimes extends React.Component {
     }
     this.updateCountry = this.updateCountry.bind(this);
     this.updateCrimesSection = this.updateCrimesSection.bind(this);
-    this.updateCountry = this.updateCountry.bind(this)
-    this.updateRadius= this.updateRadius.bind(this)
+    this.updateCountry = this.updateCountry.bind(this);
+    this.updateRadius= this.updateRadius.bind(this);
+    this.generatePath= this.generatePath.bind(this);
   }
 
   ////////////////////// React Hooks /////////////////////////
@@ -67,10 +68,17 @@ export default class Crimes extends React.Component {
 
   /////////////////////// Render ///////////////////////////
 
+  generatePath(){
+    //var plusOrMinus = Math.random() < 0.5 ? -1 : 1;
+    return (Math.floor(Math.random())*300+200);
+  }
+
   updateRadius(){
     if(this.state.data[this.state.selectedIndex]){
       let value = this.state.data[this.state.selectedIndex].homicides[7].value;
-      if(value > 1000 )
+      if(value > 2500)
+        return "svgAnim0";
+      else if(value > 1000)
         return "svgAnim1";
       else if (value > 600)
         return "svgAnim2"
