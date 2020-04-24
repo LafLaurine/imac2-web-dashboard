@@ -92,7 +92,7 @@ export default class Crimes extends React.Component {
   }
 
   render() {
-    console.log((this.updateRadius()));
+    //console.log((this.updateRadius()));
     switch (this.state.step) {
       case Step.LOADING: return (
         <div className="Crimes">
@@ -106,7 +106,7 @@ export default class Crimes extends React.Component {
           
 
           <svg className = "svgContainer" height="350" width="800" xmlns="http://www.w3.org/2000/svg">
-              <circle className= {this.updateRadius()} cx="75%" cy="50%" r="30%" fill="red" />
+              <circle className= "bloodSVG mySVG" cx="77%" cy="50%" r="20%" fill="red" />
           </svg>
 
           <div id = "container">

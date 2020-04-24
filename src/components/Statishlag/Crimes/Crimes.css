@@ -52,11 +52,22 @@
 	100% {transform: translateY(0)}
   }
 
-  .bloodSVG {
-	animation: ufo-building-float 5s linear infinite;}
+  .svgContainer{
+  	width : 100%;
+  	transform-origin : 78% 50% ;
+  	transform : scale(1);
+  }
 
+  .bloodSVG {
+
+	/*animation: ufo-building-float 5s linear infinite;}*/
+}
   .bloodSVG2{
-  	animation : ufo-building-float 1s linear infinite;;
+  	/*animation : ufo-building-float 5s linear infinite;;*/
+  }
+
+  .mySVG{
+
   }
 
 
