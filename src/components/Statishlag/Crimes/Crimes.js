@@ -7,6 +7,7 @@ import BloodStain from './BloodStain';
 import Button from '../Button/Button';
 import Environment from 'environment';
 import Step from 'shared/Step';
+import Loading from 'shared/Loading/Loading';
 
 export default class Crimes extends React.Component {
   constructor(props) {
@@ -19,12 +20,12 @@ export default class Crimes extends React.Component {
       indexCountry2: 1,
       indexCountry3: 2,
       indexCountry4: 3,
-      selectedIndex : 0
+      selectedIndex: 0
     }
     this.updateCountry = this.updateCountry.bind(this);
     this.updateCrimesSection = this.updateCrimesSection.bind(this);
     this.updateCountry = this.updateCountry.bind(this)
-    this.updateBloodStain= this.updateBloodStain.bind(this)
+    this.updateBloodStain = this.updateBloodStain.bind(this)
   }
 
   ////////////////////// React Hooks /////////////////////////
@@ -59,16 +60,16 @@ export default class Crimes extends React.Component {
   }
 
   randomizeIndexes() {
-      this.setState({ indexCountry: (Math.floor(Math.random() * this.state.data.length)) });
-      this.setState({ indexCountry2: (Math.floor(Math.random() * this.state.data.length)) });
-      this.setState({ indexCountry3: (Math.floor(Math.random() * this.state.data.length)) });
-      this.setState({ indexCountry4: (Math.floor(Math.random() * this.state.data.length)) });
-       
+    this.setState({ indexCountry: (Math.floor(Math.random() * this.state.data.length)) });
+    this.setState({ indexCountry2: (Math.floor(Math.random() * this.state.data.length)) });
+    this.setState({ indexCountry3: (Math.floor(Math.random() * this.state.data.length)) });
+    this.setState({ indexCountry4: (Math.floor(Math.random() * this.state.data.length)) });
+
   }
 
   /////////////////////// Render ///////////////////////////
 
-  updateBloodStain(){
+  updateBloodStain() {
     console.log(this.state.data[this.state.selectedIndex].homicides[7].value);
     //FIX ME PLEASE
 
@@ -79,18 +80,18 @@ export default class Crimes extends React.Component {
 
   updateCountry() {
     this.randomizeIndexes();
-    this.setState({selectedIndex : this.state.indexCountry});
+    this.setState({ selectedIndex: this.state.indexCountry });
   }
 
   updateCrimesSection(myIndex) {
-    this.setState({selectedIndex : myIndex});
+    this.setState({ selectedIndex: myIndex });
   }
 
   render() {
     switch (this.state.step) {
       case Step.LOADING: return (
         <div className="Crimes">
-          <p>Loading</p>
+          <Loading></Loading>
         </div>
       )
 
@@ -98,22 +99,22 @@ export default class Crimes extends React.Component {
         <div className="Crimes">
           <h2>2000's CRIMES</h2>
 
-          <div id = "container">
+          <div id="container">
 
-            <BloodStain id = "bloodStain"></BloodStain>
+            <BloodStain id="bloodStain"></BloodStain>
 
             <div id="selectCountry">
-                <h3> Select a country !</h3>
-                
-                <Button onClick={e => this.updateCrimesSection(this.state.indexCountry)} name={this.state.data[this.state.indexCountry].country}></Button>
-                <Button onClick={e => this.updateCrimesSection(this.state.indexCountry2)} name={this.state.data[this.state.indexCountry2].country}></Button>
-                <Button onClick={e => this.updateCrimesSection(this.state.indexCountry3)} name={this.state.data[this.state.indexCountry3].country}></Button>
-                <Button onClick={e => this.updateCrimesSection(this.state.indexCountry4)} name={this.state.data[this.state.indexCountry4].country}></Button>
-                <Button onClick={e => this.updateCountry()} name="Change countries"></Button>
+              <h3> Select a country !</h3>
+
+              <Button onClick={e => this.updateCrimesSection(this.state.indexCountry)} name={this.state.data[this.state.indexCountry].country}></Button>
+              <Button onClick={e => this.updateCrimesSection(this.state.indexCountry2)} name={this.state.data[this.state.indexCountry2].country}></Button>
+              <Button onClick={e => this.updateCrimesSection(this.state.indexCountry3)} name={this.state.data[this.state.indexCountry3].country}></Button>
+              <Button onClick={e => this.updateCrimesSection(this.state.indexCountry4)} name={this.state.data[this.state.indexCountry4].country}></Button>
+              <Button onClick={e => this.updateCountry()} name="Change countries"></Button>
             </div>
             <div id="contentBlood">
-                  <h3>{this.state.data[this.state.selectedIndex].country}</h3>
-                  <p>{this.state.data[this.state.selectedIndex].homicides[7].value} homicides</p>
+              <h3>{this.state.data[this.state.selectedIndex].country}</h3>
+              <p>{this.state.data[this.state.selectedIndex].homicides[7].value} homicides</p>
             </div>
           </div>
 

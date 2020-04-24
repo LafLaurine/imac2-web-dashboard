@@ -2,6 +2,7 @@ import React from 'react';
 import Environment from 'environment';
 import Step from 'shared/Step';
 import './Bribes.css';
+import Loading from 'shared/Loading/Loading';
 
 import Death from './img/death.png';
 
@@ -27,7 +28,7 @@ export default class Bribes extends React.Component {
   }
 
   componentWillUnmount() {
-    if (this.state.step === Step.LOADING) 
+    if (this.state.step === Step.LOADING)
       this.requestController.abort();
   }
 
@@ -58,47 +59,49 @@ export default class Bribes extends React.Component {
 
   renderInteraction() {
     switch (this.state.gameStep) {
-    case GameStep.INTRO: return (
-      <div>
-        <p>{this.introQuotes[0]}</p>
-        <button>{this.bribeQuotes[0]}</button>
-        <button>{this.bribeQuotes[1]}</button>
-        <button>{this.bribeQuotes[2]}</button>
-      </div>
-    )
+      case GameStep.INTRO: return (
+        <div>
+          <p>{this.introQuotes[0]}</p>
+          <button>{this.bribeQuotes[0]}</button>
+          <button>{this.bribeQuotes[1]}</button>
+          <button>{this.bribeQuotes[2]}</button>
+        </div>
+      )
 
-    case GameStep.END: return (
-      <div>
-        <p>{this.conclusionQuotes[0]}</p>
-        <button>Ok I get it</button>
-      </div>
-    )
-  
-    default: return (
-      <div><p>Invalid state</p></div>
-    )}
+      case GameStep.END: return (
+        <div>
+          <p>{this.conclusionQuotes[0]}</p>
+          <button>Ok I get it</button>
+        </div>
+      )
+
+      default: return (
+        <div><p>Invalid state</p></div>
+      )
+    }
   }
 
   render() {
-    switch(this.state.step) {
-    case Step.LOADING: return (
-      <div className="Bribes">
-        <p>Loading</p>
-      </div>
-    )
+    switch (this.state.step) {
+      case Step.LOADING: return (
+        <div className="Bribes">
+          <Loading></Loading>
+        </div>
+      )
 
-    case Step.LOADED: return (
-      <div className="Bribes">
-        {this.renderInteraction()}
-        <img className="death" src={Death} alt="death" />
-      </div>
-    )
+      case Step.LOADED: return (
+        <div className="Bribes">
+          {this.renderInteraction()}
+          <img className="death" src={Death} alt="death" />
+        </div>
+      )
 
-    default: return (
-      <div className="Bribes">
-        <p>Error</p>
-      </div>
-    )}
+      default: return (
+        <div className="Bribes">
+          <p>Error</p>
+        </div>
+      )
+    }
   }
 
   ////////////////////// Member variables /////////////////////

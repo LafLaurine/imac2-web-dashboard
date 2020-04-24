@@ -5,6 +5,7 @@ import Step from 'shared/Step';
 import './Poverty.css';
 import PovertyChart from './PovertyChart'
 import Button from '../Button/Button';
+import Loading from 'shared/Loading/Loading';
 
 /**
  * @brief Show poverty data (Eurostats source)
@@ -72,7 +73,7 @@ export default class Poverty extends React.Component {
     switch (this.state.step) {
       case Step.LOADING: return (
         <div className="Poverty">
-          <p>Loading</p>
+          <Loading></Loading>
         </div>
       )
 

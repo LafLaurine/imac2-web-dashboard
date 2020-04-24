@@ -6,6 +6,7 @@ import './Kidnappings.css';
 import Environment from 'environment';
 import Background from './img/bg.jpg';
 import Tony from './img/tony-kornheiser.png';
+import Loading from 'shared/Loading/Loading';
 
 const GameStep = {
   LOWER: 'lower',
@@ -202,7 +203,7 @@ export default class Kidnappings extends React.Component {
     switch (this.state.step) {
       case Step.LOADING: return (
         <div className="Kidnappings">
-          <p>Loading</p>
+          <Loading></Loading>
         </div>
       )
 

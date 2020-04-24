@@ -5,6 +5,7 @@ import Environment from 'environment';
 import Step from 'shared/Step';
 import Syringue from './img/syringue.png';
 import Blood from './Blood';
+import Loading from 'shared/Loading/Loading';
 
 /**
  * @brief Show number of death because of drug data (Eurostats source)
@@ -75,7 +76,7 @@ export default class Drugs extends React.Component {
     switch (this.state.step) {
       case Step.LOADING: return (
         <div className="Drugs">
-          <p>Loading</p>
+          <Loading></Loading>
         </div>
       )
 
