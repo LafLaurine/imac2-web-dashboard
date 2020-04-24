@@ -84,20 +84,29 @@ export default class Crimes extends React.Component {
   /////////////////////// Render ///////////////////////////
 
   updateCountry() {
-    if(this.state.indexCountry < this.state.data.length)
-      this.setState({ indexCountry : this.state.indexCountry + 4});
+    if(this.state.indexCountry + 6 < this.state.data.length -1){
+       console.log("up + 4");
+        this.setState({ indexCountry : this.state.indexCountry + 4});
+    }
+     
     else
       this.setState({indexCountry : 0 });
 
-    this.setState({selectedIndex : this.state.indexCountry});
+    //this.setState({selectedIndex : this.state.indexCountry});
   }
 
   updateCrimesSection(myIndex) {
-    this.setState({ selectedIndex: myIndex });
+    if(this.state.indexCountry + 6 < this.state.data.length -1)
+      this.setState({ selectedIndex: myIndex });
+    else
+      this.setState({selectedIndex : 0});
   }
 
   render() {
     //console.log((this.updateRadius()));
+    console.log(this.state.indexCountry);
+    console.log(this.state.data.length);
+    console.log(this.state.data);
     switch (this.state.step) {
       case Step.LOADING: return (
         <div className="Crimes">
