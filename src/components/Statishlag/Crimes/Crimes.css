@@ -19,9 +19,8 @@
 
 .Crimes h2{
 	text-align : center;
-	margin : 0;
 	padding : 0;
-	font-family: WhoAsksSatan;
+	font-family: Neucha;
 }
 
 .Crimes h3, .Crimes h2{
@@ -29,7 +28,7 @@
 }
 
 .Crimes h3{
-	margin-top : 0;
+	margin : 3% 0 0 0;
 }
 
 .Crimes #container{
@@ -39,22 +38,31 @@
 
 .Crimes #contentBlood, .Crimes #selectCountry{
 	position : absolute;
-	top : 50px;
+	top : 30px;
 	width : 45%;
 }
 
 .Crimes #contentBlood{
-	top : 50%;
+	top : 42%;
 	right : 0px;
 	text-align : center;
 }
 
+.Crimes #selectCountry{
+	left : 3%;
+}
+
 .Crimes #selectCountry :nth-child(n+2){
+	border : 0;
 	background-color : black;
 	width : 100%;
 	color : white;
 	height : 40px;
 	margin-top : 8px;
+}
+
+.Crimes #selectCountry :nth-child(n+2):hover{
+	opacity : 0.8;
 }
 
 .Crimes #selectCountry :nth-child(6){
