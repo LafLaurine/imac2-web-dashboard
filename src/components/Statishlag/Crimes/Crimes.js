@@ -1,9 +1,6 @@
 import React from 'react';
 import './Crimes.css';
 
-
-//import Blood from './img/blood.svg';
-import BloodStain from './BloodStain';
 import Button from '../Button/Button';
 import Environment from 'environment';
 import Step from 'shared/Step';
@@ -25,7 +22,7 @@ export default class Crimes extends React.Component {
     this.updateCountry = this.updateCountry.bind(this);
     this.updateCrimesSection = this.updateCrimesSection.bind(this);
     this.updateCountry = this.updateCountry.bind(this)
-    this.updateBloodStain = this.updateBloodStain.bind(this)
+    this.updateRadius= this.updateRadius.bind(this)
   }
 
   ////////////////////// React Hooks /////////////////////////
@@ -69,8 +66,15 @@ export default class Crimes extends React.Component {
 
   /////////////////////// Render ///////////////////////////
 
-  updateBloodStain() {
-    console.log(this.state.data[this.state.selectedIndex].homicides[7].value);
+  updateRadius(){
+    if(this.state.data[this.state.selectedIndex]){
+      let value = this.state.data[this.state.selectedIndex].homicides[7].value;
+      if(value < 100){
+        return "bloodSVG";
+      }
+    }
+    return "bloodSVG2";
+    //console.log(this.state.data[this.state.selectedIndex].homicides[7].value);
     //FIX ME PLEASE
 
     //let element = document.getElementById('bloodStain');
@@ -88,6 +92,7 @@ export default class Crimes extends React.Component {
   }
 
   render() {
+    console.log((this.updateRadius()));
     switch (this.state.step) {
       case Step.LOADING: return (
         <div className="Crimes">
@@ -98,19 +103,21 @@ export default class Crimes extends React.Component {
       case Step.LOADED: return (
         <div className="Crimes">
           <h2>2000's CRIMES</h2>
+          
 
-          <div id="container">
+          <svg className = "svgContainer" height="350" width="800" xmlns="http://www.w3.org/2000/svg">
+              <circle className= {this.updateRadius()} cx="75%" cy="50%" r="30%" fill="red" />
+          </svg>
 
-            <BloodStain id="bloodStain"></BloodStain>
-
-            <div id="selectCountry">
-              <h3> Select a country !</h3>
-
-              <Button onClick={e => this.updateCrimesSection(this.state.indexCountry)} name={this.state.data[this.state.indexCountry].country}></Button>
-              <Button onClick={e => this.updateCrimesSection(this.state.indexCountry2)} name={this.state.data[this.state.indexCountry2].country}></Button>
-              <Button onClick={e => this.updateCrimesSection(this.state.indexCountry3)} name={this.state.data[this.state.indexCountry3].country}></Button>
-              <Button onClick={e => this.updateCrimesSection(this.state.indexCountry4)} name={this.state.data[this.state.indexCountry4].country}></Button>
-              <Button onClick={e => this.updateCountry()} name="Change countries"></Button>
+          <div id = "container">
+                <div id="selectCountry">
+                <h3> Select a country !</h3>
+                
+                <Button onClick={e => this.updateCrimesSection(this.state.indexCountry)} name={this.state.data[this.state.indexCountry].country}></Button>
+                <Button onClick={e => this.updateCrimesSection(this.state.indexCountry2)} name={this.state.data[this.state.indexCountry2].country}></Button>
+                <Button onClick={e => this.updateCrimesSection(this.state.indexCountry3)} name={this.state.data[this.state.indexCountry3].country}></Button>
+                <Button onClick={e => this.updateCrimesSection(this.state.indexCountry4)} name={this.state.data[this.state.indexCountry4].country}></Button>
+                <Button onClick={e => this.updateCountry()} name="Change countries"></Button>
             </div>
             <div id="contentBlood">
               <h3>{this.state.data[this.state.selectedIndex].country}</h3>

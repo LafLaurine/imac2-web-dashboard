@@ -5,6 +5,7 @@
     color: white;
     background-image: url("img/haunted.jpg");
     background-size : cover;
+    position : relative;
     overflow: hidden;
 }
 
@@ -28,29 +29,48 @@
 	height : 300px;
 }
 
-.Crimes .BloodStain, .Crimes #contentBlood, .Crimes #selectCountry{
+.Crimes #contentBlood, .Crimes #selectCountry{
 	position : absolute;
 	top : 10px;
 	width : 45%;
 }
 
-.Crimes .BloodStain{
-	right : 22.5%;
+/*.Crimes .BloodStain{
+
 	transform-origin : center;
 	transform: scale(0.5);
 	transition : transform 0.8s;
 	opacity : 0.99;
 	left : 55%;
 	top : -10%;
+}*/
+
+@keyframes ufo-building-float {
+	0%   {transform: translateY(0)}
+	25%  {transform: translateY(-25px)}
+	75%  {transform: translateY(25px)}
+	100% {transform: translateY(0)}
+  }
+
+  .bloodSVG {
+	animation: ufo-building-float 5s linear infinite;}
+
+  .bloodSVG2{
+  	animation : ufo-building-float 1s linear infinite;;
+  }
+
+
+.Crimes svg{
+	opacity : .99;
+	position : absolute;
+	top : 0;
+	left : 0%;
 }
 
-.Crimes .BloodStain img{
-	width : 100%;
-	height : 100%;
-}
+
 
 .Crimes #contentBlood{
-	transform: translate(0px, 100%);
+	top : 38%;
 	right : 0px;
 	text-align : center;
 }
