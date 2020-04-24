@@ -35,16 +35,6 @@
 	width : 45%;
 }
 
-/*.Crimes .BloodStain{
-
-	transform-origin : center;
-	transform: scale(0.5);
-	transition : transform 0.8s;
-	opacity : 0.99;
-	left : 55%;
-	top : -10%;
-}*/
-
 @keyframes ufo-building-float {
 	0%   {transform: translateY(0)}
 	25%  {transform: translateY(-25px)}
@@ -56,20 +46,48 @@
   	width : 100%;
   	transform-origin : 78% 50% ;
   	transform : scale(1);
+  	transition : 0.5s ease-in-out;
   }
 
-  .bloodSVG {
-
-	/*animation: ufo-building-float 5s linear infinite;}*/
-}
-  .bloodSVG2{
-  	/*animation : ufo-building-float 5s linear infinite;;*/
+  .svgAnim1{
+  	transform: scale(2);
   }
 
-  .mySVG{
-
+  .svgAnim2{
+  	transform: scale(1.6);
   }
 
+  .svgAnim3{
+  	transform: scale(1.4);
+  }
+
+  .svgAnim4{
+  	transform: scale(1);
+  }
+
+  .svgAnim5{
+  	transform: scale(0.8);
+  }
+
+  .svgAnim6{
+  	transform: scale(0.6);
+  }
+
+  .svgAnim7{
+  	transform: scale(0.4);
+  } 
+
+  .svgAnim8{
+  	transform: scale(0.2);
+  }
+
+  .svgAnim8{
+  	transform: scale(0.15);
+  }
+
+  .svgAnim9{
+  	transform: scale(0.1);
+  }
 
 .Crimes svg{
 	opacity : .99;
@@ -77,7 +95,6 @@
 	top : 0;
 	left : 0%;
 }
-
 
 
 .Crimes #contentBlood{

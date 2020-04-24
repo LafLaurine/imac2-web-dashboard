@@ -69,17 +69,26 @@ export default class Crimes extends React.Component {
   updateRadius(){
     if(this.state.data[this.state.selectedIndex]){
       let value = this.state.data[this.state.selectedIndex].homicides[7].value;
-      if(value < 100){
-        return "bloodSVG";
-      }
+      if(value > 1000 )
+        return "svgAnim1";
+      else if (value > 600)
+        return "svgAnim2"
+      else if(value > 400)
+        return "svgAnim3"
+      else if(value > 200)
+        return "svgAnim4"
+      else if(value > 150)
+        return "svgAnim5"
+      else if (value > 100)
+        return "svgAnim6"
+      else if(value > 50)
+        return "svgAnim7"
+      else if(value > 20)
+        return "svgAnim8"
+      else if(value >= 0)
+        return "svgAnim9"
     }
-    return "bloodSVG2";
-    //console.log(this.state.data[this.state.selectedIndex].homicides[7].value);
-    //FIX ME PLEASE
-
-    //let element = document.getElementById('bloodStain');
-    //element.style.transform = 'scale('+(this.state.data[this.state.selectedIndex].homicides[7].value)*0.05+')';
-
+    return "svgAnim9";
   }
 
   updateCountry() {
@@ -104,11 +113,12 @@ export default class Crimes extends React.Component {
         <div className="Crimes">
           <h2>2000's CRIMES</h2>
           
-
-          <svg className = "svgContainer" height="350" width="800" xmlns="http://www.w3.org/2000/svg">
-              <circle className= "bloodSVG mySVG" cx="77%" cy="50%" r="20%" fill="red" />
+          {/*BLOODSTAIN*/}
+          <svg className = {"svgContainer " + this.updateRadius() + ""} height="350" width="800" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="77%" cy="50%" r="20%" fill="red" />
           </svg>
 
+          {/*BLOODSTAIN*/}
           <div id = "container">
                 <div id="selectCountry">
                 <h3> Select a country !</h3>
@@ -119,6 +129,7 @@ export default class Crimes extends React.Component {
                 <Button onClick={e => this.updateCrimesSection(this.state.indexCountry4)} name={this.state.data[this.state.indexCountry4].country}></Button>
                 <Button onClick={e => this.updateCountry()} name="Change countries"></Button>
             </div>
+
             <div id="contentBlood">
               <h3>{this.state.data[this.state.selectedIndex].country}</h3>
               <p>{this.state.data[this.state.selectedIndex].homicides[7].value} homicides</p>
