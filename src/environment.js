@@ -9,7 +9,7 @@ const DevEnvironment = {
 
 const ProdEnvironment = {
     production: true,
-    dbNomicsUrl: 'https://api.db.nomics.world'
+    dbNomicsUrl: 'https://api.db.nomics.world/'
 };
 
 const Environment = (process.env.NODE_ENV === 'production') ? ProdEnvironment : DevEnvironment;
