@@ -15,16 +15,12 @@ export default class Crimes extends React.Component {
       step: Step.LOADING,
       data: [],
       indexCountry: 0,
-      indexCountry2: 1,
-      indexCountry3: 2,
-      indexCountry4: 3,
       selectedIndex: 0
     }
     this.updateCountry = this.updateCountry.bind(this);
     this.updateCrimesSection = this.updateCrimesSection.bind(this);
     this.updateCountry = this.updateCountry.bind(this);
     this.updateRadius= this.updateRadius.bind(this);
-    this.generatePath= this.generatePath.bind(this);
   }
 
   ////////////////////// React Hooks /////////////////////////
@@ -58,22 +54,7 @@ export default class Crimes extends React.Component {
       });
   }
 
-  randomizeIndexes() {
-    this.setState({ indexCountry: (Math.floor(Math.random() * this.state.data.length)) });
-    this.setState({ indexCountry2: (Math.floor(Math.random() * this.state.data.length)) });
-    this.setState({ indexCountry3: (Math.floor(Math.random() * this.state.data.length)) });
-    this.setState({ indexCountry4: (Math.floor(Math.random() * this.state.data.length)) });
-
-  }
-
-  /////////////////////// Render ///////////////////////////
-
-  generatePath(){
-    //var plusOrMinus = Math.random() < 0.5 ? -1 : 1;
-    return (Math.floor(Math.random())*300+200);
-  }
-
-  updateRadius(){
+ updateRadius(){
     if(this.state.data[this.state.selectedIndex]){
       let value = this.state.data[this.state.selectedIndex].homicides[7].value;
       if(value > 2500)
@@ -100,9 +81,15 @@ export default class Crimes extends React.Component {
     return "svgAnim9";
   }
 
+  /////////////////////// Render ///////////////////////////
+
   updateCountry() {
-    this.randomizeIndexes();
-    this.setState({ selectedIndex: this.state.indexCountry });
+    if(this.state.indexCountry < this.state.data.length)
+      this.setState({ indexCountry : this.state.indexCountry + 4});
+    else
+      this.setState({indexCountry : 0 });
+
+    this.setState({selectedIndex : this.state.indexCountry});
   }
 
   updateCrimesSection(myIndex) {
@@ -125,8 +112,7 @@ export default class Crimes extends React.Component {
           
           {/*BLOODSTAIN*/}
          
-
-          <svg className = {"svgContainer " + this.updateRadius() + ""} height="350" width="800" xmlns="http://www.w3.org/2000/svg" fill = "red" >
+          <svg className = {"svgContainer " + this.updateRadius()} height="350" width="800" xmlns="http://www.w3.org/2000/svg" fill = "red" >
             <path d="M412.36,223.23C415,230,415,238,414,
             245c-3,19-18,34-18.17,53.27a19.84,19.84,0,0,0,2.65,10C432,321,426,358,407,381c-8,10-24,9-37,9-4.48.14-9,.24-13.46.4-13.46.46-26.9,
             1.41-40.07,5.43a92.46,92.46,0,0,0-13.08,5.1C265,422,219,433,176.39,418.71c-4.5-1.83-8.92-3.81-13.22-5.93a189.07,189.07,0,0,
@@ -137,8 +123,6 @@ export default class Crimes extends React.Component {
             220.69,412.36,223.23Z" transform="translate(-91.73 -109.14)"/>
           </svg>
 
-
-
           {/*MAIN CONTAINER*/}
           <div id = "container">
               <h2>2000's CRIMES</h2>
@@ -147,9 +131,9 @@ export default class Crimes extends React.Component {
                 <h3> Select a country !</h3>
                 
                 <Button onClick={e => this.updateCrimesSection(this.state.indexCountry)} name={this.state.data[this.state.indexCountry].country}></Button>
-                <Button onClick={e => this.updateCrimesSection(this.state.indexCountry2)} name={this.state.data[this.state.indexCountry2].country}></Button>
-                <Button onClick={e => this.updateCrimesSection(this.state.indexCountry3)} name={this.state.data[this.state.indexCountry3].country}></Button>
-                <Button onClick={e => this.updateCrimesSection(this.state.indexCountry4)} name={this.state.data[this.state.indexCountry4].country}></Button>
+                <Button onClick={e => this.updateCrimesSection(this.state.indexCountry+1)} name={this.state.data[this.state.indexCountry+1].country}></Button>
+                <Button onClick={e => this.updateCrimesSection(this.state.indexCountry+2)} name={this.state.data[this.state.indexCountry+2].country}></Button>
+                <Button onClick={e => this.updateCrimesSection(this.state.indexCountry+3)} name={this.state.data[this.state.indexCountry+3].country}></Button>
                 <Button onClick={e => this.updateCountry()} name="Change countries"></Button>
             </div>
 
