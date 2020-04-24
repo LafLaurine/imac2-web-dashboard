@@ -1,5 +1,6 @@
 import React from 'react';
 import './Crimes.css';
+import './Anim.css';
 
 import Button from '../Button/Button';
 import Environment from 'environment';
