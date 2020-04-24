@@ -85,7 +85,6 @@ export default class Crimes extends React.Component {
 
   updateCountry() {
     if(this.state.indexCountry + 6 < this.state.data.length -1){
-       console.log("up + 4");
         this.setState({ indexCountry : this.state.indexCountry + 4});
     }
      
@@ -103,10 +102,6 @@ export default class Crimes extends React.Component {
   }
 
   render() {
-    //console.log((this.updateRadius()));
-    console.log(this.state.indexCountry);
-    console.log(this.state.data.length);
-    console.log(this.state.data);
     switch (this.state.step) {
       case Step.LOADING: return (
         <div className="Crimes">
