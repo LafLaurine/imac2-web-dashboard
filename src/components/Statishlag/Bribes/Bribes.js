@@ -124,7 +124,8 @@ export default class Bribes extends React.Component {
     "I'm here for you, come with me",
     "Time's up, this is your final day",
     "I'm here to knock of some lived body",
-    "Say hello to my scythe"
+    "Say hello to my scythe",
+    "Your time has come, you must follow me peasant"
   ];
 
   bribeQuotes = [
@@ -134,11 +135,17 @@ export default class Bribes extends React.Component {
     "I have a chrysanthemum ",
     "I heard Satan wants to promote you",
     "What name should I put on the check ?",
-    "I have a VIP pass to paradise"
+    "I have a VIP pass to paradise",
+    "Do you accept payment in kind ?",
+    "I'm not good to eat I taste very badly, you know...",
+    "I haven't made a will for my big diamonds yet, so maybe we can work something out ?",
+    "Do you know Netflix ? I can share my account with you as long as you let me be..."
   ];
 
   conclusionQuotes = [
     "There is already NUMBER of people in COUNTRY who encountered bribe, I will not fall for it",
-    "NUMBER of people in COUNTRY try to scam me with bribe, I am not this weak"
+    "NUMBER of people in COUNTRY try to scam me with bribe, I am not this weak",
+    "You took me for one of the NUMBER corrupted politicians of COUNTRY ?",
+    "You, despicable humans... That's not because in COUNTRY, NUMBER of people are corrupted that I will be too"
   ];
 }
