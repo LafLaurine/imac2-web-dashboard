@@ -46,6 +46,7 @@ export default class Suicides extends React.Component {
           .filter(country => country.suicides.length > 0);
 
         // TODO merge country data
+        console.log(data);
 
         this.setState({ step: Step.LOADED, data: data, sex: data[this.state.indexCountry].sex, age: data[this.state.indexCountry].age });
       })
@@ -68,9 +69,9 @@ export default class Suicides extends React.Component {
   updateCountry() {
     const maxIndex = this.state.data.length - 1;
     if (this.state.indexCountry + 1 >= maxIndex)
-      this.setState({ indexCountry: 0 });
+      this.setState({ indexYear: 0, indexCountry: 0 });
     else
-      this.setState({ indexCountry: this.state.indexCountry + 1 });
+      this.setState({ indexYear: 0, indexCountry: this.state.indexCountry + 1 });
   }
 
   /**
