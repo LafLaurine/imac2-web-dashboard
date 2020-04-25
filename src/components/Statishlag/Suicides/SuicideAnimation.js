@@ -42,7 +42,6 @@ export default class SuicideAnimation extends React.Component {
 
     Composites.chain(ropeA, 0.5, 0, -0.5, 0, { stiffness: 0.5, length: 5 });
     if (this.props.length > 0) {
-
       Composite.add(ropeA, Constraint.create({
         pointA: { x: 200 / 2, y: 10 },
         pointB: { x: -20, y: 0 },
@@ -65,8 +64,8 @@ export default class SuicideAnimation extends React.Component {
     });
     World.add(engine.world, [pinata, pinataConstraint]);
 
-    setTimeout(function () {
-      setInterval(function () {
+    setTimeout(() => {
+      setInterval(() => {
         const c = pinata.constraints[pinata.constraints.length - 1];
         if (c === undefined) {
           alert("YOU KILLED SOMEONE");
@@ -75,8 +74,7 @@ export default class SuicideAnimation extends React.Component {
           alert("WOW AND NOW YOU WANT TO ESCAPE FROM THIS ?");
           alert("CONGRATS FOR BEING A MONSTER");
           return;
-        }
-        else if (c.bodyB.angularSpeed < 0.1) {
+        } else if (c.bodyB.angularSpeed < 0.1) {
           return;
         }
         Composite.remove(pinata, c);
