@@ -14,11 +14,11 @@ export default class Suicides extends React.Component {
     super(props);
     this.state = {
       step: Step.LOADING,
-      sex: 'F',
-      age: 'Y15-19',
+      sex: '',
+      age: '',
       data: [],
       indexCountry: 0,
-      value: 1
+      indexYear: 0
     }
     this.switchSex = this.switchSex.bind(this);
     this.switchAge = this.switchAge.bind(this);
@@ -39,14 +39,15 @@ export default class Suicides extends React.Component {
           .map(country => ({
             'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo],
             'age': json.dataset.dimensions_values_labels.age[country.dimensions.age],
-            'suicide': country.period
+            'sex': json.dataset.dimensions_values_labels.sex[country.dimensions.sex],
+            'suicides': country.period
               .map((date, index) => ({ 'date': date, 'value': country.value[index] }))
               .filter(suicide => suicide.value !== 'NA' && suicide.value !== 0)
           }));
 
-        console.log(data);
+        // TODO merge country data
 
-        // this.setState({ step: Step.LOADED, data: data, value: data[this.state.indexCountry].suicide[4].value });
+        this.setState({ step: Step.LOADED, data: data, sex: data[this.state.indexCountry].sex, age: data[this.state.indexCountry].age });
       })
       .catch(err => {
         if (err.name !== 'AbortError')
@@ -65,27 +66,21 @@ export default class Suicides extends React.Component {
   * @brief Change country when user on name of the country and get the associated data
   */
   updateCountry() {
-    this.setState({ indexCountry: (Math.floor(Math.random() * this.state.data.length)) });
+
   }
 
   /**
    * @brief Change sex when user click on button and get the associated data
    */
   switchSex() {
-    if (this.state.sex === 'F')
-      this.setState({ sex: 'M' });
-    else
-      this.setState({ sex: 'F' });
+
   }
 
   /**
    * @brief Change age when user click on button and get the associated data
    */
   switchAge() {
-    if (this.state.age === 'Y15-19')
-      this.setState({ sort: { ...this.state.age }, age: 'Y20-24' });
-    else
-      this.setState({ sort: { ...this.state.age }, age: 'Y15-19' });
+
   }
 
   render() {
@@ -99,13 +94,13 @@ export default class Suicides extends React.Component {
       case Step.LOADED: return (
         <div className="Suicides">
           <div className="display">
-            <p className="title">How many suicides in <span className="settings" onClick={this.updateCountry}>{this.state.data[this.state.indexCountry].country}</span> during {this.state.data[this.state.indexCountry].suicide[4].date} ?</p>
+            <p className="title">How many suicides in <span className="settings" onClick={this.updateCountry}>{this.state.data[this.state.indexCountry].country}</span> during {this.state.data[this.state.indexCountry].suicides[this.state.indexYear].date} ?</p>
             <p>Sex : {this.state.sex}</p>
             <button onClick={this.switchSex}>Change sex</button>
             <p>Age : {this.state.data[this.state.indexCountry].age}</p>
             <button onClick={this.switchAge}>Change age</button>
           </div>
-          <SuicideAnimation length={Math.ceil(this.state.value)}></SuicideAnimation>
+          <SuicideAnimation length={Math.ceil(this.state.data[this.state.indexCountry].suicides[this.state.indexYear].value)}></SuicideAnimation>
         </div>
       )
 
