@@ -56,38 +56,54 @@ export default class Bribes extends React.Component {
       });
   }
 
-  handleClick() {
-    if (this.state.gameStep === GameStep.INTRO) {
+  updateGameStep() {
+    if (this.state.gameStep === GameStep.INTRO)
       this.setState({ gameStep: GameStep.END });
-    }
-    else if (this.state.gameStep === GameStep.END) {
+    else if (this.state.gameStep === GameStep.END)
       this.setState({ gameStep: GameStep.INTRO });
-    }
+  }
+
+  getRandomIndex(maxValueMinus1) {
+    return Math.floor(Math.random() * (maxValueMinus1 - 1));
   }
 
   ///////////////////////// Render /////////////////////////
 
-  renderInteraction() {
-    const randomNumberQuotes = Math.floor(Math.random() * (this.bribeQuotes.length - 2)) + 2;
-    const randomNumberIntro = Math.floor(Math.random() * this.introQuotes.length);
-    const randomNumberConclusion = Math.floor(Math.random() * this.conclusionQuotes.length);
-    const randomCountryIndex = Math.floor(Math.random() * this.state.data.length)
+  renderBribeQuotes() {
+    let randomQuoteIndex = this.getRandomIndex(this.bribeQuotes.length);
+    let quotes = [];
+    let usedIndices = [];
 
+    for (let i = 0; i < 3; i++) {
+      quotes.push(<button key={i} onClick={() => this.updateGameStep()}>{this.bribeQuotes[randomQuoteIndex]}</button>);
+      usedIndices.push(randomQuoteIndex);
+      while (usedIndices.find(el => el === randomQuoteIndex) !== undefined)
+        randomQuoteIndex = this.getRandomIndex(this.bribeQuotes.length);
+    }
+
+    return quotes;
+  }
+
+  renderInteraction() {
+    const randomCountryIndex = this.getRandomIndex(this.state.data.length);
     switch (this.state.gameStep) {
       case GameStep.INTRO: return (
         <div className="container">
-          <p>{this.introQuotes[randomNumberIntro]}</p>
-          <button onClick={() => this.handleClick()}>{this.bribeQuotes[randomNumberQuotes]}</button>
-          <button onClick={() => this.handleClick()} >{this.bribeQuotes[randomNumberQuotes - 1]}</button>
-          <button onClick={() => this.handleClick()}>{this.bribeQuotes[randomNumberQuotes - 2]}</button>
+          <p>{this.introQuotes[this.getRandomIndex(this.introQuotes.length)]}</p>
+          { this.renderBribeQuotes() }
         </div>
       )
 
       case GameStep.END: return (
         <div className="container">
-          <p>{this.conclusionQuotes[randomNumberConclusion].replace(/NUMBER/i, Math.floor(this.state.data[randomCountryIndex].bribes[0].value))
-            .replace(/COUNTRY/i, this.state.data[randomCountryIndex].country)}</p>
-          <button onClick={() => this.handleClick()}>Ok I get it</button>
+          <p>
+          {
+            this.conclusionQuotes[this.getRandomIndex(this.conclusionQuotes.length)]
+              .replace(/NUMBER/i, Math.floor(this.state.data[randomCountryIndex].bribes[0].value))
+              .replace(/COUNTRY/i, this.state.data[randomCountryIndex].country)
+          }
+          </p>
+          <button onClick={() => this.updateGameStep()}>Ok I get it</button>
         </div >
       )
 
@@ -147,9 +163,9 @@ export default class Bribes extends React.Component {
   ];
 
   conclusionQuotes = [
-    "There is already NUMBER percent of people in COUNTRY who encountered bribe, I will not fall for it",
-    "NUMBER percent of people in COUNTRY try to scam me with bribe, I am not this weak",
-    "You took me for one of the NUMBER percent corrupted politicians of COUNTRY ?",
-    "You, despicable humans... That's not because in COUNTRY, NUMBER percent of people are corrupted that I will be too"
+    "There is already NUMBER% of people in COUNTRY who encountered bribe, I will not fall for it",
+    "NUMBER% of people in COUNTRY try to scam me with bribe, I am not this weak",
+    "You took me for one of the NUMBER% corrupted politicians of COUNTRY ?",
+    "You, despicable humans... That's not because in COUNTRY, NUMBER% of people are corrupted that I will be too"
   ];
 }
