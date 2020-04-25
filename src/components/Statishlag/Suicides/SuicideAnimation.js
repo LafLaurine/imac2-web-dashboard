@@ -19,7 +19,7 @@ export default class SuicideAnimation extends React.Component {
         wireframes: false
       }
     });
-    this.engine.world.gravity.y = 4;
+    this.engine.world.gravity.y = 8;
 
     Render.run(render);
     this.createMatterWorld();
@@ -67,26 +67,24 @@ export default class SuicideAnimation extends React.Component {
     });
     World.add(this.engine.world, [pinata, pinataConstraint]);
 
-    // Handle pinata lifetime
-    if (this.isFirstLaunch) {
-      this.isFirstLaunch = false;
-      setTimeout(() => {
-        setInterval(() => {
-          const c = pinata.constraints[pinata.constraints.length - 1];
-          if (c === undefined) {
-            alert("YOU KILLED SOMEONE");
-            alert("DO YOU THINK THAT THE WORLD DOESN'T HAVE ENOUGH DEATH ?");
-            alert("DO YOU LIKE DEATH ?");
-            alert("WOW AND NOW YOU WANT TO ESCAPE FROM THIS ?");
-            alert("CONGRATS FOR BEING A MONSTER");
-            return;
-          } else if (c.bodyB.angularSpeed < 0.1) {
-            return;
-          }
-          Composite.remove(pinata, c);
-        }, 1000);
-      }, 2000);
-    }
+    // Handle pinata demembring
+    if (this.interval !== undefined)
+      clearInterval(this.interval);
+
+    this.interval = setInterval(() => {
+      const c = pinata.constraints[pinata.constraints.length - 1];
+      if (c === undefined) {
+        alert("YOU KILLED SOMEONE");
+        alert("DO YOU THINK THAT THE WORLD DOESN'T HAVE ENOUGH DEATH ?");
+        alert("DO YOU LIKE DEATH ?");
+        alert("WOW AND NOW YOU WANT TO ESCAPE FROM THIS ?");
+        alert("CONGRATS FOR BEING A MONSTER");
+        return;
+      } else if (c.bodyB.angularSpeed < 0.1) {
+        return;
+      }
+      Composite.remove(pinata, c);
+    }, 1000);
   }
 
   createPinata(x, y) {
@@ -205,5 +203,5 @@ export default class SuicideAnimation extends React.Component {
   //////////////// Member variables ///////////
 
   engine = Engine.create();
-  isFirstLaunch = true;
+  interval = undefined;
 }
