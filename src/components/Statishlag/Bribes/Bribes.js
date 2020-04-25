@@ -47,7 +47,6 @@ export default class Bribes extends React.Component {
         }));
 
         this.setState({ frequency: json.series.docs[0]['@frequency'], step: Step.LOADED, data: data });
-        console.log(this.state)
       })
       .catch(err => {
         if (err.name !== 'AbortError')
