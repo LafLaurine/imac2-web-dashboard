@@ -87,18 +87,12 @@ export default class Crimes extends React.Component {
     if(this.state.indexCountry + 6 < this.state.data.length -1){
         this.setState({ indexCountry : this.state.indexCountry + 4});
     }
-     
     else
       this.setState({indexCountry : 0 });
-
-    //this.setState({selectedIndex : this.state.indexCountry});
   }
 
   updateCrimesSection(myIndex) {
-    if(this.state.indexCountry + 6 < this.state.data.length -1)
       this.setState({ selectedIndex: myIndex });
-    else
-      this.setState({selectedIndex : 0});
   }
 
   render() {
@@ -113,9 +107,6 @@ export default class Crimes extends React.Component {
         <div className="Crimes">
         <div id = "blackfilter">
           
-          
-          {/*BLOODSTAIN*/}
-         
           <svg className = {"svgContainer " + this.updateRadius()} height="350" width="800" xmlns="http://www.w3.org/2000/svg" fill = "red" >
             <path d="M412.36,223.23C415,230,415,238,414,
             245c-3,19-18,34-18.17,53.27a19.84,19.84,0,0,0,2.65,10C432,321,426,358,407,381c-8,10-24,9-37,9-4.48.14-9,.24-13.46.4-13.46.46-26.9,
@@ -127,10 +118,9 @@ export default class Crimes extends React.Component {
             220.69,412.36,223.23Z" transform="translate(-91.73 -109.14)"/>
           </svg>
 
-          {/*MAIN CONTAINER*/}
           <div id = "container">
               <h2>2000's CRIMES</h2>
-              {/*COUNTRY SELECTION*/}
+
               <div id="selectCountry">
                 <h3> Select a country !</h3>
                 
@@ -141,7 +131,6 @@ export default class Crimes extends React.Component {
                 <Button onClick={e => this.updateCountry()} name="Change countries"></Button>
             </div>
 
-            {/*HOMICIDES RESULTS*/}
             <div id="contentBlood">
               <h3>{this.state.data[this.state.selectedIndex].country}</h3>
               <p>{this.state.data[this.state.selectedIndex].homicides[7].value} homicides</p>
