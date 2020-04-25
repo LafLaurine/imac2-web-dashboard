@@ -34,21 +34,21 @@ export default class Bribes extends React.Component {
 
   //////////////////////// Logic ////////////////////////////
 
-  //TODO : FILTER ARRAY WHEN BRIDE EMPTY
   retrieveData() {
     fetch(Environment.dbNomicsUrl + 'v22/series/WB/WDI?limit=1000&offset=0&q=bribe&observations=1&align_periods=1&dimensions=%7B%7D',
       { method: 'GET', signal: this.requestController.signal })
       .then(res => { return res.json() })
       .then(json => {
-        const data = json.series.docs.map(country => ({
-          'country': json.dataset.dimensions_values_labels.country[country.dimensions.country],
-          'bribes': country.period
-            .map((date, index) => ({ 'date': date, 'value': country.value[index] }))
-            .filter(bribe => bribe.length !== 0)
-            .filter(bribe => bribe.value !== 'NA')
-        }));
+        const data = json.series.docs
+          .map(country => ({
+            'country': json.dataset.dimensions_values_labels.country[country.dimensions.country],
+            'bribes': country.period
+              .map((date, index) => ({ 'date': date, 'value': country.value[index] }))
+              .filter(bribe => bribe.value !== 'NA')
+          }))
+          .filter(country => country.bribes.length > 0);
 
-        this.setState({ frequency: json.series.docs[0]['@frequency'], step: Step.LOADED, data: data });
+        this.setState({ step: Step.LOADED, data: data });
       })
       .catch(err => {
         if (err.name !== 'AbortError')
@@ -76,22 +76,18 @@ export default class Bribes extends React.Component {
     switch (this.state.gameStep) {
       case GameStep.INTRO: return (
         <div className="container">
-          <div className="frame-inset">
-            <p>{this.introQuotes[randomNumberIntro]}</p>
-            <button onClick={() => this.handleClick()}>{this.bribeQuotes[randomNumberQuotes]}</button>
-            <button onClick={() => this.handleClick()} >{this.bribeQuotes[randomNumberQuotes - 1]}</button>
-            <button onClick={() => this.handleClick()}>{this.bribeQuotes[randomNumberQuotes - 2]}</button>
-          </div>
+          <p>{this.introQuotes[randomNumberIntro]}</p>
+          <button onClick={() => this.handleClick()}>{this.bribeQuotes[randomNumberQuotes]}</button>
+          <button onClick={() => this.handleClick()} >{this.bribeQuotes[randomNumberQuotes - 1]}</button>
+          <button onClick={() => this.handleClick()}>{this.bribeQuotes[randomNumberQuotes - 2]}</button>
         </div>
       )
 
       case GameStep.END: return (
         <div className="container">
-          <div className="frame-inset">
-            <p>{this.conclusionQuotes[randomNumberConclusion].replace(/NUMBER/i, Math.floor(this.state.data[randomCountryIndex].bribes[0].value))
-              .replace(/COUNTRY/i, this.state.data[randomCountryIndex].country)}</p>
-            <button onClick={() => this.handleClick()}>Ok I get it</button>
-          </div>
+          <p>{this.conclusionQuotes[randomNumberConclusion].replace(/NUMBER/i, Math.floor(this.state.data[randomCountryIndex].bribes[0].value))
+            .replace(/COUNTRY/i, this.state.data[randomCountryIndex].country)}</p>
+          <button onClick={() => this.handleClick()}>Ok I get it</button>
         </div >
       )
 
