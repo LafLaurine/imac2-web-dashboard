@@ -25,19 +25,18 @@ export default class Kidnappings extends React.Component {
     this.state = {
       step: Step.LOADING,
       data: [],
-      userValue: 0,
-      baseCount: 1,
+      headCounted: 0,
+      headValue: 1,
       countryIndex: 0,
       dateIndex: 0,
-      showFeedBack: false,
-      gameStep: GameStep.LOWER
+      gameStep: GameStep.GREATER
     };
 
     this.updateGameStateTo = this.updateGameStateTo.bind(this);
     this.renderFeedBack = this.renderFeedBack.bind(this);
     this.changeCountry = this.changeCountry.bind(this);
     this.changeDate = this.changeDate.bind(this);
-    this.updateBaseCount = this.updateBaseCount.bind(this);
+    this.updateHeadValue = this.updateHeadValue.bind(this);
     this.canvasRef = React.createRef();
   }
 
@@ -59,7 +58,7 @@ export default class Kidnappings extends React.Component {
           }));
         this.setState({ step: Step.LOADED, data: data });
         this.createMatterWorld();
-        this.updateBaseCount();
+        this.updateHeadValue();
       })
       .catch(err => {
         if (err.name !== 'AbortError')
@@ -79,43 +78,36 @@ export default class Kidnappings extends React.Component {
    * @param number
    */
   updateGameStateTo(number) {
-    if (number > this.state.data[this.state.countryIndex].kidnappings[this.state.dateIndex].value)
-      this.setState({ showFeedBack: true, userValue: number, gameStep: GameStep.LOWER });
-    else if (number === Number(this.state.data[this.state.countryIndex].kidnappings[this.state.dateIndex].value))
-      this.setState({ showFeedBack: true, userValue: number, gameStep: GameStep.WIN });
+    const goodValue = Number(this.state.data[this.state.countryIndex].kidnappings[this.state.dateIndex].value);
+    if (number === goodValue)
+      this.setState({ showFeedBack: true, headCounted: number, gameStep: GameStep.WIN });
+    else if (number > goodValue)
+      this.setState({ showFeedBack: true, headCounted: number, gameStep: GameStep.LOWER });
     else
-      this.setState({ showFeedBack: true, userValue: number, gameStep: GameStep.GREATER });
-
-    // FIXME must be relaunched and not queueud
-    setTimeout(() => {
-      this.setState({ showFeedBack: false });
-    }, 3000);
+      this.setState({ showFeedBack: true, headCounted: number, gameStep: GameStep.GREATER });
   }
 
-  updateBaseCount() {
-    // TODO use a constant to know the number of heads, here 4
-    // TODO spawn more or less heads randomly
-    this.setState({ baseCount: this.state.data[this.state.countryIndex].kidnappings[this.state.dateIndex].value / 4 });
+  updateHeadValue() {
+    const goodValue = Number(this.state.data[this.state.countryIndex].kidnappings[this.state.dateIndex].value);
+    const headCountToWin = Math.floor(Math.random() * this.headCount) + 1;
+    const headValue = goodValue / headCountToWin;
+    this.setState({ headValue: headValue });
   }
 
   changeCountry() {
     const maxIndex = this.state.data.length - 1;
     if (this.state.countryIndex >= maxIndex)
-      this.setState({ countryIndex: 0 });
+      this.setState({ countryIndex: 0 }, this.updateHeadValue);
     else
-      this.setState({ countryIndex: this.state.countryIndex + 1 });
-
-    this.updateBaseCount();
+      this.setState({ countryIndex: this.state.countryIndex + 1 }, this.updateHeadValue);
   }
 
   changeDate() {
     const maxIndex = this.state.data[this.state.countryIndex].kidnappings.length - 1;
     if (this.state.dateIndex >= maxIndex)
-      this.setState({ dateIndex: 0 });
+      this.setState({ dateIndex: 0 }, this.updateHeadValue);
     else
-      this.setState({ dateIndex: this.state.dateIndex + 1 });
-
-    this.updateBaseCount();
+      this.setState({ dateIndex: this.state.dateIndex + 1 }, this.updateHeadValue);
   }
 
   ///////////////////////// Render /////////////////////////
@@ -139,7 +131,7 @@ export default class Kidnappings extends React.Component {
     Runner.run(runner, engine);
 
     // World
-    const squares = Composites.stack(600, 255, 1, 6, 0, 0, (x, y) => {
+    const heads = Composites.stack(600, 255, 1, this.headCount, 0, 0, (x, y) => {
       return Bodies.circle(x, y, 40, {
         render: {
           strokeStyle: '#ffffff',
@@ -150,7 +142,7 @@ export default class Kidnappings extends React.Component {
       });
     });
     World.add(world, [
-      squares,
+      heads,
       // walls
       Bodies.rectangle(400, 600, 800, 50, { isStatic: true }),
       Bodies.rectangle(800, 300, 50, 600, { isStatic: true }),
@@ -176,12 +168,12 @@ export default class Kidnappings extends React.Component {
     const leftCollider = Bounds.create([{ x: 0, y: 200 }, { x: 420, y: 600 }]);
     setInterval(() => {
       let count = 0
-      squares.bodies.forEach(body => {
+      heads.bodies.forEach(body => {
         if (Bounds.contains(leftCollider, body.position))
           count++;
       });
-      count *= this.state.baseCount;
-      if (count !== this.state.userValue)
+      count *= this.state.headValue;
+      if (count !== this.state.headCounted)
         this.updateGameStateTo(count);
     }, 500);
 
@@ -214,8 +206,8 @@ export default class Kidnappings extends React.Component {
               <span className="settings" onClick={this.changeCountry}> {this.state.data[this.state.countryIndex].country}</span> during
               <span className="settings" onClick={this.changeDate}> {this.state.data[this.state.countryIndex].kidnappings[this.state.dateIndex].date}</span>
             </p>
-            <p className="user-number">You set : <span className="value">{this.state.userValue}</span></p>
-            {this.state.showFeedBack && this.renderFeedBack()}
+            <p className="user-number">You set : <span className="value">{this.state.headCounted}</span></p>
+            {this.renderFeedBack()}
           </div>
           <div ref={this.canvasRef} className="game" />
         </div>
@@ -232,4 +224,5 @@ export default class Kidnappings extends React.Component {
   ////////////////////// Member variables //////////////////
 
   requestController = new AbortController();
+  headCount = 4;
 }
