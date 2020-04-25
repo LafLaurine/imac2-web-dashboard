@@ -77,7 +77,7 @@ export default class Bribes extends React.Component {
     for (let i = 0; i < 3; i++) {
       quotes.push(<button key={i} onClick={() => this.updateGameStep()}>{this.bribeQuotes[randomQuoteIndex]}</button>);
       usedIndices.push(randomQuoteIndex);
-      while (usedIndices.find(el => el === randomQuoteIndex) !== undefined)
+      while (usedIndices.indexOf(randomQuoteIndex) !== -1)
         randomQuoteIndex = this.getRandomIndex(this.bribeQuotes.length);
     }
 
