@@ -14,8 +14,6 @@ export default class Suicides extends React.Component {
     super(props);
     this.state = {
       step: Step.LOADING,
-      sex: '',
-      age: '',
       data: [],
       indexCountry: 0,
       indexYear: 0
@@ -23,6 +21,7 @@ export default class Suicides extends React.Component {
     this.switchSex = this.switchSex.bind(this);
     this.switchAge = this.switchAge.bind(this);
     this.updateCountry = this.updateCountry.bind(this);
+    this.updateDate = this.updateDate.bind(this);
   }
 
   ////////////////////// React Hooks /////////////////////////
@@ -43,7 +42,8 @@ export default class Suicides extends React.Component {
             'suicides': country.period
               .map((date, index) => ({ 'date': date, 'value': country.value[index] }))
               .filter(suicide => suicide.value !== 'NA' && suicide.value !== 0)
-          }));
+          }))
+          .filter(country => country.suicides.length > 0);
 
         // TODO merge country data
 
@@ -66,7 +66,22 @@ export default class Suicides extends React.Component {
   * @brief Change country when user on name of the country and get the associated data
   */
   updateCountry() {
+    const maxIndex = this.state.data.length - 1;
+    if (this.state.indexCountry + 1 >= maxIndex)
+      this.setState({ indexCountry: 0 });
+    else
+      this.setState({ indexCountry: this.state.indexCountry + 1 });
+  }
 
+  /**
+  * @brief Change country when user on name of the country and get the associated data
+  */
+  updateDate() {
+    const maxIndex = this.state.data[this.state.indexCountry].suicides.length - 1;
+    if (this.state.indexYear + 1 >= maxIndex)
+      this.setState({ indexYear: 0 });
+    else
+      this.setState({ indexYear: this.state.indexYear + 1 });
   }
 
   /**
@@ -94,8 +109,11 @@ export default class Suicides extends React.Component {
       case Step.LOADED: return (
         <div className="Suicides">
           <div className="display">
-            <p className="title">How many suicides in <span className="settings" onClick={this.updateCountry}>{this.state.data[this.state.indexCountry].country}</span> during {this.state.data[this.state.indexCountry].suicides[this.state.indexYear].date} ?</p>
-            <p>Sex : {this.state.sex}</p>
+            <p className="title">How many suicides in 
+              <span className="settings" onClick={this.updateCountry}> {this.state.data[this.state.indexCountry].country}</span> during
+              <span className="settings" onClick={this.updateDate}> {this.state.data[this.state.indexCountry].suicides[this.state.indexYear].date}</span> ?
+            </p>
+            <p>Sex : {this.state.data[this.state.indexCountry].sex}</p>
             <button onClick={this.switchSex}>Change sex</button>
             <p>Age : {this.state.data[this.state.indexCountry].age}</p>
             <button onClick={this.switchAge}>Change age</button>
