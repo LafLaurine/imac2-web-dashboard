@@ -6,6 +6,7 @@
     background-image: url("img/bg3.jpg");
     --color2 : #ff8614; /*orange*/
     --color1 : #e8334b; /*pink*/
+    --color3 : #c41a30; /*darker pink*/
 }
 
 .CausesOfDeath h3, .CausesOfDeath h4, .CausesOfDeath #year {
@@ -35,6 +36,10 @@
 .CausesOfDeath .Button{
 	width : 70px;
 	line-height: 15px;
+	background-color: var(--color3);
+	color : white;
+	border : none;
+	font-size : 2em;
 }
 
 .CausesOfDeath #selectYear{
