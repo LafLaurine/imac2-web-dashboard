@@ -3,13 +3,31 @@
     background-size: cover;
     font-family: Neucha;
     color:white;
+    position: relative;
+    overflow: hidden;
+}
+
+.Bribes .container {
+    display: grid;
+    justify-content: center;
+    justify-items: center;
+}
+
+.Bribes .quotes {
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .Bribes button {
     max-width: 100px;
     word-wrap: break-word;
+    margin: 10px;
+    z-index: 2;
 }
 
 .Bribes .death {
-    width: 50px;
+    height: 80%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
 }

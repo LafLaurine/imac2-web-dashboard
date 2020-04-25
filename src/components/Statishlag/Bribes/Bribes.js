@@ -90,7 +90,9 @@ export default class Bribes extends React.Component {
       case GameStep.INTRO: return (
         <div className="container">
           <p>{this.introQuotes[this.getRandomIndex(this.introQuotes.length)]}</p>
-          { this.renderBribeQuotes() }
+          <div className="quotes">
+            { this.renderBribeQuotes() }
+          </div>
         </div>
       )
 
@@ -103,7 +105,9 @@ export default class Bribes extends React.Component {
               .replace(/COUNTRY/i, this.state.data[randomCountryIndex].country)
           }
           </p>
-          <button onClick={() => this.updateGameStep()}>Ok I get it</button>
+          <div className="quotes">
+            <button onClick={() => this.updateGameStep()}>Ok I get it</button>
+          </div>
         </div >
       )
 
