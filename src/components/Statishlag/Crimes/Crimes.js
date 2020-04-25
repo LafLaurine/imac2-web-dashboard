@@ -120,11 +120,9 @@ export default class Crimes extends React.Component {
             
 
           <div id = "container">
-              <h2>2000's CRIMES</h2>
+              <h2>CRIMES (2000)</h2>
 
-              <div id="selectCountry">
-                <h3> Select a country !</h3>
-                
+              <div id="selectCountry">                
                 <Button onClick={e => this.updateCrimesSection(this.state.indexCountry)} name={this.state.data[this.state.indexCountry].country}></Button>
                 <Button onClick={e => this.updateCrimesSection(this.state.indexCountry+1)} name={this.state.data[this.state.indexCountry+1].country}></Button>
                 <Button onClick={e => this.updateCrimesSection(this.state.indexCountry+2)} name={this.state.data[this.state.indexCountry+2].country}></Button>

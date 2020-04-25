@@ -18,17 +18,9 @@
 }
 
 .Crimes h2{
-	text-align : center;
-	padding : 0;
-	font-family: Neucha;
-}
-
-.Crimes h3, .Crimes h2{
-	text-align : center;
-}
-
-.Crimes h3{
-	margin : 3% 0 0 0;
+	margin : 2% 0 0 3%;
+	font-family: Highlight;
+	font-size : 3em;
 }
 
 .Crimes #container{
@@ -38,12 +30,22 @@
 
 .Crimes #contentBlood, .Crimes #selectCountry{
 	position : absolute;
-	top : 30px;
 	width : 45%;
 }
 
+.Crimes #contentBlood h3{
+	font: 3em Highlight ; 
+	margin : 8px;
+}
+
+.Crimes #contentBlood p{
+	font : 20px Hamburger; 
+	font-weight: bold;
+	margin : 0;
+}
+
 .Crimes #contentBlood{
-	top : 42%;
+	top : 30%;
 	right : 0px;
 	text-align : center;
 }
@@ -52,7 +54,7 @@
 	left : 3%;
 }
 
-.Crimes #selectCountry :nth-child(n+2){
+.Crimes #selectCountry .Button{
 	border : 0;
 	background-color : black;
 	width : 100%;
@@ -61,11 +63,11 @@
 	margin-top : 8px;
 }
 
-.Crimes #selectCountry :nth-child(n+2):hover{
+.Crimes #selectCountry .Button:hover{
 	opacity : 0.8;
 }
 
-.Crimes #selectCountry :nth-child(6){
+.Crimes #selectCountry :nth-child(5){
 	background-color : blue;
 	color : white;
 	text-transform: uppercase;
