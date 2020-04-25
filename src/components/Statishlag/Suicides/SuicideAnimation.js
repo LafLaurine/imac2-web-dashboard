@@ -41,8 +41,8 @@ export default class SuicideAnimation extends React.Component {
             }
         });
 
-        this.myRef.current.width = 500;
-        this.myRef.current.height = 500;
+        this.myRef.current.width = 300;
+        this.myRef.current.height = 800;
         const mouseConstraint = MouseConstraint.create(engine, {
             mouse: Mouse.create(this.myRef.current)
         });

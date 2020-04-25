@@ -11,10 +11,6 @@
     cursor: default;
 }
 
-.Suicides canvas {
-    width:100%;
-}
-
 .Suicides .display {
     background: linear-gradient(180deg, #BF5252 0%, #2104CF 100%);
     padding: 10px;

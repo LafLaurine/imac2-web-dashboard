@@ -84,7 +84,7 @@ export default class Drugs extends React.Component {
         <div className="Drugs">
           <p className="title">Death because of drugs in
           <span className="settings" onClick={this.updateCountry}> {this.state.data[this.state.indexCountry].country} </span> during
-          <span>{this.state.data[this.state.indexCountry].drugs[1].date}</span> ?</p>
+          <span> {this.state.data[this.state.indexCountry].drugs[1].date}</span> ?</p>
 
           <div className="element">
             <Blood blood={this.state.data[this.state.indexCountry].drugs[1].value}></Blood>

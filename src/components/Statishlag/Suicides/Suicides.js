@@ -2,9 +2,8 @@ import React from 'react';
 import './Suicides.css';
 import Environment from 'environment';
 import Step from 'shared/Step';
-
-import SuicideAnimation from './SuicideAnimation';
 import Loading from 'shared/Loading/Loading';
+import SuicideAnimation from './SuicideAnimation';
 
 
 /**
@@ -48,7 +47,7 @@ export default class Suicides extends React.Component {
 
   /**
    * @brief Get data for the component
-   */
+  */
   retrieveData() {
     fetch(Environment.dbNomicsUrl + 'v22/series/Eurostat/yth_hlth_030?limit=1000&offset=0&q=&observations=1&align_periods=1&dimensions={}',
       { method: 'GET' })
@@ -59,11 +58,11 @@ export default class Suicides extends React.Component {
           .filter(sex => sex.dimensions.sex === this.state.sex)
           .map(country => ({
             'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo],
+            'age': json.dataset.dimensions_values_labels.age[this.state.age],
             'suicide': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] }))
           }))
-          .filter(suicide => suicide.value !== "NaN")
+          .filter(suicide => suicide.value !== "NA")
         this.setState({ frequency: json.series.docs[0]['@frequency'], step: Step.LOADED, data: data, value: data[this.state.indexCountry].suicide[4].value })
-
       })
       .catch(err => {
         if (err.name !== 'AbortError')
@@ -74,7 +73,7 @@ export default class Suicides extends React.Component {
   ////////////////////// Render ////////////////////
 
   /**
-  * @brief Change country when user click on button and get the associated data
+  * @brief Change country when user on name of the country and get the associated data
   */
   updateCountry() {
     this.setState({ indexCountry: (Math.floor(Math.random() * this.state.data.length)) });
@@ -122,7 +121,7 @@ export default class Suicides extends React.Component {
             <p className="title">How many suicides in <span className="settings" onClick={this.updateCountry}>{this.state.data[this.state.indexCountry].country}</span> during {this.state.data[this.state.indexCountry].suicide[4].date} ?</p>
             <p>Sex : {this.state.sex}</p>
             <button onClick={this.changeSex} id="chgSexButton">Change sex</button>
-            <p>Age : {this.state.age}</p>
+            <p>Age : {this.state.data[this.state.indexCountry].age}</p>
             <button onClick={this.changeAge} id="chgAgeButton">Change age</button>
           </div>
           <SuicideAnimation length={Math.ceil(this.state.value)}></SuicideAnimation>
