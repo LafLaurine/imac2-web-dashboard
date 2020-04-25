@@ -57,13 +57,16 @@
 	background-color : blue;
 }
 
+.CausesOfDeath .nbDeaths{
+	color : #ebe2e1;
+}
+
 .CausesOfDeath .tierListElem, .CausesOfDeath #year{
 	font : 1.2em Hamburger;
 	font-weight: bold;
 }
 
 .CausesOfDeath .tierListElem{
-
 	border-top : 1px solid white;
 	margin :0;
 	padding : 18px;

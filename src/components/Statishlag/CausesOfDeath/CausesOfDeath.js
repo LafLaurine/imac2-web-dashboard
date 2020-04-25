@@ -18,21 +18,23 @@ export default class CausesOfDeath extends React.Component {
       countries: ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'EL', 'FR', 'DE', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'ES', 'SE'],
       frequency: '',
       tierList: {
-        0: { country: "Lithuania" },
-        1: { country: "Romania" },
-        2: { country: "Latvia" },
-        3: { country: "Portugal" },
-        4: { country: "Croatia" },
-        5: { country: "Bulgaria" },
-        6: { country: "Estonia" },
-        7: { country: "France" },
-        8: { country: "Finland" },
-        9: { country: "Poland" }
+        0: { country: "Bulgaria", value : 1428 },
+        1: { country: "Latvia", value : 1405 },
+        2: { country: "Lithuania", value : 1344 },
+        3: { country: "Hungary", value : 1321 },
+        4: { country: "Croatia", value : 1277 },
+        5: { country: "Romania", value : 1229 },
+        6: { country: "Estonia", value : 1152 },
+        7: { country: "Germany", value : 1148 },
+        8: { country: "Italy", value : 1080 },
+        9: { country: "Greece", value : 1063 }
       },
     }
     this.retrieveData = this.retrieveData.bind(this)
     this.setYear = this.setYear.bind(this)
     this.organizeTierList = this.organizeTierList.bind(this)
+    this.getCountry = this.getCountry.bind(this)
+    this.getValue = this.getValue.bind(this)
   }
 
   componentWillUnmount() {
@@ -89,7 +91,22 @@ export default class CausesOfDeath extends React.Component {
 
   }
 
+  getCountry(index){
+    if(this.state.tierList[index].country === "Germany (until 1990 former territory of the FRG)"){
+      return "Germany";
+    }
+    return this.state.tierList[index].country;
+  }
+
+  getValue(index){
+    if(this.state.tierList[index]){
+      return (this.state.tierList[index].value);
+    }
+    return 0;
+  }
+
   render() {
+    //console.log(this.state.tierList)
     switch (this.state.step) {
       case Step.LOADING: return (
         <div className="CausesOfDeath">
@@ -115,7 +132,7 @@ export default class CausesOfDeath extends React.Component {
 
           <div id = "tierList">
           {Object.keys(this.state.tierList).map((item, index) => {
-            return <p className="tierListElem" key={index}> {index + 1}. {this.state.tierList[index].country} </p>
+            return <p className="tierListElem" key={index}> {index + 1}. {this.getCountry(index)} : <span className = "nbDeaths"> {this.getValue(index)} deaths </span> </p>
           })}
           </div>
 
