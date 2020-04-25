@@ -55,8 +55,12 @@ a {
   src: url('/fonts/Highlight.ttf') format('truetype');
 }
 
-
 @font-face {
   font-family: Hamburger;
   src: url('/fonts/Hamburger.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: Blacklist;
+  src: url('/fonts/Blacklist.ttf') format('truetype');
 }

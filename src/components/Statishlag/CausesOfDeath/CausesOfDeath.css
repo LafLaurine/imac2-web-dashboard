@@ -3,4 +3,64 @@
     height: auto;
     background-color: red;
     color: white;
+    background-image: url("img/bg3.jpg");
+    --color2 : #ff8614; /*orange*/
+    --color1 : #e8334b; /*pink*/
+}
+
+.CausesOfDeath h3, .CausesOfDeath h4, .CausesOfDeath #year {
+	text-align : center;
+}
+
+.CausesOfDeath h3, .CausesOfDeath h4{
+	margin-top : 10px;
+}
+
+.CausesOfDeath h3{
+	font: 2.3em Blacklist;
+	margin-bottom : 0;
+}
+
+.CausesOfDeath h4{
+	font: 1em Hamburger;
+	font-weight: bold;
+	margin : 0;
+}
+
+.CausesOfDeath #title{
+	background-color : var(--color1);
+	padding : 15px;
+}
+
+.CausesOfDeath .Button{
+	width : 70px;
+	line-height: 15px;
+}
+
+.CausesOfDeath #selectYear{
+	background-color : var(--color1);
+	width : 75%;
+	margin : 50px auto auto ;
+	display : flex;
+	justify-content: space-between;
+}
+
+.CausesOfDeath #tierList{
+	padding : 0;
+	width : 75%;
+	margin : auto;
+	background-color : blue;
+}
+
+.CausesOfDeath .tierListElem, .CausesOfDeath #year{
+	font : 1.2em Hamburger;
+	font-weight: bold;
+}
+
+.CausesOfDeath .tierListElem{
+
+	border-top : 1px solid white;
+	margin :0;
+	padding : 18px;
+	background-color : var(--color2);
 }
