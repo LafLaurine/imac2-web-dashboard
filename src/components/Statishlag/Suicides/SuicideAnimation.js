@@ -9,41 +9,40 @@ export default class SuicideAnimation extends React.Component {
   }
 
   componentDidMount() {
-    this.createMatterWorld();
-  }
-
-  componentDidUpdate() {
-    // TODO remove and re-create pinata
-  }
-
-  createMatterWorld() {
-    const engine = Engine.create();
-    engine.world.gravity.x = 0;
-    engine.world.gravity.y = 8;
-
-    const group = Body.nextGroup(true);
     const render = Render.create({
       canvas: this.canvasRef.current,
-      engine: engine,
+      engine: this.engine,
       options: {
-        width: window.innerWidth,
-        height: window.innerHeight,
+        width: 300,
+        height: 800,
         wireframeBackground: '#ffffff',
         wireframes: false
       }
     });
+    this.engine.world.gravity.y = 4;
 
-    this.canvasRef.current.width = 300;
-    this.canvasRef.current.height = 800;
-    const mouseConstraint = MouseConstraint.create(engine, {
+    Render.run(render);
+    this.createMatterWorld();
+    Engine.run(this.engine);
+  }
+
+  componentDidUpdate() {
+    World.clear(this.engine.world, true);
+    this.createMatterWorld();
+  }
+
+  createMatterWorld() {
+    // Add mouse controls
+    const mouseConstraint = MouseConstraint.create(this.engine, {
       mouse: Mouse.create(this.canvasRef.current)
     });
+    World.add(this.engine.world, [mouseConstraint]);
 
-    // create rope
+    // Add rope
+    const group = Body.nextGroup(true);
     const ropeA = Composites.stack(50, 10, (this.props.length) / 2, 1, 1, 1, function (x, y) {
       return Bodies.rectangle(x, y, 100, 2, { collisionFilter: { group: group } });
     });
-
     Composites.chain(ropeA, 0.5, 0, -0.5, 0, { stiffness: 0.5, length: 5 });
     if (this.props.length > 0) {
       Composite.add(ropeA, Constraint.create({
@@ -54,9 +53,9 @@ export default class SuicideAnimation extends React.Component {
         length: 5
       }));
     }
-    World.add(engine.world, ropeA);
+    World.add(this.engine.world, ropeA);
 
-    // create pinata, connect to rope
+    // Add pinata
     const pinata = this.createPinata(200 / 2 - 50, 200 / 2);
     const pinataConstraint = Constraint.create({
       bodyA: ropeA.bodies[ropeA.bodies.length - 1],
@@ -66,28 +65,28 @@ export default class SuicideAnimation extends React.Component {
       stiffness: 0.5,
       length: 5
     });
-    World.add(engine.world, [pinata, pinataConstraint]);
+    World.add(this.engine.world, [pinata, pinataConstraint]);
 
-    setTimeout(() => {
-      setInterval(() => {
-        const c = pinata.constraints[pinata.constraints.length - 1];
-        if (c === undefined) {
-          alert("YOU KILLED SOMEONE");
-          alert("DO YOU THINK THAT THE WORLD DOESN'T HAVE ENOUGH DEATH ?");
-          alert("DO YOU LIKE DEATH ?");
-          alert("WOW AND NOW YOU WANT TO ESCAPE FROM THIS ?");
-          alert("CONGRATS FOR BEING A MONSTER");
-          return;
-        } else if (c.bodyB.angularSpeed < 0.1) {
-          return;
-        }
-        Composite.remove(pinata, c);
-      }, 1000);
-    }, 2000);
-
-    World.add(engine.world, [mouseConstraint]);
-    Engine.run(engine);
-    Render.run(render);
+    // Handle pinata lifetime
+    if (this.isFirstLaunch) {
+      this.isFirstLaunch = false;
+      setTimeout(() => {
+        setInterval(() => {
+          const c = pinata.constraints[pinata.constraints.length - 1];
+          if (c === undefined) {
+            alert("YOU KILLED SOMEONE");
+            alert("DO YOU THINK THAT THE WORLD DOESN'T HAVE ENOUGH DEATH ?");
+            alert("DO YOU LIKE DEATH ?");
+            alert("WOW AND NOW YOU WANT TO ESCAPE FROM THIS ?");
+            alert("CONGRATS FOR BEING A MONSTER");
+            return;
+          } else if (c.bodyB.angularSpeed < 0.1) {
+            return;
+          }
+          Composite.remove(pinata, c);
+        }, 1000);
+      }, 2000);
+    }
   }
 
   createPinata(x, y) {
@@ -202,4 +201,9 @@ export default class SuicideAnimation extends React.Component {
       </div>
     )
   }
+
+  //////////////// Member variables ///////////
+
+  engine = Engine.create();
+  isFirstLaunch = true;
 }
