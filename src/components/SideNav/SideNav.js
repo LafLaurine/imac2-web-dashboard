@@ -4,6 +4,7 @@ import './SideNav.css';
 
 import Skull from './img/skull.png';
 import Skeleton from './img/skeletonHead.gif';
+import Music from 'shared/Music/Music';
 
 export default class SideNav extends React.Component {
   render() {
@@ -12,6 +13,7 @@ export default class SideNav extends React.Component {
         <div className="logo">
           <h1><NavLink to={"/HellsDoor"} activeClassName="selected">Chaos<br />Dashboard</NavLink></h1>
           <img src={Skull} alt="chaosDashboard wordart" />
+          <Music></Music>
         </div>
         <div className="links">
           <h2><NavLink to={"/HellsDoor"} activeClassName="selected">Hell's Door</NavLink></h2>

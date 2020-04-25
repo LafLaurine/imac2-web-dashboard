@@ -4,7 +4,6 @@ import Step from 'shared/Step';
 
 import './Poverty.css';
 import PovertyChart from './PovertyChart'
-import Button from '../Button/Button';
 import Loading from 'shared/Loading/Loading';
 
 /**
