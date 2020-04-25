@@ -151,9 +151,9 @@ export default class Bribes extends React.Component {
   ];
 
   conclusionQuotes = [
-    "There is already NUMBER of people in COUNTRY who encountered bribe, I will not fall for it",
-    "NUMBER of people in COUNTRY try to scam me with bribe, I am not this weak",
-    "You took me for one of the NUMBER corrupted politicians of COUNTRY ?",
-    "You, despicable humans... That's not because in COUNTRY, NUMBER of people are corrupted that I will be too"
+    "There is already NUMBER percent of people in COUNTRY who encountered bribe, I will not fall for it",
+    "NUMBER percent of people in COUNTRY try to scam me with bribe, I am not this weak",
+    "You took me for one of the NUMBER percent corrupted politicians of COUNTRY ?",
+    "You, despicable humans... That's not because in COUNTRY, NUMBER percent of people are corrupted that I will be too"
   ];
 }
