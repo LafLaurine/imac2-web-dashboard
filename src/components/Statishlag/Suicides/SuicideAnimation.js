@@ -12,6 +12,10 @@ export default class SuicideAnimation extends React.Component {
     this.createMatterWorld();
   }
 
+  componentDidUpdate() {
+    // TODO remove and re-create pinata
+  }
+
   createMatterWorld() {
     const engine = Engine.create();
     engine.world.gravity.x = 0;
