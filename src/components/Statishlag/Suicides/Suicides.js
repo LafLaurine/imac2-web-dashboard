@@ -50,7 +50,7 @@ export default class Suicides extends React.Component {
   */
   retrieveData() {
     fetch(Environment.dbNomicsUrl + 'v22/series/Eurostat/yth_hlth_030?limit=1000&offset=0&q=&observations=1&align_periods=1&dimensions={}',
-      { method: 'GET' })
+      { method: 'GET', signal: this.requestController.signal })
       .then(res => { return res.json() })
       .then(json => {
         const data = json.series.docs
