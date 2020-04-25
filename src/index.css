@@ -8,6 +8,10 @@ button, a, canvas {
   cursor: url('/img/cursorPointer.png'), auto;
 }
 
+a {
+  text-decoration: none; 
+}
+
 #root {
   height: 100%;
   display: grid;

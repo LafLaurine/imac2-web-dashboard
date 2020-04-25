@@ -10,7 +10,7 @@ export default class SideNav extends React.Component {
     return (
       <div className="SideNav">
         <div className="logo">
-          <h1>Chaos<br />Dashboard</h1>
+          <h1><NavLink to={"/HellsDoor"} activeClassName="selected">Chaos<br />Dashboard</NavLink></h1>
           <img src={Skull} alt="chaosDashboard wordart" />
         </div>
         <div className="links">

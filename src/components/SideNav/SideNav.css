@@ -29,6 +29,9 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+}
+
+.SideNav .logo h1 a {
     color: red;
 }
 

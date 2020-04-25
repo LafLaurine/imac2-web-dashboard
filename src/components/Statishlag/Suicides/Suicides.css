@@ -1,4 +1,5 @@
 .Suicides {
+    background: linear-gradient(180deg, #BF5252 0%, #2104CF 100%);
     color: white;
     display: grid;
     grid-auto-flow: column;
@@ -12,7 +13,6 @@
 }
 
 .Suicides .display {
-    background: linear-gradient(180deg, #BF5252 0%, #2104CF 100%);
     padding: 10px;
     font-family: HiMelody;
     font-size: 2em;
