@@ -54,23 +54,36 @@ export default class Bribes extends React.Component {
       });
   }
 
+  handleClick() {
+    if (this.state.gameStep === GameStep.INTRO) {
+      this.setState({ gameStep: GameStep.END });
+    }
+    else if (this.state.gameStep === GameStep.END) {
+      this.setState({ gameStep: GameStep.INTRO });
+    }
+  }
+
   ///////////////////////// Render /////////////////////////
 
   renderInteraction() {
+    const randomNumberQuotes = Math.floor(Math.random() * (this.bribeQuotes.length - 2)) + 2;
+    const randomNumberIntro = Math.floor(Math.random() * this.introQuotes.length);
+    const randomNumberConclusion = Math.floor(Math.random() * this.conclusionQuotes.length);
+
     switch (this.state.gameStep) {
       case GameStep.INTRO: return (
-        <div>
-          <p>{this.introQuotes[0]}</p>
-          <button>{this.bribeQuotes[0]}</button>
-          <button>{this.bribeQuotes[1]}</button>
-          <button>{this.bribeQuotes[2]}</button>
+        <div className="container">
+          <p>{this.introQuotes[randomNumberIntro]}</p>
+          <button onClick={() => this.handleClick()}>{this.bribeQuotes[randomNumberQuotes]}</button>
+          <button onClick={() => this.handleClick()} >{this.bribeQuotes[randomNumberQuotes - 1]}</button>
+          <button onClick={() => this.handleClick()}>{this.bribeQuotes[randomNumberQuotes - 2]}</button>
         </div>
       )
 
       case GameStep.END: return (
         <div>
-          <p>{this.conclusionQuotes[0]}</p>
-          <button>Ok I get it</button>
+          <p>{this.conclusionQuotes[randomNumberConclusion].replace(/NUMBER/i, Math.floor(this.state.data[0].bribes[0].value)).replace(/COUNTRY/i, this.state.data[0].country)}</p>
+          <button onClick={() => this.handleClick()}>Ok I get it</button>
         </div>
       )
 
@@ -108,16 +121,24 @@ export default class Bribes extends React.Component {
   requestController = new AbortController();
 
   introQuotes = [
-    "I'm here for you, come with me"
+    "I'm here for you, come with me",
+    "Time's up, this is your final day",
+    "I'm here to knock of some lived body",
+    "Say hello to my scythe"
   ];
 
   bribeQuotes = [
     "Maybe I can offer you a coffee ?",
     "Wow, great shoes ! Can I buy them ?",
-    "I get it, that's why she left you ?"
+    "I get it, that's why she left you ?",
+    "I have a chrysanthemum ",
+    "I heard Satan wants to promote you",
+    "What name should I put on the check ?",
+    "I have a VIP pass to paradise"
   ];
 
   conclusionQuotes = [
-    "There is already NUMBER of people in COUNTRY who encountered bribe, I will not fall for it"
+    "There is already NUMBER of people in COUNTRY who encountered bribe, I will not fall for it",
+    "NUMBER of people in COUNTRY try to scam me with bribe, I am not this weak"
   ];
 }
