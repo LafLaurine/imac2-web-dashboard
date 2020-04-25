@@ -3,6 +3,8 @@
     background-image: url('./img/bg.jpg');
     background-size: cover;
     text-align: center;
+    display: grid;
+    grid-template-rows: 100px 1fr;
 }
 
 .Drugs .title {
@@ -21,13 +23,19 @@
 }
 
 .Drugs .content {
-    display: grid;
+    display: inline-grid;
     grid-template-columns: 1fr 1fr;
+    align-content: center;
     align-items: center;
 }
 
 .Drugs .syringe {
     position: relative;
+    height: 150px;
+}
+
+.Drugs img {
+    height: 100%;
 }
 
 .Blood {
@@ -35,6 +43,7 @@
     bottom: 0;
     left: 50%;
     transform: translate(-50%, 0%);
+    height: 100%;
 }
 
 

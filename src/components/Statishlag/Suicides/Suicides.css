@@ -4,11 +4,11 @@
     display: grid;
     grid-template-columns: 60% 1fr;
     text-align: center;
+    overflow: hidden;
 }
 
 .SuicideAnimation {
     background: 0% 0% / contain rgb(24, 24, 29);
-    width: 300px;
     cursor: default;
 }
 

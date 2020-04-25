@@ -3,7 +3,7 @@ import './Drugs.css';
 
 import Environment from 'environment';
 import Step from 'shared/Step';
-import Syringue from './img/syringue.png';
+import Syringue from './img/syringue.svg';
 import Blood from './Blood';
 import Loading from 'shared/Loading/Loading';
 
@@ -85,8 +85,8 @@ export default class Drugs extends React.Component {
           <div className="content">
             <h3>{this.state.data[this.state.indexCountry].drugs[this.state.indexDate].value}%</h3>
             <div className="syringe">
-              <Blood blood={this.state.data[this.state.indexCountry].drugs[this.state.indexDate].value}></Blood>
               <img className="syringe-img" src={Syringue} alt="Syringue" />
+              <Blood blood={this.state.data[this.state.indexCountry].drugs[this.state.indexDate].value}></Blood>
             </div>
           </div>
         </div>
