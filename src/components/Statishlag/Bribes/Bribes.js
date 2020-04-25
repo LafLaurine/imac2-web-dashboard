@@ -34,6 +34,7 @@ export default class Bribes extends React.Component {
 
   //////////////////////// Logic ////////////////////////////
 
+  //TODO : FILTER ARRAY WHEN BRIDE EMPTY
   retrieveData() {
     fetch(Environment.dbNomicsUrl + 'v22/series/WB/WDI?limit=1000&offset=0&q=bribe&observations=1&align_periods=1&dimensions=%7B%7D',
       { method: 'GET', signal: this.requestController.signal })
@@ -43,6 +44,7 @@ export default class Bribes extends React.Component {
           'country': json.dataset.dimensions_values_labels.country[country.dimensions.country],
           'bribes': country.period
             .map((date, index) => ({ 'date': date, 'value': country.value[index] }))
+            .filter(bribe => bribe.length !== 0)
             .filter(bribe => bribe.value !== 'NA')
         }));
 
@@ -69,22 +71,28 @@ export default class Bribes extends React.Component {
     const randomNumberQuotes = Math.floor(Math.random() * (this.bribeQuotes.length - 2)) + 2;
     const randomNumberIntro = Math.floor(Math.random() * this.introQuotes.length);
     const randomNumberConclusion = Math.floor(Math.random() * this.conclusionQuotes.length);
+    const randomCountryIndex = Math.floor(Math.random() * this.state.data.length)
 
     switch (this.state.gameStep) {
       case GameStep.INTRO: return (
         <div className="container">
-          <p>{this.introQuotes[randomNumberIntro]}</p>
-          <button onClick={() => this.handleClick()}>{this.bribeQuotes[randomNumberQuotes]}</button>
-          <button onClick={() => this.handleClick()} >{this.bribeQuotes[randomNumberQuotes - 1]}</button>
-          <button onClick={() => this.handleClick()}>{this.bribeQuotes[randomNumberQuotes - 2]}</button>
+          <div className="frame-inset">
+            <p>{this.introQuotes[randomNumberIntro]}</p>
+            <button onClick={() => this.handleClick()}>{this.bribeQuotes[randomNumberQuotes]}</button>
+            <button onClick={() => this.handleClick()} >{this.bribeQuotes[randomNumberQuotes - 1]}</button>
+            <button onClick={() => this.handleClick()}>{this.bribeQuotes[randomNumberQuotes - 2]}</button>
+          </div>
         </div>
       )
 
       case GameStep.END: return (
-        <div>
-          <p>{this.conclusionQuotes[randomNumberConclusion].replace(/NUMBER/i, Math.floor(this.state.data[0].bribes[0].value)).replace(/COUNTRY/i, this.state.data[0].country)}</p>
-          <button onClick={() => this.handleClick()}>Ok I get it</button>
-        </div>
+        <div className="container">
+          <div className="frame-inset">
+            <p>{this.conclusionQuotes[randomNumberConclusion].replace(/NUMBER/i, Math.floor(this.state.data[randomCountryIndex].bribes[0].value))
+              .replace(/COUNTRY/i, this.state.data[randomCountryIndex].country)}</p>
+            <button onClick={() => this.handleClick()}>Ok I get it</button>
+          </div>
+        </div >
       )
 
       default: return (
