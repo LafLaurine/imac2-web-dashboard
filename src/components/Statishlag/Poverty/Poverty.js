@@ -76,12 +76,10 @@ export default class Poverty extends React.Component {
 
       case Step.LOADED: return (
         <div className="Poverty">
-          <div className="container">
-            <div className="element">
-              <p>Poverty in <span className="settings" onClick={this.changeCountry}> {this.state.data[this.state.countryIndex].country} </span>?</p>
-            </div>
-            {this.renderGraph()}
+          <div className="element">
+            <h2>Poverty in <span className="settings" onClick={this.changeCountry}> {this.state.data[this.state.countryIndex].country} </span>?</h2>
           </div>
+          {this.renderGraph()}
         </div>
       )
 

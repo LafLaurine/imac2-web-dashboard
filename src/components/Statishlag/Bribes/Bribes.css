@@ -15,14 +15,22 @@
 
 .Bribes .quotes {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
 }
 
 .Bribes button {
-    max-width: 100px;
+    max-width: 200px;
     word-wrap: break-word;
     margin: 10px;
+    padding: 5px 30px;
     z-index: 2;
+}
+
+.Bribes h2 {
+    z-index: 2;
+    text-shadow: #FC0 1px 0 10px;
+    max-width: 70%;
 }
 
 .Bribes .death {

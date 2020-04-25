@@ -1,7 +1,15 @@
 .Poverty {
     font-family: VampiroOne;
     background-image: url('./img/bgPoverty.jpg');
+    display: grid;
+    align-content: space-around;
     color: black;
+    overflow: hidden;
+}
+
+.Poverty .chartjs-render-monitor {
+    width: 100% !important; /* They made me do it */
+    height: auto !important;
 }
 
 .Poverty .element {
