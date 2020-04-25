@@ -7,6 +7,14 @@
     --color2 : #ff8614; /*orange*/
     --color1 : #e8334b; /*pink*/
     --color3 : #c41a30; /*darker pink*/
+
+    /*TIER CODES*/
+    --STier : #f2301b;
+    --ATier : #eff748;
+    --BTier : #1bfa53;
+    --CTier : #33ddff;
+    --DTier : #ed47a0;
+
 }
 
 .CausesOfDeath h3, .CausesOfDeath h4, .CausesOfDeath #year {
@@ -67,8 +75,37 @@
 }
 
 .CausesOfDeath .tierListElem{
+	position : relative;
 	border-top : 1px solid white;
 	margin :0;
 	padding : 18px;
 	background-color : var(--color2);
+}
+
+.CausesOfDeath .tierCategory{
+	position : absolute;
+	top : 5px;
+	right : 30px;
+	margin :0;
+	padding : 15px;
+}
+
+.CausesOfDeath .tierCategory.sTier{
+	background-color : var(--STier);
+}
+
+.CausesOfDeath .tierCategory.aTier{
+	background-color : var(--ATier);
+}
+
+.CausesOfDeath .tierCategory.bTier{
+	background-color : var(--BTier);
+}
+
+.CausesOfDeath .tierCategory.cTier{
+	background-color : var(--CTier);
+}
+
+.CausesOfDeath .tierCategory.dTier{
+	background-color : var(--DTier);
 }

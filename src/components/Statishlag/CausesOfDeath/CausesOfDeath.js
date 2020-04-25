@@ -35,6 +35,7 @@ export default class CausesOfDeath extends React.Component {
     this.organizeTierList = this.organizeTierList.bind(this)
     this.getCountry = this.getCountry.bind(this)
     this.getValue = this.getValue.bind(this)
+    this.getTier = this.getTier.bind(this)
   }
 
   componentWillUnmount() {
@@ -105,6 +106,28 @@ export default class CausesOfDeath extends React.Component {
     return 0;
   }
 
+  getTier(index){
+    if(this.state.tierList[index]){
+      if(this.state.tierList[index].value >= 1300){
+        return <span className = "tierCategory sTier">S TIER</span> 
+      }
+      else if(this.state.tierList[index].value >= 1200){
+        return <span className = "tierCategory aTier">A TIER</span> 
+      }
+      else if(this.state.tierList[index].value >= 1100){
+        return <span className = "tierCategory bTier">B TIER</span> 
+      }
+      else if(this.state.tierList[index].value >= 1000){
+        return <span className = "tierCategory cTier">C TIER</span> 
+      }
+      else if(this.state.tierList[index].value >= 900){
+        return <span className = "tierCategory dTier">D TIER</span> 
+      }
+    }
+
+    return
+  }
+
   render() {
     //console.log(this.state.tierList)
     switch (this.state.step) {
@@ -132,7 +155,7 @@ export default class CausesOfDeath extends React.Component {
 
           <div id = "tierList">
           {Object.keys(this.state.tierList).map((item, index) => {
-            return <p className="tierListElem" key={index}> {index + 1}. {this.getCountry(index)} : <span className = "nbDeaths"> {this.getValue(index)} deaths </span> </p>
+            return <p className="tierListElem" key={index}> {index + 1}. {this.getCountry(index)} : <span className = "nbDeaths"> {this.getValue(index)} deaths </span> {this.getTier(index)} </p> 
           })}
           </div>
 
