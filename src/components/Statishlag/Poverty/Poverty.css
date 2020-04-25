@@ -8,15 +8,14 @@
     text-align: center;
 }
 
-.Poverty button {
-    background-color: #00A3FF;
-    color: white;
-    width: 250px;
-    height: 50px;
-    font-family: Chango;
-    font-size: 0.6em;
-    margin: 5px 0;
-    border: none;
+.Poverty .settings {
+    cursor: pointer;
+    color: red;
+    font-weight: bolder;
+}
+
+.Poverty .settings:hover {
+    color: black;
 }
 
 .Poverty .PovertyChart {
