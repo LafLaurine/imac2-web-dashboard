@@ -46,7 +46,6 @@ export default class Suicides extends React.Component {
           .filter(country => country.suicides.length > 0);
 
         // TODO merge country data
-        console.log(data);
 
         this.setState({ step: Step.LOADED, data: data, sex: data[this.state.indexCountry].sex, age: data[this.state.indexCountry].age });
       })
@@ -89,14 +88,14 @@ export default class Suicides extends React.Component {
    * @brief Change sex when user click on button and get the associated data
    */
   switchSex() {
-
+    // TODO
   }
 
   /**
    * @brief Change age when user click on button and get the associated data
    */
   switchAge() {
-
+    // TODO
   }
 
   render() {
@@ -115,9 +114,7 @@ export default class Suicides extends React.Component {
               <span className="settings" onClick={this.updateDate}> {this.state.data[this.state.indexCountry].suicides[this.state.indexYear].date}</span> ?
             </p>
             <p>Sex : {this.state.data[this.state.indexCountry].sex}</p>
-            <button onClick={this.switchSex}>Change sex</button>
             <p>Age : {this.state.data[this.state.indexCountry].age}</p>
-            <button onClick={this.switchAge}>Change age</button>
           </div>
           <SuicideAnimation length={Math.ceil(this.state.data[this.state.indexCountry].suicides[this.state.indexYear].value)}></SuicideAnimation>
         </div>

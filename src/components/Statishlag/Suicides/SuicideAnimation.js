@@ -8,6 +8,8 @@ export default class SuicideAnimation extends React.Component {
     this.canvasRef = React.createRef();
   }
 
+  /////////////// React Hooks ///////////////////
+
   componentDidMount() {
     const render = Render.create({
       canvas: this.canvasRef.current,
@@ -31,62 +33,14 @@ export default class SuicideAnimation extends React.Component {
     this.createMatterWorld();
   }
 
-  createMatterWorld() {
-    // Add mouse controls
-    const mouseConstraint = MouseConstraint.create(this.engine, {
-      mouse: Mouse.create(this.canvasRef.current)
-    });
-    World.add(this.engine.world, [mouseConstraint]);
+  /////////////// Logic ////////////////
 
-    // Add rope
-    const group = Body.nextGroup(true);
-    const ropeA = Composites.stack(50, 10, (this.props.length) / 2, 1, 1, 1, function (x, y) {
-      return Bodies.rectangle(x, y, 100, 2, { collisionFilter: { group: group } });
-    });
-    Composites.chain(ropeA, 0.5, 0, -0.5, 0, { stiffness: 0.5, length: 5 });
-    if (this.props.length > 0) {
-      Composite.add(ropeA, Constraint.create({
-        pointA: { x: 200 / 2, y: 10 },
-        pointB: { x: -20, y: 0 },
-        bodyB: ropeA.bodies[0],
-        stiffness: 0.5,
-        length: 5
-      }));
-    }
-    World.add(this.engine.world, ropeA);
-
-    // Add pinata
-    const pinata = this.createPinata(200 / 2 - 50, 200 / 2);
-    const pinataConstraint = Constraint.create({
-      bodyA: ropeA.bodies[ropeA.bodies.length - 1],
-      bodyB: pinata.bodies[1],
-      pointA: { x: 25, y: 0 },
-      pointB: { x: 0, y: -30 },
-      stiffness: 0.5,
-      length: 5
-    });
-    World.add(this.engine.world, [pinata, pinataConstraint]);
-
-    // Handle pinata demembring
-    if (this.interval !== undefined)
-      clearInterval(this.interval);
-
-    this.interval = setInterval(() => {
-      const c = pinata.constraints[pinata.constraints.length - 1];
-      if (c === undefined) {
-        alert("YOU KILLED SOMEONE");
-        alert("DO YOU THINK THAT THE WORLD DOESN'T HAVE ENOUGH DEATH ?");
-        alert("DO YOU LIKE DEATH ?");
-        alert("WOW AND NOW YOU WANT TO ESCAPE FROM THIS ?");
-        alert("CONGRATS FOR BEING A MONSTER");
-        return;
-      } else if (c.bodyB.angularSpeed < 0.1) {
-        return;
-      }
-      Composite.remove(pinata, c);
-    }, 1000);
-  }
-
+  /**
+   * @brief Create a Matter.js ragdol
+   * @param {number} x 
+   * @param {number} y 
+   * @returns Pinata
+   */
   createPinata(x, y) {
     const group = Body.nextGroup(true);
     const headOptions = { friction: 1, frictionAir: .09, collisionFilter: { group: group } };
@@ -189,6 +143,64 @@ export default class SuicideAnimation extends React.Component {
         upperToLowerRightLeg
       ]
     });
+  }
+
+  /////////////// Render //////////////////
+
+  createMatterWorld() {
+    // Add mouse controls
+    const mouseConstraint = MouseConstraint.create(this.engine, {
+      mouse: Mouse.create(this.canvasRef.current)
+    });
+    World.add(this.engine.world, [mouseConstraint]);
+
+    // Add rope
+    const group = Body.nextGroup(true);
+    const ropeA = Composites.stack(50, 10, (this.props.length) / 2, 1, 1, 1, function (x, y) {
+      return Bodies.rectangle(x, y, 100, 2, { collisionFilter: { group: group } });
+    });
+    Composites.chain(ropeA, 0.5, 0, -0.5, 0, { stiffness: 0.5, length: 5 });
+    if (this.props.length > 0) {
+      Composite.add(ropeA, Constraint.create({
+        pointA: { x: 200 / 2, y: 10 },
+        pointB: { x: -20, y: 0 },
+        bodyB: ropeA.bodies[0],
+        stiffness: 0.5,
+        length: 5
+      }));
+    }
+    World.add(this.engine.world, ropeA);
+
+    // Add pinata
+    const pinata = this.createPinata(200 / 2 - 50, 200 / 2);
+    const pinataConstraint = Constraint.create({
+      bodyA: ropeA.bodies[ropeA.bodies.length - 1],
+      bodyB: pinata.bodies[1],
+      pointA: { x: 25, y: 0 },
+      pointB: { x: 0, y: -30 },
+      stiffness: 0.5,
+      length: 5
+    });
+    World.add(this.engine.world, [pinata, pinataConstraint]);
+
+    // Handle pinata demembring
+    if (this.interval !== undefined)
+      clearInterval(this.interval);
+
+    this.interval = setInterval(() => {
+      const c = pinata.constraints[pinata.constraints.length - 1];
+      if (c === undefined) {
+        alert("YOU KILLED SOMEONE");
+        alert("DO YOU THINK THAT THE WORLD DOESN'T HAVE ENOUGH DEATH ?");
+        alert("DO YOU LIKE DEATH ?");
+        alert("WOW AND NOW YOU WANT TO ESCAPE FROM THIS ?");
+        alert("CONGRATS FOR BEING A MONSTER");
+        return;
+      } else if (c.bodyB.angularSpeed < 0.1) {
+        return;
+      }
+      Composite.remove(pinata, c);
+    }, 1000);
   }
 
   render() {
