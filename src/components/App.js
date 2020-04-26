@@ -6,6 +6,7 @@ import Statishlag from './Statishlag/Statishlag';
 import Contact from './Contact/Contact';
 import SideNav from 'components/SideNav/SideNav';
 import BottomNav from './BottomNav/BottomNav';
+import FlyingDemon from 'shared/FlyingDemon/FlyingDemon';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -34,6 +35,7 @@ export default class App extends React.Component {
         ? <SideNav></SideNav> 
         : <BottomNav></BottomNav> 
         }
+        <FlyingDemon></FlyingDemon>
         <Switch>
           <Route exact path={"/HellsDoor"} component={HellsDoor} />
           <Route exact path={"/Statishlag"} component={Statishlag} />
