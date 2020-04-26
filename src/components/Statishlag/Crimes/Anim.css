@@ -51,10 +51,24 @@
   	transform: scale(0.1);
   }
 
+  
+
   @media only screen and (max-width: 900px) {
   .svgContainer{
     margin-right : -3%;
   }
+  }
+
+   @media only screen and (max-width: 700px) {
+    .svgContainer{
+      margin-right : -12%;
+    }
+  }
+
+  @media only screen and (max-width: 550px) {
+    .svgContainer{
+      margin-right : -18%;
+    }
   }
 
   @media only screen and (min-width: 1250px) {
@@ -73,6 +87,5 @@
   .svgContainer{
     margin-right : -5%;
   }
-
-}
+  }
 

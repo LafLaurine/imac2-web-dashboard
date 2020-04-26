@@ -42,7 +42,7 @@ export default class Crimes extends React.Component {
       .then(res => { return res.json() })
       .then(json => {
         const data = json.series.docs
-          .filter(geo => geo.dimensions.geo !== 'FX' && geo.dimensions.geo !== 'ME')
+          .filter(geo => geo.dimensions.geo !== 'FX' && geo.dimensions.geo !== 'ME' && geo.dimensions.geo !== 'MK')
           .map(country => ({
             'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo],
             'homicides': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] }))
