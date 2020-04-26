@@ -17,7 +17,6 @@ export default class CausesOfDeath extends React.Component {
       data: [],
       year: 2014,
       countries: ['AT', 'BE', 'BG', 'CY', 'CZ', 'DK', 'FI', 'EL', 'FR', 'DE', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'ES', 'SE'],
-      frequency: '',
       tierList: {},
     }
     this.retrieveData = this.retrieveData.bind(this)
@@ -49,7 +48,7 @@ export default class CausesOfDeath extends React.Component {
             'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo],
             'deaths': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] })),
           }))
-        this.setState({ frequency: json.series.docs[0]['@frequency'], step: Step.LOADED, data: data })
+        this.setState({ step: Step.LOADED, data: data })
 
       })
       .catch(err => {
