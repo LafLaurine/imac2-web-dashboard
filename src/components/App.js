@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, BrowserRouter, Route, Redirect } from 'react-router-dom';
+import { Switch, HashRouter, Route, Redirect } from 'react-router-dom';
 
 import HellsDoor from './HellsDoor/HellsDoor';
 import Statishlag from './Statishlag/Statishlag';
@@ -29,7 +29,7 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <BrowserRouter>
+      <HashRouter hashType="noslash">
         { (this.state.screenWidth > 1000 ) 
         ? <SideNav></SideNav> 
         : <BottomNav></BottomNav> 
@@ -42,7 +42,7 @@ export default class App extends React.Component {
             <Redirect to="/HellsDoor" />
           </Route>
         </Switch>
-      </BrowserRouter>
+      </HashRouter>
     )
   }
 }
