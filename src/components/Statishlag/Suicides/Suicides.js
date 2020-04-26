@@ -34,19 +34,25 @@ export default class Suicides extends React.Component {
       { method: 'GET', signal: this.requestController.signal })
       .then(res => { return res.json() })
       .then(json => {
-        const data = json.series.docs
-          .map(country => ({
+        const countryMap = new Map();
+        json.series.docs.forEach(country => {
+          let countryValue = {};
+          if (countryMap.has(country.dimensions.geo))
+            countryValue = countryMap.get(country.dimensions.geo);
+
+          // TODO merge values and do not overwrite them
+          countryValue = {
             'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo],
             'age': json.dataset.dimensions_values_labels.age[country.dimensions.age],
             'sex': json.dataset.dimensions_values_labels.sex[country.dimensions.sex],
             'suicides': country.period
               .map((date, index) => ({ 'date': date, 'value': country.value[index] }))
               .filter(suicide => suicide.value !== 'NA' && suicide.value !== 0)
-          }))
-          .filter(country => country.suicides.length > 0);
-
-        // TODO merge country data
-
+          };
+          countryMap.set(country.dimensions.geo, countryValue);
+        });
+        
+        const data = Array.from(countryMap, country => country[1]);
         this.setState({ step: Step.LOADED, data: data, sex: data[this.state.indexCountry].sex, age: data[this.state.indexCountry].age });
       })
       .catch(err => {
