@@ -16,6 +16,7 @@ export default class Suicides extends React.Component {
       step: Step.LOADING,
       data: [],
       indexCountry: 0,
+      indexValues: 0,
       indexYear: 0
     }
     this.switchSex = this.switchSex.bind(this);
@@ -39,21 +40,21 @@ export default class Suicides extends React.Component {
           let countryValue = {};
           if (countryMap.has(country.dimensions.geo))
             countryValue = countryMap.get(country.dimensions.geo);
+          else
+            countryValue = { 'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo], 'values': [] };
 
-          // TODO merge values and do not overwrite them
-          countryValue = {
-            'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo],
+          countryValue.values.push({
             'age': json.dataset.dimensions_values_labels.age[country.dimensions.age],
             'sex': json.dataset.dimensions_values_labels.sex[country.dimensions.sex],
             'suicides': country.period
               .map((date, index) => ({ 'date': date, 'value': country.value[index] }))
               .filter(suicide => suicide.value !== 'NA' && suicide.value !== 0)
-          };
+          });
           countryMap.set(country.dimensions.geo, countryValue);
         });
-        
+
         const data = Array.from(countryMap, country => country[1]);
-        this.setState({ step: Step.LOADED, data: data, sex: data[this.state.indexCountry].sex, age: data[this.state.indexCountry].age });
+        this.setState({ step: Step.LOADED, data: data });
       })
       .catch(err => {
         if (err.name !== 'AbortError') {
@@ -85,7 +86,7 @@ export default class Suicides extends React.Component {
   * @brief Change country when user on name of the country and get the associated data
   */
   updateDate() {
-    const maxIndex = this.state.data[this.state.indexCountry].suicides.length - 1;
+    const maxIndex = this.state.data[this.state.indexCountry].values[this.state.indexValues].suicides.length - 1;
     if (this.state.indexYear + 1 >= maxIndex)
       this.setState({ indexYear: 0 });
     else
@@ -119,12 +120,12 @@ export default class Suicides extends React.Component {
           <div className="display">
             <p className="title">How many suicides in 
               <span className="settings" onClick={this.updateCountry}> {this.state.data[this.state.indexCountry].country}</span> during
-              <span className="settings" onClick={this.updateDate}> {this.state.data[this.state.indexCountry].suicides[this.state.indexYear].date}</span> ?
+              <span className="settings" onClick={this.updateDate}> {this.state.data[this.state.indexCountry].values[this.state.indexValues].suicides[this.state.indexYear].date}</span> ?
             </p>
-            <p>Sex : {this.state.data[this.state.indexCountry].sex}</p>
-            <p>Age : {this.state.data[this.state.indexCountry].age}</p>
+            <p>Sex : {this.state.data[this.state.indexCountry].values[this.state.indexValues].sex}</p>
+            <p>Age : {this.state.data[this.state.indexCountry].values[this.state.indexValues].age}</p>
           </div>
-          <SuicideAnimation length={Math.ceil(this.state.data[this.state.indexCountry].suicides[this.state.indexYear].value)}></SuicideAnimation>
+          <SuicideAnimation length={Math.ceil(this.state.data[this.state.indexCountry].values[this.state.indexValues].suicides[this.state.indexYear].value)}></SuicideAnimation>
         </div>
       )
 
