@@ -50,8 +50,10 @@ export default class Suicides extends React.Component {
         this.setState({ step: Step.LOADED, data: data, sex: data[this.state.indexCountry].sex, age: data[this.state.indexCountry].age });
       })
       .catch(err => {
-        if (err.name !== 'AbortError')
+        if (err.name !== 'AbortError') {
           console.error(`[Suicides] Cannot get  ${Environment.dbNomicsUrl} : ${err}`);
+          this.setState({ step: Step.ERROR });
+        }
       });
   }
 

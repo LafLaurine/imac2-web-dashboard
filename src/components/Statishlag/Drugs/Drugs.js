@@ -42,8 +42,10 @@ export default class Drugs extends React.Component {
         this.setState({ step: Step.LOADED, data: data });
       })
       .catch(err => {
-        if (err.name !== 'AbortError')
-          console.error(`[Drugs] Cannot get  ${Environment.dbNomicsUrl} : ${err}`)
+        if (err.name !== 'AbortError') {
+          console.error(`[Drugs] Cannot get  ${Environment.dbNomicsUrl} : ${err}`);
+          this.setState({ step: Step.ERROR });
+        }
       });
   }
 

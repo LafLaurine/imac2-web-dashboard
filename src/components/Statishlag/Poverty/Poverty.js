@@ -37,14 +37,15 @@ export default class Poverty extends React.Component {
         this.setState({ frequency: json.series.docs[0]['@frequency'], step: Step.LOADED, data: data })
       })
       .catch(err => {
-        if (err.name !== 'AbortError')
-          console.error(`[Poverty] Cannot get  ${Environment.dbNomicsUrl} : ${err}`)
+        if (err.name !== 'AbortError') {
+          console.error(`[Poverty] Cannot get  ${Environment.dbNomicsUrl} : ${err}`);
+          this.setState({ step: Step.ERROR });
+        }
       });
   }
 
   componentWillUnmount() {
-    if (this.state.step === Step.LOADING)
-      this.requestController.abort();
+    this.requestController.abort();
   }
 
   ////////////////////// Logic  ////////////////////

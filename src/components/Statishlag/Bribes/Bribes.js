@@ -51,8 +51,10 @@ export default class Bribes extends React.Component {
         this.setState({ step: Step.LOADED, data: data });
       })
       .catch(err => {
-        if (err.name !== 'AbortError')
-          console.error(`[Bribes] Cannot get  ${Environment.dbNomicsUrl} : ${err}`)
+        if (err.name !== 'AbortError') {
+          console.error(`[Bribes] Cannot get  ${Environment.dbNomicsUrl} : ${err}`);
+          this.setState({ step: Step.ERROR });
+        }
       });
   }
 

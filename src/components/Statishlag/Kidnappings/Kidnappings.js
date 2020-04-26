@@ -61,8 +61,10 @@ export default class Kidnappings extends React.Component {
         this.updateHeadValue();
       })
       .catch(err => {
-        if (err.name !== 'AbortError')
+        if (err.name !== 'AbortError') {
           console.error(`[Kidnappings] Cannot get  ${Environment.dbNomicsUrl} : ${err}`);
+          this.setState({ step: Step.ERROR });
+        }
       });
   }
 

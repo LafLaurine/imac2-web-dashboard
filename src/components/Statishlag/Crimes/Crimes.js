@@ -2,7 +2,7 @@ import React from 'react';
 import './Crimes.css';
 import './Anim.css';
 
-import Button from '../Button/Button';
+import Button from '../../../shared/Button/Button';
 import Environment from 'environment';
 import Step from 'shared/Step';
 import Loading from 'shared/Loading/Loading';
@@ -50,8 +50,10 @@ export default class Crimes extends React.Component {
         this.setState({ frequency: json.series.docs[0]['@frequency'], step: Step.LOADED, data: data })
       })
       .catch(err => {
-        if (err.name !== 'AbortError')
-          console.error(`[Crimes] Cannot get  ${Environment.dbNomicsUrl} : ${err}`)
+        if (err.name !== 'AbortError') {
+          console.error(`[Crimes] Cannot get  ${Environment.dbNomicsUrl} : ${err}`);
+          this.setState({ step: Step.ERROR });
+        }
       });
   }
 
