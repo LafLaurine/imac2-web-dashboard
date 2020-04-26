@@ -35,7 +35,7 @@ export default class Bribes extends React.Component {
   //////////////////////// Logic ////////////////////////////
 
   retrieveData() {
-    fetch(Environment.dbNomicsUrl + 'v22/series/WB/WDI?limit=1000&offset=0&q=bribe&observations=1&align_periods=1&dimensions=%7B%7D',
+    fetch(Environment.dbNomicsUrl + 'v22/series/WB/WDI?limit=100&offset=0&q=bribe&observations=1&align_periods=1&dimensions=%7B%7D',
       { method: 'GET', signal: this.requestController.signal })
       .then(res => { return res.json() })
       .then(json => {

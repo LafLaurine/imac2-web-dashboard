@@ -46,7 +46,7 @@ export default class Kidnappings extends React.Component {
    * @brief Get data for the component when created
    */
   componentDidMount() {
-    fetch(Environment.dbNomicsUrl + 'v22/series/Eurostat/crim_off_cat?limit=1000&offset=0&q=kidnapping&observations=1&align_periods=1&dimensions=%7B%7D',
+    fetch(Environment.dbNomicsUrl + 'v22/series/Eurostat/crim_off_cat?limit=100&offset=0&q=kidnapping&observations=1&align_periods=1&dimensions=%7B%7D',
       { method: 'GET', signal: this.requestController.signal })
       .then(res => { return res.json() })
       .then(json => {

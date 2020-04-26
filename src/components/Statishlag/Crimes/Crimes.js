@@ -37,7 +37,7 @@ export default class Crimes extends React.Component {
   ////////////////////////// Logic ///////////////////////////
 
   retrieveData() {
-    fetch(Environment.dbNomicsUrl + 'v22/series/Eurostat/crim_gen?limit=1000&offset=0&q=homicide&observations=1&align_periods=1&dimensions={}',
+    fetch(Environment.dbNomicsUrl + 'v22/series/Eurostat/crim_gen?limit=100&offset=0&q=homicide&observations=1&align_periods=1&dimensions={}',
       { method: 'GET', signal: this.requestController.signal })
       .then(res => { return res.json() })
       .then(json => {

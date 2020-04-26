@@ -25,7 +25,7 @@ export default class Poverty extends React.Component {
   ////////////////////// React Hooks ////////////////////
 
   componentDidMount() {
-    fetch(Environment.dbNomicsUrl + 'v22/series/Eurostat/ilc_peps02?limit=1000&offset=0&q=poverty&observations=1&align_periods=1&dimensions=%7B%7D',
+    fetch(Environment.dbNomicsUrl + 'v22/series/Eurostat/ilc_peps02?limit=100&offset=0&q=poverty&observations=1&align_periods=1&dimensions=%7B%7D',
       { method: 'GET', signal: this.requestController.signal })
       .then(res => { return res.json() })
       .then(json => {

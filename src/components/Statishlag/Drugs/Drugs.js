@@ -26,7 +26,7 @@ export default class Drugs extends React.Component {
   ///////////////////// React Hooks /////////////////////////
 
   componentDidMount() {
-    fetch(Environment.dbNomicsUrl + 'v22/series/Eurostat/hlth_cd_yro?limit=1000&offset=0&q=drug&observations=1&align_periods=1&dimensions=%7B%7D',
+    fetch(Environment.dbNomicsUrl + 'v22/series/Eurostat/hlth_cd_yro?limit=100&offset=0&q=drug&observations=1&align_periods=1&dimensions=%7B%7D',
       { method: 'GET', signal: this.requestController.signal })
       .then(res => { return res.json() })
       .then(json => {
