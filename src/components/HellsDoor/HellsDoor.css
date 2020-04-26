@@ -1,11 +1,13 @@
 .HellsDoor {
     height: 100%;
     display: grid;
+    overflow: hidden;
     justify-items: center;
     align-items: center;
     background-image: url('./img/gate.jpg');
     background-size: cover;
     background-position: center;
+    padding: 0 10px;
 }
 
 .HellsDoor .wordart img {
@@ -22,7 +24,8 @@
 }
 
 .HellsDoor .gifs img {
-    width: 400px;
+    max-width: 400px;
+    width: 100%;
     height: auto;
     margin: 10px 0;
 }
