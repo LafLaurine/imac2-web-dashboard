@@ -2,6 +2,8 @@ import React from 'react';
 import './FlyingDemon.css';
 import anime from 'animejs';
 
+import Demon from './img/demon.gif';
+
 export default class FlyingDemon extends React.Component {
   constructor(props) {
     super(props)
@@ -10,7 +12,21 @@ export default class FlyingDemon extends React.Component {
     };
   }
 
+  /////////////////////////// React hooks ////////////////////
+
   componentDidMount() {
+    setInterval(() => {
+      if (Math.random() > 0.6) {
+        this.anim = this.getNewAnim();
+        this.anim.play();
+        this.setState({ isHiding: false });
+      }
+    }, 10000);
+  }
+
+  //////////////////////////////// Logic ///////////////////////
+
+  getNewAnim() {
     let keys = [];
     for (let i = 0; i < 5; i++) {
       keys.push({
@@ -19,7 +35,7 @@ export default class FlyingDemon extends React.Component {
       })
     }
 
-    this.anim = anime({
+    return anime({
       targets: '.FlyingDemon',
       keyframes: keys,
       direction: 'alternate',
@@ -31,13 +47,6 @@ export default class FlyingDemon extends React.Component {
         this.setState({ isHiding: true });
       }
     });
-
-    setInterval(() => {
-      if (Math.random() > 0.6) {
-        this.setState({ isHiding: false });
-        this.anim.restart();
-      }
-    }, 5000);
   }
 
   ///////////////////////////// Render ////////////////////////////////
@@ -45,7 +54,7 @@ export default class FlyingDemon extends React.Component {
   render() {
     const classes = this.state.isHiding ? 'FlyingDemon hide' : 'FlyingDemon';
     return (
-      <div className={classes}>I'm the flying demon</div>
+      <div className={classes}><img src={Demon} alt="Flying demon baby"/></div>
     )
   }
 
