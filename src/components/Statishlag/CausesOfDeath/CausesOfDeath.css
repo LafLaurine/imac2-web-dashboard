@@ -1,4 +1,5 @@
 .CausesOfDeath {
+	position : relative;
     width: 250px;
     height: auto;
     background-color: red;
@@ -15,6 +16,18 @@
     --CTier : #33ddff;
     --DTier : #ed47a0;
 
+}
+
+.CausesOfDeath #wrapStartButton .Button{
+	position : absolute ;
+	width : 75%;
+	left : 12.5%;
+	height : 30%;
+	background-color: #c41a30;
+	border : none;
+	color : white;
+	font: 1.3em Hamburger;
+	font-weight: bold;
 }
 
 .CausesOfDeath h3, .CausesOfDeath h4, .CausesOfDeath #year {
@@ -41,7 +54,7 @@
 	padding : 15px;
 }
 
-.CausesOfDeath .Button{
+.CausesOfDeath #selectYear .Button{
 	width : 70px;
 	line-height: 15px;
 	background-color: var(--color3);
@@ -108,4 +121,15 @@
 
 .CausesOfDeath .tierCategory.dTier{
 	background-color : var(--DTier);
+}
+
+@media only screen and (max-width: 900px) {
+  	.CausesOfDeath .tierListElem{
+		font-size : 1em;
+	}
+
+	.CausesOfDeath .tierCategory{
+		right : 5px;
+		padding : 15px 10px 15px 10px;
+	}
 }

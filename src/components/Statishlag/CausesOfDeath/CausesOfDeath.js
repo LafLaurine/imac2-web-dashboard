@@ -17,18 +17,7 @@ export default class CausesOfDeath extends React.Component {
       year: 2014,
       countries: ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'EL', 'FR', 'DE', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'ES', 'SE'],
       frequency: '',
-      tierList: {
-        0: { country: "Bulgaria", value : 1428 },
-        1: { country: "Latvia", value : 1405 },
-        2: { country: "Lithuania", value : 1344 },
-        3: { country: "Hungary", value : 1321 },
-        4: { country: "Croatia", value : 1277 },
-        5: { country: "Romania", value : 1229 },
-        6: { country: "Estonia", value : 1152 },
-        7: { country: "Germany", value : 1148 },
-        8: { country: "Italy", value : 1080 },
-        9: { country: "Greece", value : 1063 }
-      },
+      tierList: {},
     }
     this.retrieveData = this.retrieveData.bind(this)
     this.setYear = this.setYear.bind(this)
@@ -39,6 +28,7 @@ export default class CausesOfDeath extends React.Component {
   }
 
   componentWillUnmount() {
+
     if (this.state.step === Step.LOADING)
       this.requestController.abort();
   }
@@ -75,6 +65,10 @@ export default class CausesOfDeath extends React.Component {
       this.setState({ year: newYear });
       this.organizeTierList(this.state.year);
     }
+  }
+
+  initializeTierList(){
+    this.organizeTierList(this.state.year);
   }
 
   organizeTierList(chosenDate) {
@@ -147,6 +141,10 @@ export default class CausesOfDeath extends React.Component {
             <h4>Including accidents, poisoning, rare diseases and more ! </h4>
           </div>
 
+          <div id = "wrapStartButton">
+            <Button onClick={e => this.initializeTierList()} name="Show me the tier list !" ></Button>
+          </div>
+          
           <div id = "selectYear">
             <Button onClick={e => this.setYear(-1)} name="<" ></Button>
             <p id = "year">{this.state.year}</p>
