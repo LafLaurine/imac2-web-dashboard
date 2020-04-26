@@ -206,7 +206,7 @@ export default class SuicideAnimation extends React.Component {
   render() {
     return (
       <div className="SuicideAnimation">
-        <p>Value : {this.props.length} %</p>
+        <p>Percentage of suicide : {this.props.length} %</p>
         <canvas ref={this.canvasRef} id="animationCanva" ></canvas>
       </div>
     )
