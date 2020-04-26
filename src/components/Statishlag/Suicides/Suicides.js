@@ -58,7 +58,6 @@ export default class Suicides extends React.Component {
         });
 
         const data = Array.from(countryMap, country => country[1]);
-        console.log(data);
         this.setState({ step: Step.LOADED, data: data });
       })
       .catch(err => {
