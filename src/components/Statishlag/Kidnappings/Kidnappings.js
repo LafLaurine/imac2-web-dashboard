@@ -27,7 +27,7 @@ export default class Kidnappings extends React.Component {
       data: [],
       headCounted: 0,
       headValue: 1,
-      countryIndex: 0,
+      indexCountry: 0,
       dateIndex: 0,
       gameStep: GameStep.GREATER
     };
@@ -80,7 +80,7 @@ export default class Kidnappings extends React.Component {
    * @param number
    */
   updateGameStateTo(number) {
-    const goodValue = Number(this.state.data[this.state.countryIndex].kidnappings[this.state.dateIndex].value);
+    const goodValue = Number(this.state.data[this.state.indexCountry].kidnappings[this.state.dateIndex].value);
     if (number === goodValue)
       this.setState({ showFeedBack: true, headCounted: number, gameStep: GameStep.WIN });
     else if (number > goodValue)
@@ -90,7 +90,7 @@ export default class Kidnappings extends React.Component {
   }
 
   updateHeadValue() {
-    const goodValue = Number(this.state.data[this.state.countryIndex].kidnappings[this.state.dateIndex].value);
+    const goodValue = Number(this.state.data[this.state.indexCountry].kidnappings[this.state.dateIndex].value);
     const headCountToWin = Math.floor(Math.random() * this.headCount) + 1;
     const headValue = goodValue / headCountToWin;
     this.setState({ headValue: headValue });
@@ -98,14 +98,14 @@ export default class Kidnappings extends React.Component {
 
   changeCountry() {
     const maxIndex = this.state.data.length - 1;
-    if (this.state.countryIndex >= maxIndex)
-      this.setState({ countryIndex: 0 }, this.updateHeadValue);
+    if (this.state.indexCountry >= maxIndex)
+      this.setState({ indexCountry: 0 }, this.updateHeadValue);
     else
-      this.setState({ countryIndex: this.state.countryIndex + 1 }, this.updateHeadValue);
+      this.setState({ indexCountry: this.state.indexCountry + 1 }, this.updateHeadValue);
   }
 
   changeDate() {
-    const maxIndex = this.state.data[this.state.countryIndex].kidnappings.length - 1;
+    const maxIndex = this.state.data[this.state.indexCountry].kidnappings.length - 1;
     if (this.state.dateIndex >= maxIndex)
       this.setState({ dateIndex: 0 }, this.updateHeadValue);
     else
@@ -205,8 +205,8 @@ export default class Kidnappings extends React.Component {
         <div className="Kidnappings">
           <div className="ui">
             <p className="country">Number of Kidnappings in
-              <span className="settings" onClick={this.changeCountry}> {this.state.data[this.state.countryIndex].country}</span> during
-              <span className="settings" onClick={this.changeDate}> {this.state.data[this.state.countryIndex].kidnappings[this.state.dateIndex].date}</span>
+              <span className="settings" onClick={this.changeCountry}> {this.state.data[this.state.indexCountry].country}</span> during
+              <span className="settings" onClick={this.changeDate}> {this.state.data[this.state.indexCountry].kidnappings[this.state.dateIndex].date}</span>
             </p>
             <p className="user-number">You set : <span className="value">{this.state.headCounted}</span></p>
             {this.renderFeedBack()}

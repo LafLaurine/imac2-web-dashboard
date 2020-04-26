@@ -16,7 +16,7 @@ export default class Poverty extends React.Component {
     this.state = {
       step: Step.LOADING,
       data: [],
-      countryIndex: 0,
+      indexCountry: 0,
     }
     this.changeCountry = this.changeCountry.bind(this);
   }
@@ -54,16 +54,16 @@ export default class Poverty extends React.Component {
    */
   changeCountry() {
     const maxIndex = this.state.data.length - 1;
-    if (this.state.countryIndex >= maxIndex)
-      this.setState({ countryIndex: 0 });
+    if (this.state.indexCountry >= maxIndex)
+      this.setState({ indexCountry: 0 });
     else
-      this.setState({ countryIndex: this.state.countryIndex + 1 });
+      this.setState({ indexCountry: this.state.indexCountry + 1 });
   }
 
   ////////////////////// Render ////////////////////
 
   renderGraph() {
-    return <PovertyChart data={this.state.data[this.state.countryIndex]}></PovertyChart>
+    return <PovertyChart data={this.state.data[this.state.indexCountry]}></PovertyChart>
   }
 
   render() {
@@ -77,7 +77,7 @@ export default class Poverty extends React.Component {
       case Step.LOADED: return (
         <div className="Poverty">
           <div className="element">
-            <h2>Poverty in <span className="settings" onClick={this.changeCountry}> {this.state.data[this.state.countryIndex].country} </span>?</h2>
+            <h2>Poverty in <span className="settings" onClick={this.changeCountry}> {this.state.data[this.state.indexCountry].country} </span>?</h2>
           </div>
           {this.renderGraph()}
         </div>

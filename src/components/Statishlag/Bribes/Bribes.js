@@ -87,13 +87,13 @@ export default class Bribes extends React.Component {
   }
 
   renderInteraction() {
-    const randomCountryIndex = this.getRandomIndex(this.state.data.length);
+    const randomindexCountry = this.getRandomIndex(this.state.data.length);
     switch (this.state.gameStep) {
       case GameStep.INTRO: return (
         <div className="container">
           <h2>{this.introQuotes[this.getRandomIndex(this.introQuotes.length)]}</h2>
           <div className="quotes">
-            { this.renderBribeQuotes() }
+            {this.renderBribeQuotes()}
           </div>
         </div>
       )
@@ -101,11 +101,11 @@ export default class Bribes extends React.Component {
       case GameStep.END: return (
         <div className="container">
           <h2>
-          {
-            this.conclusionQuotes[this.getRandomIndex(this.conclusionQuotes.length)]
-              .replace(/NUMBER/i, Math.floor(this.state.data[randomCountryIndex].bribes[0].value))
-              .replace(/COUNTRY/i, this.state.data[randomCountryIndex].country)
-          }
+            {
+              this.conclusionQuotes[this.getRandomIndex(this.conclusionQuotes.length)]
+                .replace(/NUMBER/i, Math.floor(this.state.data[randomindexCountry].bribes[0].value))
+                .replace(/COUNTRY/i, this.state.data[randomindexCountry].country)
+            }
           </h2>
           <div className="quotes">
             <button onClick={() => this.updateGameStep()}>Ok I get it</button>
