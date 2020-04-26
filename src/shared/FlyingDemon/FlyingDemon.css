@@ -6,3 +6,7 @@
     cursor: none;
     z-index: 20;
 }
+
+.hide {
+    display: none;
+}

@@ -3,44 +3,53 @@ import './FlyingDemon.css';
 import anime from 'animejs';
 
 export default class FlyingDemon extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      isHiding: true
+    };
+  }
+
   componentDidMount() {
-    anime({
+    let keys = [];
+    for (let i = 0; i < 5; i++) {
+      keys.push({
+        translateX: () => anime.random(50, window.innerWidth - 50),
+        translateY: () => anime.random(50, window.innerHeight - 50)
+      })
+    }
+
+    this.anim = anime({
       targets: '.FlyingDemon',
-      keyframes: [
-        {
-          translateX: () => anime.random(0, window.innerWidth),
-          translateY: () => anime.random(0, window.innerHeight)
-        },
-        {
-          translateX: () => anime.random(0, window.innerWidth),
-          translateY: () => anime.random(0, window.innerHeight)
-        },
-        {
-          translateX: () => anime.random(0, window.innerWidth),
-          translateY: () => anime.random(0, window.innerHeight)
-        },
-        {
-          translateX: () => anime.random(0, window.innerWidth),
-          translateY: () => anime.random(0, window.innerHeight)
-        },
-        {
-          translateX: () => anime.random(0, window.innerWidth),
-          translateY: () => anime.random(0, window.innerHeight)
-        }
-      ],
+      keyframes: keys,
       direction: 'alternate',
       easing: 'easeInOutQuad',
-      autoplay: true,
-      loop: true
+      loop: false,
+      autoplay: false,
+      duration: 5000,
+      complete: (anim) => {
+        this.setState({ isHiding: true });
+      }
     });
+
+    setInterval(() => {
+      if (Math.random() > 0.6) {
+        this.setState({ isHiding: false });
+        this.anim.restart();
+      }
+    }, 5000);
   }
 
   ///////////////////////////// Render ////////////////////////////////
 
   render() {
-    const loading =  Math.floor(Math.random() * this.animCount);
+    const classes = this.state.isHiding ? 'FlyingDemon hide' : 'FlyingDemon';
     return (
-      <div className="FlyingDemon">I'm the flying demon</div>
+      <div className={classes}>I'm the flying demon</div>
     )
   }
+
+  /////////////////////////// Member variables /////////////////
+
+  anim = {};
 }
