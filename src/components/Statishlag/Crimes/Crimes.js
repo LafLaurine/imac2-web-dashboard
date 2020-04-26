@@ -11,7 +11,6 @@ export default class Crimes extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      frequency: '',
       step: Step.LOADING,
       data: [],
       indexCountry: 0,
@@ -47,7 +46,7 @@ export default class Crimes extends React.Component {
             'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo],
             'homicides': country.period.map((date, index) => ({ 'date': date, 'value': country.value[index] }))
           }))
-        this.setState({ frequency: json.series.docs[0]['@frequency'], step: Step.LOADED, data: data })
+        this.setState({ step: Step.LOADED, data: data })
       })
       .catch(err => {
         if (err.name !== 'AbortError') {
