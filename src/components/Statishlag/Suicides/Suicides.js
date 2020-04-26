@@ -43,17 +43,22 @@ export default class Suicides extends React.Component {
           else
             countryValue = { 'country': json.dataset.dimensions_values_labels.geo[country.dimensions.geo], 'values': [] };
 
-          countryValue.values.push({
+          const value = {
             'age': json.dataset.dimensions_values_labels.age[country.dimensions.age],
             'sex': json.dataset.dimensions_values_labels.sex[country.dimensions.sex],
             'suicides': country.period
               .map((date, index) => ({ 'date': date, 'value': country.value[index] }))
               .filter(suicide => suicide.value !== 'NA' && suicide.value !== 0)
-          });
+          };
+          
+          if (value.suicides.length > 0)
+            countryValue.values.push(value);
+
           countryMap.set(country.dimensions.geo, countryValue);
         });
 
         const data = Array.from(countryMap, country => country[1]);
+        console.log(data);
         this.setState({ step: Step.LOADED, data: data });
       })
       .catch(err => {
@@ -77,9 +82,9 @@ export default class Suicides extends React.Component {
   updateCountry() {
     const maxIndex = this.state.data.length - 1;
     if (this.state.indexCountry + 1 >= maxIndex)
-      this.setState({ indexYear: 0, indexCountry: 0 });
+      this.setState({ indexYear: 0, indexValues: 0, indexCountry: 0 });
     else
-      this.setState({ indexYear: 0, indexCountry: this.state.indexCountry + 1 });
+      this.setState({ indexYear: 0, indexValues: 0, indexCountry: this.state.indexCountry + 1 });
   }
 
   /**
