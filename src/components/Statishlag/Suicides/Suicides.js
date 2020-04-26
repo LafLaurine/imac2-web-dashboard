@@ -97,14 +97,31 @@ export default class Suicides extends React.Component {
    * @brief Change sex when user click on button and get the associated data
    */
   switchSex() {
-    // TODO
+    const currentSex = this.state.data[this.state.indexCountry].values[this.state.indexValues].sex;
+    for (let i = 0; i < this.state.data[this.state.indexCountry].values.length; i++) {
+      if (currentSex !== this.state.data[this.state.indexCountry].values[i].sex) {
+        this.setState({ indexValues: i });
+        return;
+      }
+    }
   }
 
   /**
    * @brief Change age when user click on button and get the associated data
    */
   switchAge() {
-    // TODO
+    const currentAge = this.state.data[this.state.indexCountry].values[this.state.indexValues].age;
+    let i = this.state.indexValues;
+    if (i >= this.state.data[this.state.indexCountry].values.length - 1)
+      i = 0;
+
+    while (i < this.state.data[this.state.indexCountry].values.length) {
+      if (currentAge !== this.state.data[this.state.indexCountry].values[i].age) {
+        this.setState({ indexValues: i });
+        return;
+      }
+      i++;
+    }
   }
 
   render() {
@@ -122,7 +139,9 @@ export default class Suicides extends React.Component {
               <span className="settings" onClick={this.updateCountry}> {this.state.data[this.state.indexCountry].country}</span> during
               <span className="settings" onClick={this.updateDate}> {this.state.data[this.state.indexCountry].values[this.state.indexValues].suicides[this.state.indexYear].date}</span> ?
             </p>
+            <button onClick={this.switchSex}>Change Sex</button>
             <p>Sex : {this.state.data[this.state.indexCountry].values[this.state.indexValues].sex}</p>
+            <button onClick={this.switchAge}>Change Age</button>
             <p>Age : {this.state.data[this.state.indexCountry].values[this.state.indexValues].age}</p>
           </div>
           <SuicideAnimation length={Math.ceil(this.state.data[this.state.indexCountry].values[this.state.indexValues].suicides[this.state.indexYear].value)}></SuicideAnimation>
