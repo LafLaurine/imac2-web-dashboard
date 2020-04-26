@@ -6,7 +6,32 @@ export default class FlyingDemon extends React.Component {
   componentDidMount() {
     anime({
       targets: '.FlyingDemon',
-      translateX: 250
+      keyframes: [
+        {
+          translateX: () => anime.random(0, window.innerWidth),
+          translateY: () => anime.random(0, window.innerHeight)
+        },
+        {
+          translateX: () => anime.random(0, window.innerWidth),
+          translateY: () => anime.random(0, window.innerHeight)
+        },
+        {
+          translateX: () => anime.random(0, window.innerWidth),
+          translateY: () => anime.random(0, window.innerHeight)
+        },
+        {
+          translateX: () => anime.random(0, window.innerWidth),
+          translateY: () => anime.random(0, window.innerHeight)
+        },
+        {
+          translateX: () => anime.random(0, window.innerWidth),
+          translateY: () => anime.random(0, window.innerHeight)
+        }
+      ],
+      direction: 'alternate',
+      easing: 'easeInOutQuad',
+      autoplay: true,
+      loop: true
     });
   }
 
