@@ -1,7 +1,7 @@
 .Kidnappings {
     width: 550px;
     background-image: url('./img/rainbow.jpg');
-    background-size: cover;
+    background-size: contain;
     text-align: center;
 }
 

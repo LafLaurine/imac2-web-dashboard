@@ -20,11 +20,20 @@
 }
 
 .Bribes button {
+    color: wheat;
+    font-family: Chango;
+    font-size: 1.2em;
     max-width: 200px;
     word-wrap: break-word;
     margin: 10px;
     padding: 5px 30px;
     z-index: 2;
+    background: rgba(255, 0, 0, 0.6);
+    border: none;
+}
+
+.Bribes button:hover {
+    background: rgba(0, 255, 21, 0.6);
 }
 
 .Bribes h2 {
