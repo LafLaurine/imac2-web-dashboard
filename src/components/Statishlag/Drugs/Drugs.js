@@ -95,7 +95,7 @@ export default class Drugs extends React.Component {
       )
 
       default: return (
-        <p>Error loading drugs</p>
+        <div className="Drugs"><p>Error loading drugs</p></div>
       )
     }
   }

@@ -85,7 +85,7 @@ export default class Poverty extends React.Component {
 
       default: return (
         <div className="Poverty">
-          <p>Error loading suicide</p>
+          <p>Error loading poverty</p>
         </div>
       )
     }

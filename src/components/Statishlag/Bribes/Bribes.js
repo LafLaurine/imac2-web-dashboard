@@ -136,7 +136,7 @@ export default class Bribes extends React.Component {
 
       default: return (
         <div className="Bribes">
-          <p>Error</p>
+          <p>Error loading bribes</p>
         </div>
       )
     }
