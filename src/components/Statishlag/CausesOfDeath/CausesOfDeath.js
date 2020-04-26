@@ -15,7 +15,7 @@ export default class CausesOfDeath extends React.Component {
       step: Step.LOADING,
       data: [],
       year: 2014,
-      countries: ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'EL', 'FR', 'DE', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'ES', 'SE'],
+      countries: ['AT', 'BE', 'BG', 'CY', 'CZ', 'DK', 'FI', 'EL', 'FR', 'DE', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'ES', 'SE'],
       frequency: '',
       tierList: {},
     }
@@ -59,7 +59,6 @@ export default class CausesOfDeath extends React.Component {
   }
 
   setYear(addValue) {
-
     if ((this.state.year > 2011 && addValue === -1) || (addValue === 1 && this.state.year < 2016) || addValue === 0) {
       let newYear = this.state.year + addValue;
       this.setState({ year: newYear });
@@ -102,19 +101,19 @@ export default class CausesOfDeath extends React.Component {
 
   getTier(index){
     if(this.state.tierList[index]){
-      if(this.state.tierList[index].value >= 1300){
+      if(this.state.tierList[index].value >= 60){
         return <span className = "tierCategory sTier">S TIER</span> 
       }
-      else if(this.state.tierList[index].value >= 1200){
+      else if(this.state.tierList[index].value >= 50){
         return <span className = "tierCategory aTier">A TIER</span> 
       }
-      else if(this.state.tierList[index].value >= 1100){
+      else if(this.state.tierList[index].value >= 45){
         return <span className = "tierCategory bTier">B TIER</span> 
       }
-      else if(this.state.tierList[index].value >= 1000){
+      else if(this.state.tierList[index].value >= 37){
         return <span className = "tierCategory cTier">C TIER</span> 
       }
-      else if(this.state.tierList[index].value >= 900){
+      else if(this.state.tierList[index].value >= 20){
         return <span className = "tierCategory dTier">D TIER</span> 
       }
     }
@@ -138,7 +137,7 @@ export default class CausesOfDeath extends React.Component {
 
           <div id = "title">
             <h3>Top EU countries : crude deaths edition</h3>
-            <h4>Including accidents, poisoning, rare diseases and more ! </h4>
+            <h4>Deaths caused by rare diseases in Europe </h4>
           </div>
 
           <div id = "wrapStartButton">
