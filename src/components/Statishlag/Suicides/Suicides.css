@@ -25,7 +25,6 @@
 .Suicides button {
     background-color: #00A3FF;
     color: white;
-    width: 250px;
     height: 50px;
     font-family: Chango;
     font-size: 0.6em;
@@ -33,6 +32,9 @@
     border: none;
 }
 
+.Suicides canvas {
+    width: 100%;
+}
 
 .Suicides .settings {
     cursor: pointer;
