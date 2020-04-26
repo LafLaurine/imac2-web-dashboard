@@ -10,6 +10,7 @@
 .Drugs .title {
     font-family: Neucha;
     font-size: 1.5em;
+    background-color: darkseagreen;
 }
 
 .Drugs .settings {
@@ -27,6 +28,13 @@
     grid-template-columns: 1fr 1fr;
     align-content: center;
     align-items: center;
+}
+
+.Drugs .content h3 {
+    font-family: Chango;
+    color: red;
+    text-align: right;
+    font-size: 3em;
 }
 
 .Drugs .syringe {
