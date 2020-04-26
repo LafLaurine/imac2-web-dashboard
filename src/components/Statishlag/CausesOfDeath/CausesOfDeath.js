@@ -8,8 +8,6 @@ import Loading from 'shared/Loading/Loading';
 
 export default class CausesOfDeath extends React.Component {
 
-  // TODO removecountries and year, use indices instead
-
   constructor(props) {
     super(props);
     this.state = {
@@ -19,7 +17,6 @@ export default class CausesOfDeath extends React.Component {
       countries: ['AT', 'BE', 'BG', 'CY', 'CZ', 'DK', 'FI', 'EL', 'FR', 'DE', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'ES', 'SE'],
       tierList: {},
     }
-    this.retrieveData = this.retrieveData.bind(this)
     this.setYear = this.setYear.bind(this)
     this.organizeTierList = this.organizeTierList.bind(this)
     this.getCountry = this.getCountry.bind(this)
@@ -27,17 +24,15 @@ export default class CausesOfDeath extends React.Component {
     this.getTier = this.getTier.bind(this)
   }
 
+  ////////////////////// React hooks /////////////////////
+
   componentWillUnmount() {
     if (this.state.step === Step.LOADING)
       this.requestController.abort();
   }
 
   componentDidMount() {
-    this.retrieveData();
-  }
-
-  retrieveData() {
-    fetch(Environment.dbNomicsUrl + '/v22/series/Eurostat/hlth_cd_acdr2?limit=100&offset=0&q=&observations=1&align_periods=1&dimensions={"icd10"%3A["ACC"]%2C"age"%3A["TOTAL"]%2C"sex"%3A["T"]}',
+    fetch(Environment.dbNomicsUrl + '/v22/series/Eurostat/hlth_cd_acdr2?limit=500&offset=0&q=&observations=1&align_periods=1&dimensions={"icd10"%3A["ACC"]%2C"age"%3A["TOTAL"]%2C"sex"%3A["T"]}',
       { method: 'GET', signal: this.requestController.signal })
       .then(res => { return res.json() })
       .then(json => {
@@ -59,16 +54,14 @@ export default class CausesOfDeath extends React.Component {
       });
   }
 
+  ///////////////////////////////////// Logic /////////////////////////////
+
   setYear(addValue) {
     if ((this.state.year > 2011 && addValue === -1) || (addValue === 1 && this.state.year < 2016) || addValue === 0) {
       let newYear = this.state.year + addValue;
       this.setState({ year: newYear });
       this.organizeTierList(this.state.year);
     }
-  }
-
-  initializeTierList() {
-    this.organizeTierList(this.state.year);
   }
 
   organizeTierList(chosenDate) {
@@ -78,47 +71,42 @@ export default class CausesOfDeath extends React.Component {
         arrayTierList[i] = { 'country': this.state.data[i].country, 'value': (Math.floor(this.state.data[i].deaths[chosenDate - 2011].value)) };
       }
     }
-    arrayTierList = arrayTierList.sort(function (a, b) {
-      return parseFloat(b.value) - parseFloat(a.value);
-    });
+
+    arrayTierList = arrayTierList.sort((a, b) => parseFloat(b.value) - parseFloat(a.value));
     arrayTierList.splice(10);
     this.setState({ tierList: arrayTierList });
-
   }
 
   getCountry(index) {
-    if (this.state.tierList[index].country === "Germany (until 1990 former territory of the FRG)") {
+    if (this.state.tierList[index].country === "Germany (until 1990 former territory of the FRG)") 
       return "Germany";
-    }
-    return this.state.tierList[index].country;
+    else
+      return this.state.tierList[index].country;
   }
 
   getValue(index) {
-    if (this.state.tierList[index]) {
+    if (this.state.tierList[index])
       return (this.state.tierList[index].value);
-    }
-    return 0;
+    else
+      return 0;
   }
 
   getTier(index) {
     if (this.state.tierList[index]) {
-      if (this.state.tierList[index].value >= 60) {
+      if (this.state.tierList[index].value >= 60)
         return <span className="tierCategory sTier">S TIER</span>
-      }
-      else if (this.state.tierList[index].value >= 50) {
+      else if (this.state.tierList[index].value >= 50)
         return <span className="tierCategory aTier">A TIER</span>
-      }
-      else if (this.state.tierList[index].value >= 45) {
+      else if (this.state.tierList[index].value >= 45)
         return <span className="tierCategory bTier">B TIER</span>
-      }
-      else if (this.state.tierList[index].value >= 37) {
+      else if (this.state.tierList[index].value >= 37)
         return <span className="tierCategory cTier">C TIER</span>
-      }
-      else if (this.state.tierList[index].value >= 20) {
+      else if (this.state.tierList[index].value >= 20)
         return <span className="tierCategory dTier">D TIER</span>
-      }
     }
   }
+
+  ////////////////////////////// Render /////////////////////
 
   render() {
     switch (this.state.step) {
@@ -136,7 +124,7 @@ export default class CausesOfDeath extends React.Component {
           </div>
 
           <div id="wrapStartButton">
-            <Button onClick={e => this.initializeTierList()} name="Show me the tier list !" ></Button>
+            <Button onClick={e => this.organizeTierList(this.state.year)} name="Show me the tier list !" ></Button>
           </div>
 
           <div id="selectYear">
