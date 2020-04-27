@@ -1,6 +1,6 @@
 # Chaos Dashboard
 
-A website made to follow bad news around the world
+A website made to follow bad news around the world. Yo can check it [here](https://chaosdashboard.guillaumehaerinck.com/#HellsDoor). The post-mortem is [available here](doc/POST-MORTEM.pdf).
 
 ## Getting Started
 
